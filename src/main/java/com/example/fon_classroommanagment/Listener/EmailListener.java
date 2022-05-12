@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
 
+import javax.mail.MessagingException;
+
 @Component
 public class EmailListener implements ApplicationListener<EmailEvent> {
 @Autowired
@@ -13,6 +15,10 @@ private EmailSender sender;
 
     @Override
     public void onApplicationEvent(EmailEvent event) {
-        sender.sendEmail(event.getEmail());
+        try {
+            sender.sendHtmlMessage(event.getEmail());
+        } catch (MessagingException e) {
+            System.out.println(e.getMessage());
+        }
     }
 }
