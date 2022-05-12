@@ -1,0 +1,38 @@
+package com.example.fon_classroommanagment.Models.User;
+
+import com.example.fon_classroommanagment.Models.Emplayee.Employee;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Type;
+
+import javax.persistence.*;
+import java.util.UUID;
+
+import static com.example.fon_classroommanagment.Models.Configuration.Constants.USER_PROFITE_TABLE_NAME;
+import static com.example.fon_classroommanagment.Models.Configuration.Constants.USER_ROLE_TABLE_NAME;
+
+
+@Entity
+@Table(name = USER_PROFITE_TABLE_NAME)
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class UserProfile {
+    @Id
+    @Type(type = "uuid-char")
+    @Column(columnDefinition = "VARCHAR(255)",nullable = false)
+    private UUID id;
+
+    @Column(columnDefinition = "VARCHAR(45)",nullable = false)
+    private String email;
+
+    @Column(columnDefinition = "VARCHAR(255)",nullable = false)
+    private String password;
+
+    @OneToOne(optional = false)
+    private UserRole role;
+
+    @OneToOne
+    private Employee employee;
+}
