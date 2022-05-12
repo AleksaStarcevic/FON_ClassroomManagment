@@ -11,7 +11,7 @@ import javax.persistence.*;
 import java.util.Date;
 import java.util.UUID;
 
-import static com.example.fon_classroommanagment.Models.Configuration.Constants.APPOINTMENT_TABLE_NAME;
+import static com.example.fon_classroommanagment.Configuration.Constants.APPOINTMENT_TABLE_NAME;
 
 @Data
 @NoArgsConstructor

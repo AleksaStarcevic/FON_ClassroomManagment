@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-import static com.example.fon_classroommanagment.Models.Configuration.Constants.EMPLOYEE_TABLE_NAME;
+import static com.example.fon_classroommanagment.Configuration.Constants.EMPLOYEE_TABLE_NAME;
 
 @Entity
 @Table(name = EMPLOYEE_TABLE_NAME)

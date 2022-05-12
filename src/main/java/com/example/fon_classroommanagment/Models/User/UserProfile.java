@@ -9,8 +9,7 @@ import org.hibernate.annotations.Type;
 import javax.persistence.*;
 import java.util.UUID;
 
-import static com.example.fon_classroommanagment.Models.Configuration.Constants.USER_PROFITE_TABLE_NAME;
-import static com.example.fon_classroommanagment.Models.Configuration.Constants.USER_ROLE_TABLE_NAME;
+import static com.example.fon_classroommanagment.Configuration.Constants.USER_PROFITE_TABLE_NAME;
 
 
 @Entity

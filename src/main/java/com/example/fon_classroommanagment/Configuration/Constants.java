@@ -1,4 +1,4 @@
-package com.example.fon_classroommanagment.Models.Configuration;
+package com.example.fon_classroommanagment.Configuration;
 
 public class Constants {
 
