@@ -24,13 +24,14 @@ public class Employee {
     @Column(columnDefinition = "VARCHAR(45)",nullable = false)
     private String lastName;
 
-    @OneToOne(optional = false)
+    //dodati su cascade da bi lakse testirali
+    @OneToOne(optional = false,cascade = CascadeType.ALL)
     private  EmployeeDepartment department;
 
-    @OneToOne(optional = false)
+    @OneToOne(optional = false,cascade = CascadeType.ALL)
     private  EducationTitle title;
 
-    @OneToOne(optional = false)
+    @OneToOne(optional = false,cascade = CascadeType.ALL)
     private  EmployeeType type;
 
 }

@@ -29,9 +29,10 @@ public class UserProfile {
     @Column(columnDefinition = "VARCHAR(255)",nullable = false)
     private String password;
 
-    @OneToOne(optional = false)
+    //dodati su cascade da bi lakse testirali ,obiris posle
+    @OneToOne(optional = false,cascade = CascadeType.ALL)
     private UserRole role;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private Employee employee;
 }
