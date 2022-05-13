@@ -8,9 +8,7 @@ import com.example.fon_classroommanagment.Services.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
@@ -27,18 +25,26 @@ private AccountService accountService;
 
     @PostMapping ("/register")
     public void registerAccount(@RequestBody AccountDTO accountDTO){
-        ValidationToken token=accountService.createValidationToken(accountDTO, UUID.randomUUID().toString());
-
         Account account=new Account(accountDTO.getEmail(),
                 accountDTO.getFirstName(),
                 accountDTO.getLastName(),
                 accountDTO.getDepartment(),
                 accountDTO.getTitle(),
                 accountDTO.getType(),
-               encoder.encode(accountDTO.getPassword()),
-                token);
-accountService.SaveAccount(account);
+               encoder.encode(accountDTO.getPassword())
+               );
+        ValidationToken token=  accountService.createValidationToken(account,UUID.randomUUID().toString());
+accountDTO.setToken(token.getToken());
+
+
         publisher.publishEvent(new AccountRegistrationRequestEvent(accountDTO));
+
+    }
+
+    @GetMapping("/registerConfirmed/{token}")
+    public void registerAccountConfirmed(@PathVariable("token") String token){
+
+        accountService.ConfirmAccount(token);
 
     }
 }

@@ -30,7 +30,7 @@ public class UserProfile {
     private String password;
 
     //dodati su cascade da bi lakse testirali ,obiris posle
-    @OneToOne(optional = false,cascade = CascadeType.ALL)
+    @OneToOne(optional = false)
     private UserRole role;
 
     @OneToOne(cascade = CascadeType.ALL)

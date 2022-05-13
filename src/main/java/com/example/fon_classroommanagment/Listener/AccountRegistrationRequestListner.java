@@ -28,6 +28,7 @@ public class AccountRegistrationRequestListner implements ApplicationListener<Ac
                 new HashMap<>()
                 {{
                     put("name", dto.getFirstName());
+                    put("path","/registerConfirmed/"+dto.getToken());
 
                 }});
         try {

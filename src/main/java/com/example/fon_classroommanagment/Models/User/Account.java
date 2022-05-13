@@ -36,6 +36,6 @@ public class Account {
 
     private String password;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    private ValidationToken token;
+
+
 }

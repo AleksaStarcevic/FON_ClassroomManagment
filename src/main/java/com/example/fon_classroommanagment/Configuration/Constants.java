@@ -20,7 +20,6 @@ public class Constants {
     public static  final String APPOINTMENT_TYPE_TABLE_NAME="appointment_type";
     public static  final String APPOINTMENT_STATUS_TABLE_NAME="appointment_status";
 
-
     public static  final String EMAIL_HOST_SENDER="radojkovicika@gmail.com";
 
     public static  final String EMAIL_REGISTRATION_REQUEST_TEMPLATE="RegistrationEmail.html";

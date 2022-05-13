@@ -20,7 +20,7 @@ private UserService userService;
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
-        http.authorizeRequests().mvcMatchers("/register").permitAll().and()
+        http.authorizeRequests().mvcMatchers("/register","/registerConfirmed/{token}").permitAll().and()
                 .authorizeRequests().anyRequest().authenticated().and()
                 .formLogin().and()
                 ;

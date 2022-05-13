@@ -25,13 +25,20 @@ public class Employee {
     private String lastName;
 
     //dodati su cascade da bi lakse testirali
-    @OneToOne(optional = false,cascade = CascadeType.ALL)
+    @OneToOne(optional = false)
     private  EmployeeDepartment department;
 
-    @OneToOne(optional = false,cascade = CascadeType.ALL)
+    @OneToOne(optional = false)
     private  EducationTitle title;
 
-    @OneToOne(optional = false,cascade = CascadeType.ALL)
+    @OneToOne(optional = false)
     private  EmployeeType type;
 
+    public Employee(String firstName, String lastName, EmployeeDepartment department, EducationTitle title, EmployeeType type) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.department = department;
+        this.title = title;
+        this.type = type;
+    }
 }

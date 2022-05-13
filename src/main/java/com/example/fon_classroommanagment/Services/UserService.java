@@ -20,4 +20,12 @@ public class UserService implements UserDetailsService {
         if(user==null) throw  new UsernameNotFoundException("Please register,user does not exit");
         return new UserProfileDetails(user);
     }
+
+    //save vraca uvek ne null ker radi update ili insert
+    public boolean saveUser(UserProfile user){
+        if(user==null) return false;
+        userRepository.save(user);
+        return true;
+
+    }
 }

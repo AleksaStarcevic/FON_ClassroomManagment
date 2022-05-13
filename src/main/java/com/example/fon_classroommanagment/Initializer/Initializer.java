@@ -26,9 +26,9 @@ public class Initializer implements SmartInitializingSingleton {
     public void afterSingletonsInstantiated() {
 
         UserProfile ilija=new UserProfile(UUID.randomUUID(),
-                "radojkovicika@gmail.com"
+                "test@gmail.com"
                 ,encoder.encode("1234"),
-                new UserRole(1L,"ADMIN"),
+                new UserRole(1L,"USER"),
                 new Employee(1L,"ilija","radojkovic",new EmployeeDepartment(1L,"TESt"),new EducationTitle(1L,"TEST"),new EmployeeType(1L,"TEST")));
 userRepository.save(ilija);
     }
