@@ -19,10 +19,11 @@ private UserService userService;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        http.csrf().disable();
         http.authorizeRequests().mvcMatchers("/sendEmail").permitAll().and()
                 .authorizeRequests().anyRequest().authenticated().and()
                 .formLogin().and()
-                .httpBasic();
+                ;
     }
 
     @Override
