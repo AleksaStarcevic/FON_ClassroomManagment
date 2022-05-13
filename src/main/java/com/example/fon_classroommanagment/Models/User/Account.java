@@ -24,13 +24,14 @@ public class Account {
 
     private String lastName;
 
-    @OneToOne(optional = false)
+    @ManyToOne( optional = false)
     private  EmployeeDepartment department;
 
-    @OneToOne(optional = false)
+    @ManyToOne( optional = false)
     private  EducationTitle title;
 
-    @OneToOne(optional = false)
+
+    @ManyToOne( optional = false)
     private  EmployeeType type;
 
 

@@ -24,13 +24,13 @@ public class Appointment {
     @Type(type = "uuid-char")
     private UUID id;
 
-    @OneToOne(optional = false)
+    @ManyToOne( optional = false)
     private Employee employee;
 
 
 
 
-    @OneToOne(optional = false)
+    @ManyToOne( optional = false)
     private Classroom classroom;
 
 
@@ -55,11 +55,11 @@ public class Appointment {
     @Column(columnDefinition = "INT(11) UNSIGNED",nullable = false)
     private int timeInHours;
 
-    @OneToOne(optional = false)
+    @ManyToOne( optional = false)
     @JoinColumn
     private AppointmentStatus status;
 
-    @OneToOne(optional = false)
+    @ManyToOne( optional = false)
     @JoinColumn
     private AppointmentType type;
 

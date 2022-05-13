@@ -28,6 +28,6 @@ public class Classroom {
     @Column(columnDefinition = "INT(11) UNSIGNED",nullable = false)
     private int number_of_computers;
 
-    @OneToOne(optional = false)
+    @ManyToOne( optional = false)
     private ClassroomType type;
 }

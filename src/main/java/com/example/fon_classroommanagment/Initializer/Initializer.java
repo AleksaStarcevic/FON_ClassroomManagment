@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.UUID;
 
-//@Component
+@Component
 public class Initializer implements SmartInitializingSingleton {
 
     @Autowired
@@ -25,11 +25,11 @@ public class Initializer implements SmartInitializingSingleton {
     @Override
     public void afterSingletonsInstantiated() {
 
-        UserProfile ilija=new UserProfile(UUID.randomUUID(),
-                "test@gmail.com"
-                ,encoder.encode("1234"),
-                new UserRole(1L,"USER"),
-                new Employee(1L,"ilija","radojkovic",new EmployeeDepartment(1L,"TESt"),new EducationTitle(1L,"TEST"),new EmployeeType(1L,"TEST")));
-userRepository.save(ilija);
+//        UserProfile ilija=new UserProfile(UUID.randomUUID(),
+//                "test@gmail.com"
+//                ,encoder.encode("1234"),
+//                new UserRole(1L,"USER"),
+//                new Employee(1L,"ilija","radojkovic",new EmployeeDepartment(1L,"TESt"),new EducationTitle(1L,"TEST"),new EmployeeType(1L,"TEST")));
+//userRepository.save(ilija);
     }
 }

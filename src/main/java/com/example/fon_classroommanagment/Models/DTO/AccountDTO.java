@@ -3,12 +3,11 @@ package com.example.fon_classroommanagment.Models.DTO;
 import com.example.fon_classroommanagment.Models.Emplayee.EducationTitle;
 import com.example.fon_classroommanagment.Models.Emplayee.EmployeeDepartment;
 import com.example.fon_classroommanagment.Models.Emplayee.EmployeeType;
+import com.example.fon_classroommanagment.Models.User.Account;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
-import javax.persistence.*;
 import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Date;
@@ -49,4 +48,14 @@ public class AccountDTO {
 
     private String token;
 
+    public Account CreateAccount() {
+       return  new Account(getEmail(),
+                getFirstName(),
+                getLastName(),
+                getDepartment(),
+                getTitle(),
+                getType(),
+              getPassword()
+        );
+    }
 }

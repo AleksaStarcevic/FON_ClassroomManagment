@@ -25,13 +25,13 @@ public class Employee {
     private String lastName;
 
     //dodati su cascade da bi lakse testirali
-    @OneToOne(optional = false)
+    @ManyToOne( optional = false)
     private  EmployeeDepartment department;
 
-    @OneToOne(optional = false)
+    @ManyToOne( optional = false)
     private  EducationTitle title;
 
-    @OneToOne(optional = false)
+    @ManyToOne( optional = false)
     private  EmployeeType type;
 
     public Employee(String firstName, String lastName, EmployeeDepartment department, EducationTitle title, EmployeeType type) {

@@ -32,5 +32,9 @@ public class ValidationToken {
     @OneToOne(cascade = CascadeType.ALL,orphanRemoval = true)
     private Account account;
 
-//    public Date calculateExpirationEndDate(int minutes)
+    public ValidationToken(String token, Account account) {
+        this.token = token;
+        this.account = account;
+    }
+    //    public Date calculateExpirationEndDate(int minutes)
 }
