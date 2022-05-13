@@ -4,6 +4,8 @@ public class Constants {
 
     public static  final String USER_PROFITE_TABLE_NAME="user_profile";
     public static  final String USER_ROLE_TABLE_NAME="user_role";
+    public static  final String ACCOUNT_TABLE_NAME="user_account";
+    public static  final String VALIDATION_TOKEN_ACCOUNT="validation_account_token";
 
     public static  final String EMPLOYEE_TABLE_NAME="employee";
     public static  final String EDUCATION_TITLE_TABLE_NAME="education_title";
@@ -17,5 +19,10 @@ public class Constants {
     public static  final String APPOINTMENT_TABLE_NAME="appointment";
     public static  final String APPOINTMENT_TYPE_TABLE_NAME="appointment_type";
     public static  final String APPOINTMENT_STATUS_TABLE_NAME="appointment_status";
+
+
+    public static  final String EMAIL_HOST_SENDER="radojkovicika@gmail.com";
+
+    public static  final String EMAIL_REGISTRATION_REQUEST_TEMPLATE="RegistrationEmail.html";
 
 }
