@@ -20,33 +20,29 @@ public class AccountDTO {
 
     private UUID id;
 
-    @NotNull
-    @NotBlank
-    @Size(max = 20)
+    @NotNull(message = "firstName ne sme biti null")
+    @Size(max = 20,message = "Ime moze imati najvise 20 karaktera")
     private String firstName;
 
-    @NotNull
-    @NotBlank
-    @Size(max = 20)
+    @NotNull(message = "Prezime ne sme biti null")
+    @Size(max = 20,message = "Prezime moze imate najvise 20 karaktera")
     private String lastName;
 
-    @NotNull
+    @NotNull(message = "department ne sme biti null")
     private EmployeeDepartment department;
 
-    @NotNull
+    @NotNull(message = "title ne sme biti null")
     private EducationTitle title;
 
-    @NotNull
+    @NotNull(message = "type ne sme biti null")
     private EmployeeType type;
 
-    @NotNull
-    @NotBlank
-    @Email
+    @NotNull(message = "email ne sme biti null")
+    @Email(message = "email nije u dobrom formatu")
     private String email;
 
-    @NotNull
-    @NotBlank
-    @Size(min = 4)
+    @NotNull(message = "password ne sme biti null")
+    @Size(min = 4,message = "Password mora imate bar 4 slova")
     private String password;
 
     private Date timeStamp=new Date();
