@@ -32,10 +32,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(
-        classes = TestAccountDTO.class)
+        classes = TestAuthenticationController.class)
 @AutoConfigureMockMvc
 @ContextConfiguration(classes= FonClassroomManagmentApplication.class)
-public class TestAccountDTO {
+public class TestAuthenticationController {
 
     @Autowired
     private MockMvc mockMvc;
