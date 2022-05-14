@@ -31,7 +31,8 @@ public class AccountService {
     @Autowired
     private BCryptPasswordEncoder encoder;
 
-    public ValidationToken  createValidationToken(Account account,String token) throws  UserExistsExcetion{
+    public ValidationToken  createValidationToken(Account account) throws  UserExistsExcetion{
+        String token=UUID.randomUUID().toString();
         if(userService.findByEmail(account.getEmail())!=null) throw new UserExistsExcetion("user vec postoji");
         ValidationToken validationToken=new ValidationToken(token,account);
         EncodePassword(account);

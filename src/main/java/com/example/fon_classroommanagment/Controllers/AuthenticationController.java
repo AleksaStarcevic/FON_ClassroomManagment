@@ -4,17 +4,20 @@ import com.example.fon_classroommanagment.Events.AccountRegistrationRequestEvent
 import com.example.fon_classroommanagment.Exceptions.UserExistsExcetion;
 import com.example.fon_classroommanagment.Models.DTO.AccountDTO;
 import com.example.fon_classroommanagment.Models.User.Account;
+import com.example.fon_classroommanagment.Models.User.UserRole;
 import com.example.fon_classroommanagment.Models.User.ValidationToken;
 import com.example.fon_classroommanagment.Services.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import javax.websocket.server.PathParam;
 import java.util.UUID;
 
 @RestController
@@ -24,18 +27,19 @@ public class AuthenticationController {
     private ApplicationEventPublisher publisher;
 
 @Autowired
-private BCryptPasswordEncoder encoder;
-@Autowired
 private AccountService accountService;
 
     @PostMapping ("/register")
     public void registerAccount(@RequestBody @Valid  AccountDTO accountDTO) throws UserExistsExcetion {
         Account account=accountDTO.CreateAccount();
-        ValidationToken token=  accountService.createValidationToken(account,UUID.randomUUID().toString());
+        ValidationToken token=  accountService.createValidationToken(account);
         accountDTO.setToken(token.getToken());
         publisher.publishEvent(new AccountRegistrationRequestEvent(accountDTO));
 
     }
+
+
+
 
     @GetMapping("/registerConfirmed/{token}")
     public void registerAccountConfirmed(@PathVariable("token")  String token){

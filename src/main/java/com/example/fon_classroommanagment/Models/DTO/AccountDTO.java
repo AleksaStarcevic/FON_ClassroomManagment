@@ -6,6 +6,7 @@ import com.example.fon_classroommanagment.Models.Emplayee.EmployeeType;
 import com.example.fon_classroommanagment.Models.User.Account;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
@@ -15,9 +16,10 @@ import java.util.UUID;
 
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class AccountDTO {
 
-    private UUID id;
+
 
     @NotNull(message = "firstName ne sme biti null")
     @Size(max = 20,message = "Ime moze imati najvise 20 karaktera")
@@ -57,5 +59,16 @@ public class AccountDTO {
                 getType(),
               getPassword()
         );
+    }
+
+    public AccountDTO( String firstName, String lastName, EmployeeDepartment department, EducationTitle title, EmployeeType type, String email, String password) {
+
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.department = department;
+        this.title = title;
+        this.type = type;
+        this.email = email;
+        this.password = password;
     }
 }
