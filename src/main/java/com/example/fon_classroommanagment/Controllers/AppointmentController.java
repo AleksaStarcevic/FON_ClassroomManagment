@@ -20,7 +20,7 @@ public class AppointmentController {
 
     @DeleteMapping("/DeleteReservation")
     public void DeleteAppointment(@RequestParam String id){
-appointmentService.DeleteAppointment(UUID.fromString(id));
+appointmentService.DeleteAppointment(id);
 
     }
     @GetMapping("/getAll")
@@ -28,4 +28,8 @@ appointmentService.DeleteAppointment(UUID.fromString(id));
         return ResponseEntity.ok(appointmentService.getAll());
     }
 
+    @GetMapping("/test")
+        public ResponseEntity<String> test(){
+        return  ResponseEntity.ok("ok");
+        }
 }

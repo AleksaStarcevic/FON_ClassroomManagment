@@ -43,15 +43,16 @@ public class UserFilter extends UsernamePasswordAuthenticationFilter {
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult)  {
         UserProfileDetails userProfileDetails=(UserProfileDetails)  authResult.getPrincipal();
-        Algorithm algorithm=Algorithm.HMAC256(SECRET.getBytes());
 
-        String validationToken= CreateValidationToken(userProfileDetails,algorithm);
-        String refreshToken= CreateRefreshToken(userProfileDetails,algorithm);
+
+        String validationToken= CreateValidationToken(userProfileDetails);
+        String refreshToken= CreateRefreshToken(userProfileDetails);
         response.setHeader(VALIDATION_TOKEN_HEDER_NAME,validationToken);
         response.setHeader(REFRESH_TOKEN_HEDER_NAME,refreshToken);
     }
 
-    private String CreateValidationToken(UserProfileDetails userProfileDetails, Algorithm algorithm ) {
+    public String CreateValidationToken(UserProfileDetails userProfileDetails) {
+        Algorithm algorithm=Algorithm.HMAC256(SECRET.getBytes());
         return    JWT.create()
                 .withSubject(userProfileDetails.getUsername())
                 .withExpiresAt(new Date( Calendar.getInstance().getTimeInMillis() + (VALIDATION_TOKEN_EXPIRATION)))
@@ -59,7 +60,8 @@ public class UserFilter extends UsernamePasswordAuthenticationFilter {
                 .sign(algorithm);
     }
 
-    private String CreateRefreshToken(UserProfileDetails userProfileDetails, Algorithm algorithm) {
+    private String CreateRefreshToken(UserProfileDetails userProfileDetails) {
+        Algorithm algorithm=Algorithm.HMAC256(SECRET.getBytes());
         return    JWT.create()
                 .withSubject(userProfileDetails.getUsername())
                 .withExpiresAt(new Date( Calendar.getInstance().getTimeInMillis() + (REFRESH_TOKEN_EXPIRATION)))

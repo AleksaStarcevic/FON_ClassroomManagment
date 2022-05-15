@@ -15,8 +15,9 @@ public class AppointmentService {
     @Autowired
     private AppointmentRepository appointmentRepository;
 
-    public void DeleteAppointment(UUID id){
-        appointmentRepository.deleteById(id);
+    public void DeleteAppointment(String id){
+        UUID idAppointment=UUID.fromString(id);
+        appointmentRepository.deleteById(idAppointment);
     }
 
     public List<Appointment> getAll() {

@@ -1,8 +1,11 @@
 package com.example.fon_classroommanagment.Controllers;
 
 import com.example.fon_classroommanagment.Events.AccountRegistrationRequestEvent;
+import com.example.fon_classroommanagment.Events.ChangePasswordEvent;
 import com.example.fon_classroommanagment.Exceptions.UserExistsExcetion;
 import com.example.fon_classroommanagment.Models.DTO.AccountDTO;
+import com.example.fon_classroommanagment.Models.DTO.EmailDTO;
+import com.example.fon_classroommanagment.Models.DTO.PasswordDTO;
 import com.example.fon_classroommanagment.Models.User.Account;
 import com.example.fon_classroommanagment.Models.User.UserRole;
 import com.example.fon_classroommanagment.Models.User.ValidationToken;
@@ -15,12 +18,16 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.ConstraintViolationException;
 import javax.validation.Valid;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.websocket.server.PathParam;
 import java.util.UUID;
 
 @RestController
+@Validated
 public class AuthenticationController {
 
     @Autowired
@@ -48,6 +55,24 @@ private AccountService accountService;
 
     }
 
+    @GetMapping("/ChangePassword")
+    public void ChangePasswordRequest(@RequestBody @Valid EmailDTO emailDTO){
+        publisher.publishEvent(new ChangePasswordEvent(emailDTO));
+
+
+    }
+    @PostMapping("/ChangePassword")
+    public void ChangePassword(@RequestBody @Valid PasswordDTO password){
+
+
+    }
+
+    @ExceptionHandler(ConstraintViolationException.class)
+    public  ResponseEntity<String> HandleMethodArgumentsNotValid(ConstraintViolationException exception){
+        return ResponseEntity.badRequest().body
+                ( exception.getConstraintViolations().toArray()[0].toString());
+
+    }
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public  ResponseEntity<String> HandleMethodArgumentsNotValid(MethodArgumentNotValidException exception){
        return ResponseEntity.badRequest().body

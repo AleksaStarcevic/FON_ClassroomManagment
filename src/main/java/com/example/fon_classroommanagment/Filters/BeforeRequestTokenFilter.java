@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -28,20 +29,39 @@ public class BeforeRequestTokenFilter extends OncePerRequestFilter {
         if(routesAllowed.contains(request.getServletPath())) filterChain.doFilter(request,response);
         else{
             String authHeader=request.getHeader(AUTHORIZATION);
-            System.out.println(authHeader);
+
             if(authHeader!=null && authHeader.startsWith("Bearer ")){
                 String token=authHeader.substring("Bearer ".length());
                 Algorithm algorithm=Algorithm.HMAC256(SECRET.getBytes());
                 JWTVerifier verifier= JWT.require(algorithm).build();
-                DecodedJWT decodedJWT=verifier.verify(token);
-                String username=decodedJWT.getSubject();
-                List<SimpleGrantedAuthority> authorities=new LinkedList<>();
-                String[] tempAuthorities=decodedJWT.getClaim("roles").asArray(String.class);
-                Arrays.stream(tempAuthorities).forEach(x-> authorities.add(new SimpleGrantedAuthority(x)));
-                UsernamePasswordAuthenticationToken token1=new UsernamePasswordAuthenticationToken(username,null,authorities);
-                SecurityContextHolder.getContext().setAuthentication(token1);
-                filterChain.doFilter(request,response);
+                if(  JWT.decode(token).getExpiresAt().before(new Date())) {
+
+                    TokenInvalid(response, "Token expired", HttpServletResponse.SC_NOT_ACCEPTABLE);
+                }else {
+                    TokenValid(request, response, filterChain, token, verifier);
+                }
+            }else{
+
+                TokenInvalid(response, "Not logged in", HttpServletResponse.SC_UNAUTHORIZED);
             }
         }
+    }
+
+    private void TokenValid(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain, String token, JWTVerifier verifier) throws IOException, ServletException {
+        DecodedJWT decodedJWT= verifier.verify(token);
+
+        String username = decodedJWT.getSubject();
+        List<SimpleGrantedAuthority> authorities = new LinkedList<>();
+        String[] tempAuthorities = decodedJWT.getClaim("roles").asArray(String.class);
+        Arrays.stream(tempAuthorities).forEach(x -> authorities.add(new SimpleGrantedAuthority(x)));
+        UsernamePasswordAuthenticationToken token1 = new UsernamePasswordAuthenticationToken(username, null, authorities);
+        SecurityContextHolder.getContext().setAuthentication(token1);
+        filterChain.doFilter(request, response);
+    }
+
+    private void TokenInvalid(HttpServletResponse response, String x, int scMethodNotAllowed) throws IOException {
+        response.resetBuffer();
+        response.getOutputStream().write(x.getBytes());
+        response.setStatus(scMethodNotAllowed);
     }
 }
