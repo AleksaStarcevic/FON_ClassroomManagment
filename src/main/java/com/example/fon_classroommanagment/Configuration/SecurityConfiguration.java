@@ -1,5 +1,6 @@
 package com.example.fon_classroommanagment.Configuration;
 
+import com.example.fon_classroommanagment.Filters.BeforeRequestTokenFilter;
 import com.example.fon_classroommanagment.Filters.UserFilter;
 import com.example.fon_classroommanagment.Services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import javax.xml.crypto.Data;
 
@@ -25,7 +27,9 @@ private UserService userService;
 
                 .authorizeRequests().anyRequest().authenticated().and()
                 .formLogin().and().httpBasic()
-                .and().addFilter(new UserFilter(authenticationManager()));
+                .and().addFilter(new UserFilter(authenticationManager()))
+                .addFilterBefore(new BeforeRequestTokenFilter(), UsernamePasswordAuthenticationFilter.class)
+        ;
 
     }
 

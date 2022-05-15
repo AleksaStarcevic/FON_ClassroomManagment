@@ -3,9 +3,9 @@ package com.example.fon_classroommanagment.Configuration;
 public class Constants {
     public static  final String SECRET="FON_CLASSROOMS";
 
-    public static  final int VALIDATION_TOKEN_EXPIRATION=10;
+    public static  final int VALIDATION_TOKEN_EXPIRATION=1000*60;
 
-    public static  final int REFRESH_TOKEN_EXPIRATION=100;
+    public static  final int REFRESH_TOKEN_EXPIRATION=10000*60;
 
     public static  final String VALIDATION_TOKEN_HEDER_NAME="validationToken";
 
