@@ -1,5 +1,6 @@
 package com.example.fon_classroommanagment.Configuration;
 
+import com.example.fon_classroommanagment.Filters.UserFilter;
 import com.example.fon_classroommanagment.Services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -24,7 +25,8 @@ private UserService userService;
 
                 .authorizeRequests().anyRequest().authenticated().and()
                 .formLogin().and().httpBasic()
-                ;
+                .and().addFilter(new UserFilter(authenticationManager()));
+
     }
 
     @Override

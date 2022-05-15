@@ -1,6 +1,15 @@
 package com.example.fon_classroommanagment.Configuration;
 
 public class Constants {
+    public static  final String SECRET="FON_CLASSROOMS";
+
+    public static  final int VALIDATION_TOKEN_EXPIRATION=10;
+
+    public static  final int REFRESH_TOKEN_EXPIRATION=100;
+
+    public static  final String VALIDATION_TOKEN_HEDER_NAME="validationToken";
+
+    public static  final String REFRESH_TOKEN_HEDER_NAME="refreshToken";
 
     public static  final String USER_PROFITE_TABLE_NAME="user_profile";
     public static  final String USER_ROLE_TABLE_NAME="user_role";
