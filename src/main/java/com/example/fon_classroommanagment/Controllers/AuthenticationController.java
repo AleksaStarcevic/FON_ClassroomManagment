@@ -1,30 +1,23 @@
 package com.example.fon_classroommanagment.Controllers;
 
 import com.example.fon_classroommanagment.Events.AccountRegistrationRequestEvent;
-import com.example.fon_classroommanagment.Events.ChangePasswordEvent;
 import com.example.fon_classroommanagment.Exceptions.UserExistsExcetion;
 import com.example.fon_classroommanagment.Models.DTO.AccountDTO;
-import com.example.fon_classroommanagment.Models.DTO.EmailDTO;
-import com.example.fon_classroommanagment.Models.DTO.PasswordDTO;
+import com.example.fon_classroommanagment.Models.DTO.ChangePasswordDTO;
 import com.example.fon_classroommanagment.Models.User.Account;
-import com.example.fon_classroommanagment.Models.User.UserRole;
+import com.example.fon_classroommanagment.Models.User.UserProfile;
 import com.example.fon_classroommanagment.Models.User.ValidationToken;
 import com.example.fon_classroommanagment.Services.AccountService;
+import com.example.fon_classroommanagment.Services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.ConstraintViolationException;
 import javax.validation.Valid;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.websocket.server.PathParam;
-import java.util.UUID;
 
 @RestController
 @Validated
@@ -32,6 +25,9 @@ public class AuthenticationController {
 
     @Autowired
     private ApplicationEventPublisher publisher;
+
+    @Autowired
+    private UserService userService;
 
 @Autowired
 private AccountService accountService;
@@ -55,15 +51,10 @@ private AccountService accountService;
 
     }
 
-    @GetMapping("/ChangePassword")
-    public void ChangePasswordRequest(@RequestBody @Valid EmailDTO emailDTO){
-        publisher.publishEvent(new ChangePasswordEvent(emailDTO));
 
-
-    }
     @PostMapping("/ChangePassword")
-    public void ChangePassword(@RequestBody @Valid PasswordDTO password){
-
+    public void ChangePassword(@RequestBody @Valid ChangePasswordDTO password) throws UserExistsExcetion {
+        userService.ChangePassword(password);
 
     }
 

@@ -33,6 +33,6 @@ public class Constants {
 
     public static  final String EMAIL_REGISTRATION_REQUEST_TEMPLATE="RegistrationEmail.html";
     //promeni u tvoj
-    public static  final String CHANGE_PASSWORD_REQUEST_TEMPLATE="RegistrationEmail.html";
+    public static  final String CHANGE_PASSWORD_REQUEST_TEMPLATE="ChangePassword.html";
 
 }

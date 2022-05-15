@@ -19,6 +19,8 @@ import javax.xml.crypto.Data;
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 @Autowired
 private UserService userService;
+@Autowired
+private BCryptPasswordEncoder encoder;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -42,13 +44,10 @@ private UserService userService;
     public DaoAuthenticationProvider getProvider(){
         DaoAuthenticationProvider provider=new DaoAuthenticationProvider();
         provider.setUserDetailsService(userService);
-        provider.setPasswordEncoder(getEncoder());
+        provider.setPasswordEncoder(encoder);
         return  provider;
     }
-    @Bean
-    public BCryptPasswordEncoder getEncoder(){
-        return new BCryptPasswordEncoder();
-    }
+
 
 
 
