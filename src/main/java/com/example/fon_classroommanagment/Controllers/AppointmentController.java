@@ -43,8 +43,9 @@ appointmentService.DeleteAppointment(dto.getId().toString());
 
         @PostMapping("/reserve")
         public void Reserve(@RequestBody  @Valid  ReserveDTO dto){
+System.out.println(dto);
+        //appointmentService.ReserveAppointment(dto);
 
-        System.out.println(dto);
         }
     @ExceptionHandler(ConstraintViolationException.class)
     public  ResponseEntity<String> HandleMethodArgumentsNotValid(ConstraintViolationException exception){
@@ -54,8 +55,9 @@ appointmentService.DeleteAppointment(dto.getId().toString());
     }
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public  ResponseEntity<String> HandleMethodArgumentsNotValid(MethodArgumentNotValidException exception){
-        return ResponseEntity.badRequest().body
-                (exception.getBindingResult().getFieldErrors().get(0).getDefaultMessage());
+
+        return (exception.hasGlobalErrors())? ResponseEntity.badRequest().body
+                (exception.getGlobalError().getDefaultMessage()):ResponseEntity.badRequest().body(exception.getBindingResult().getFieldErrors().get(0).getDefaultMessage());
     }
 
 }

@@ -1,5 +1,6 @@
 package com.example.fon_classroommanagment.Models.Appointment;
 
+import com.example.fon_classroommanagment.Anotations.CheckValues;
 import com.example.fon_classroommanagment.Models.Classroom.Classroom;
 import com.example.fon_classroommanagment.Models.Emplayee.Employee;
 import lombok.AllArgsConstructor;
@@ -53,7 +54,10 @@ public class Appointment {
     private int number_of_attendies;
 
     @Column(columnDefinition = "INT(11) UNSIGNED",nullable = false)
-    private int timeInHours;
+    private int Start_timeInHours;
+
+    @Column(columnDefinition = "INT(11) UNSIGNED",nullable = false)
+    private int End_timeInHours;
 
     @ManyToOne( optional = false)
     @JoinColumn

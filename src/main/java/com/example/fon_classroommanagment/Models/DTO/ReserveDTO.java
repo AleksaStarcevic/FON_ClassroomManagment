@@ -1,5 +1,6 @@
 package com.example.fon_classroommanagment.Models.DTO;
 
+import com.example.fon_classroommanagment.Anotations.CheckValues;
 import com.example.fon_classroommanagment.Models.Appointment.AppointmentStatus;
 import com.example.fon_classroommanagment.Models.Appointment.AppointmentType;
 import com.example.fon_classroommanagment.Models.Classroom.Classroom;
@@ -22,6 +23,7 @@ import java.util.UUID;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@CheckValues
 public class ReserveDTO {
 
 
@@ -60,18 +62,23 @@ public class ReserveDTO {
     private String reason;
 
 
-    @Positive
+    @Positive(message = "Broj prisutnih mora biti pozitivan broj")
     private int number_of_attendies;
 
-  @Positive
-  @Max(value = 10,message = "Maksimalno se moze rezervisati 10 h")
-    private int timeInHours;
 
 
-  @Positive
+    @Positive(message = "Pocetno vreme mora biti pozitivno")
+    @Max(value = 10,message = "Maksimalno se moze rezervisati 10 h")
+    private int start_timeInHours;
+
+    @Positive(message = "Krajnje vreme mora biti pozitivno")
+    @Max(value = 10,message = "Maksimalno se moze rezervisati 10 h")
+    private int end_timeInHours;
+
+  @Positive(message = "Status mora biti pozitivan broj")
     private int status;
 
 
-  @Positive
+    @Positive(message = "Type mora biti pozitivan broj")
     private int type;
 }
