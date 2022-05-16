@@ -26,7 +26,8 @@ public class BeforeRequestTokenFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
     List<String> routesAllowed= Arrays.asList("/login","/register","/logout");
-        if(routesAllowed.contains(request.getServletPath())) filterChain.doFilter(request,response);
+    List<String> beginsWith= List.of("/registerConfirmed/");
+        if(routesAllowed.contains(request.getServletPath()) || request.getServletPath().startsWith(beginsWith.get(0))) filterChain.doFilter(request,response);
         else{
             String authHeader=request.getHeader(AUTHORIZATION);
 

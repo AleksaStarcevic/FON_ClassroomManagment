@@ -33,7 +33,8 @@ public class AccountService {
 
     public ValidationToken  createValidationToken(Account account) throws  UserExistsExcetion{
         String token=UUID.randomUUID().toString();
-        if(userService.findByEmail(account.getEmail())!=null) throw new UserExistsExcetion("user vec postoji");
+        if(userService.findByEmail(account.getEmail())!=null ||   accountRepository.findByEmail(account.getEmail())!=null) throw new UserExistsExcetion("user vec postoji");
+
         ValidationToken validationToken=new ValidationToken(token,account);
         EncodePassword(account);
 
@@ -55,9 +56,12 @@ public class AccountService {
         Optional<ValidationToken> Opt_validationToken=tokenValidationAccountRepository.findById(token);
         if(Opt_validationToken.isEmpty()) return false;
         ValidationToken validationToken=Opt_validationToken.get();
-        if(validationToken.isExpired) return false;
+        if(validationToken.isExpired) {
+            accountRepository.deleteById(validationToken.getAccount().getEmail());
+            return false;
+        }
         Account account=accountRepository.findByEmail(validationToken.getAccount().getEmail());
-        System.out.println(account);
+
         UserRole simpleUserRole=new UserRole(1L,"USER");
         Employee employee=new Employee(account.getFirstName(),account.getLastName(),account.getDepartment(),account.getTitle(),account.getType());
         UserProfile user=new UserProfile(UUID.randomUUID(),account.getEmail(),account.getPassword(),simpleUserRole,employee);
