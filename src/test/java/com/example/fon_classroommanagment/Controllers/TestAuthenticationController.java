@@ -1,10 +1,12 @@
 package com.example.fon_classroommanagment.Controllers;
 
 
+import com.example.fon_classroommanagment.Configuration.SecurityConfiguration;
 import com.example.fon_classroommanagment.Configuration.UserProfileDetails;
 import com.example.fon_classroommanagment.Filters.UserFilter;
 import com.example.fon_classroommanagment.FonClassroomManagmentApplication;
 import com.example.fon_classroommanagment.Models.DTO.AccountDTO;
+import com.example.fon_classroommanagment.Models.DTO.ChangePasswordDTO;
 import com.example.fon_classroommanagment.Models.Emplayee.EducationTitle;
 import com.example.fon_classroommanagment.Models.Emplayee.EmployeeDepartment;
 import com.example.fon_classroommanagment.Models.Emplayee.EmployeeType;
@@ -19,22 +21,33 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.catalina.User;
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.SecurityConfig;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
 import javax.validation.ConstraintViolationException;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Stream;
 
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
@@ -43,7 +56,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(
         classes = TestAuthenticationController.class)
 @AutoConfigureMockMvc
-@ContextConfiguration(classes= FonClassroomManagmentApplication.class)
+
+@ContextConfiguration(classes= {FonClassroomManagmentApplication.class, SecurityConfiguration.class})
 public class TestAuthenticationController {
 
     @Autowired
@@ -53,6 +67,8 @@ public class TestAuthenticationController {
     private AccountService accountService;
 
 
+    @MockBean
+    private AuthenticationController controller;
     @Autowired
     ObjectMapper objectMapper;
     @MockBean
@@ -62,50 +78,119 @@ public class TestAuthenticationController {
 @MockBean
 private UserFilter userFilter;
 
+@Test
+public void Test_RegisterRoute_Exists() throws Exception {
+
+    final String expectedResponseContent = ConvertObjectToJson(CreateValidAccountDTO());
+
+    mockMvc.perform(post("/register")
+            .contentType(MediaType.APPLICATION_JSON)
+            .accept(MediaType.APPLICATION_JSON)
+            .content(expectedResponseContent));
+}
 
 @Test
-    public void TestRegisterSuccess_Route() throws Exception {
+public void Test_RegistrationConfirmed_Exists() throws Exception {
+    mockMvc.perform(get("/registerConfirmed/{token}","gergwe1232g")
+           );
+}
 
 
-        AccountDTO dto=CreateValidAccountDTO();
-        Account account=dto.CreateAccount();
+@Test
+public void Test_ChangePassword_Exists() throws Exception {
+    final String expectedResponseContent = ConvertObjectToJson(CreateChangePasswordDTOValid());
+
+    mockMvc.perform(post("/ChangePassword")
+            .contentType(MediaType.APPLICATION_JSON).content(expectedResponseContent));
+
+}
 
 
-    when(accountService.createValidationToken(account)).thenReturn(new ValidationToken(UUID.randomUUID().toString(),account));
+//@ParameterizedTest
+//@MethodSource("getInvalidRegisterObjects")
+//public void Test_InvalidBodyRegister(AccountDTO dto) throws Exception {
+//    final String expectedResponseContent = ConvertObjectToJson(dto);
+//
+//    mockMvc.perform(post("/register")
+//            .contentType(MediaType.APPLICATION_JSON)
+//            .accept(MediaType.APPLICATION_JSON)
+//            .content(expectedResponseContent)).andExpect(status().isBadRequest());
+//}
+
+private static Stream<Arguments> getInvalidRegisterObjects(){
+    return   Stream.of(
 
 
-    final String expectedResponseContent = ConvertObjectToJson(dto);
 
-        mockMvc.perform(post("/register")
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON)
-                .content(expectedResponseContent)).andExpect(status().isOk());
-
-
+            Arguments.of(new AccountDTO(
+                    "ilija",
+                    "radojkovic",
+                    new EmployeeDepartment(1L,"cao"),
+                    new EducationTitle(1L,"cao"),
+                    new EmployeeType(1L,"cao"),
+                    "radojkovic@gmail.com",
+                    "1"
+            )),
+            Arguments.of(new AccountDTO(
+                    "ilija",
+                    "radojkovic",
+                    new EmployeeDepartment(1L,"cao"),
+                    new EducationTitle(1L,"cao"),
+                    new EmployeeType(1L,"cao"),
+                    "radojkovic@gmail.com",
+                    "12"
+            )),
+            Arguments.of(new AccountDTO(
+                    "ilija",
+                    "radojkovic",
+                    new EmployeeDepartment(1L,"cao"),
+                    new EducationTitle(1L,"cao"),
+                    new EmployeeType(1L,"cao"),
+                    "radojkovic@gmail.com",
+                    "123"
+            )),
+            Arguments.of(new AccountDTO(
+                    "ilija",
+                    "radojkovic",
+                   null,
+                    new EducationTitle(1L,"cao"),
+                    new EmployeeType(1L,"cao"),
+                    "radojkovic@gmail.com",
+                    "1"
+            )),
+            Arguments.of(new AccountDTO(
+                    "ilija",
+                    "radojkovic",
+                    new EmployeeDepartment(1L,"cao"),
+                  null,
+                    new EmployeeType(1L,"cao"),
+                    "radojkovic@gmail.com",
+                    "1"
+            )),  Arguments.of(  new AccountDTO(
+            "ilija",
+            "radojkovic",
+            new EmployeeDepartment(1L,"cao"),
+            new EducationTitle(1L,"cao"),
+           null,
+            "radojkovic@gmail.com",
+            "1"
+    ))
+    );
+}
+    private AccountDTO CreateInvalidRegisterDTO() {
+        return  new AccountDTO(
+                "ilija",
+                "radojkovic",
+                new EmployeeDepartment(1L,"cao"),
+                new EducationTitle(1L,"cao"),
+                new EmployeeType(1L,"cao"),
+                "radojkovic@gmail.com",
+                "1"
+        );
     }
 
-    @Test
-    public void Test_ChangPassword_Valid() throws Exception {
 
-    String token=userFilter.CreateValidationToken(new UserProfileDetails(new UserProfile(UUID.randomUUID(),"cao","cao",new UserRole(1L,"ADMIN"),null)));
-    mockMvc.perform(get("/ChangePassword").param("email","radojkovicika@gmail.com")
-                    .header("Authorization",token))
-            .andExpect(status().isOk());
-    }
 
-    @Test
-    public void Test_ChangPassword_Invalid() throws Exception {
-        Assert.assertThrows(Exception.class,()->{
-            mockMvc.perform(get("/ChangePassword").param("email",null))
-                    .andExpect(status().isOk());
-        });
-//        Assert.assertThrows(Exception.class,()->{
-//            mockMvc.perform(get("/ChangePassword").param("email","dfz"))
-//                    .andExpect(status().isOk());
-//        });
-        mockMvc.perform(get("/ChangePassword").param("email","radojkovicika@gmail.com"))
-                .andExpect(status().isMethodNotAllowed());
-    }
 
     private String ConvertObjectToJson(Object dto) throws JsonProcessingException {
     return objectMapper.writeValueAsString(dto);
@@ -122,6 +207,10 @@ private UserFilter userFilter;
             "1234"
          );
     }
+    private ChangePasswordDTO CreateChangePasswordDTOValid(){
+    return  new ChangePasswordDTO("1234",UUID.randomUUID(),new Date());
+    }
+
 
 
 }
