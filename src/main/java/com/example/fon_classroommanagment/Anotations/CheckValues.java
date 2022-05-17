@@ -10,7 +10,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 @Target( { ElementType.TYPE })
 @Retention(RUNTIME)
-@Constraint(validatedBy = CheckValuesValidatorAppointmentDTO.class)
+@Constraint(validatedBy = {CheckValuesValidatorAppointmentDTO.class,CheckValuesValidatorFilterDTO.class})
 public @interface CheckValues {
 
     String message() default "Krajnje vreme mora biti vece od pocetnog vremena";

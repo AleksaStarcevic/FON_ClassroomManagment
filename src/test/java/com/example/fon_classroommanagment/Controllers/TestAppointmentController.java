@@ -35,8 +35,7 @@ import static com.example.fon_classroommanagment.Configuration.Constants.VALIDAT
 import static org.springframework.security.config.web.server.SecurityWebFiltersOrder.AUTHENTICATION;
 import static org.springframework.security.config.web.server.SecurityWebFiltersOrder.AUTHORIZATION;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.jwt;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
@@ -78,11 +77,20 @@ private UserFilter userFilter;
 
 
         String json=ConvertObjectToJson(getValidReserveDTO());
-        mockMvc.perform(delete("/ reserve")
+        mockMvc.perform(delete("/reserve")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(json));
     }
 
+    @Test
+    public void Test_FilterAppointment_Exists() throws Exception {
+
+
+        String json=ConvertObjectToJson(getValidReserveDTO());
+        mockMvc.perform(get("/filter")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(json));
+    }
 
 //    @Test
 //    public void Test_DeleteReservation_Valid() throws Exception {

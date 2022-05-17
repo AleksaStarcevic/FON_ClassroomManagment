@@ -4,6 +4,7 @@ import com.example.fon_classroommanagment.Exceptions.ReservationExistsException;
 import com.example.fon_classroommanagment.Models.Appointment.Appointment;
 import com.example.fon_classroommanagment.Models.DTO.ConfirmAppointmentDTO;
 import com.example.fon_classroommanagment.Models.DTO.DeleteReservationDTO;
+import com.example.fon_classroommanagment.Models.DTO.FilterDTO;
 import com.example.fon_classroommanagment.Models.DTO.ReserveDTO;
 import com.example.fon_classroommanagment.Services.AppointmentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +40,7 @@ appointmentService.DeleteAppointment(dto.getId().toString());
         }
 
         @PostMapping("/confirmAppointment")
-    public void ConfirmAppointment(@RequestBody ConfirmAppointmentDTO dto){
+        public void ConfirmAppointment(@RequestBody ConfirmAppointmentDTO dto){
 
         }
 
@@ -49,6 +50,16 @@ appointmentService.DeleteAppointment(dto.getId().toString());
         appointmentService.ReserveAppointment(dto);
 
         }
+
+        @GetMapping("/filter")
+        public ResponseEntity<String> filter(@RequestBody @Valid FilterDTO filterDTO){
+        System.out.println(filterDTO);
+         return   ResponseEntity.ok("");
+        }
+
+
+
+
     @ExceptionHandler(ConstraintViolationException.class)
     public  ResponseEntity<String> HandleMethodArgumentsNotValid(ConstraintViolationException exception){
         return ResponseEntity.badRequest().body

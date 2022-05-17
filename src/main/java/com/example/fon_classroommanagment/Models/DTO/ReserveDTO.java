@@ -22,7 +22,7 @@ import java.util.UUID;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@CheckValues
+@CheckValues(message = "Krajnje vreme mora biti vece od pocetnog vremena")
 public class ReserveDTO {
 
 
