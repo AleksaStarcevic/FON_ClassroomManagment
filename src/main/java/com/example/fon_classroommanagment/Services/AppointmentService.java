@@ -45,11 +45,11 @@ public class AppointmentService {
     }
 
     private boolean AvailableRoom(Long classroomId, Date date, int start_timeInHours, int end_timeInHours) {
-        Optional<String> o=appointmentRepository.AppointmentAvailable(classroomId,date);
+       List<String> o=appointmentRepository.AppointmentAvailable(classroomId,date,start_timeInHours,end_timeInHours);
         System.out.println(o);
-        o.ifPresent(System.out::println);
 
-        return false;
+
+        return o.isEmpty();
     }
 
 

@@ -94,7 +94,7 @@ private UserFilter userFilter;
 //                .content(json)).andExpect(status().isOk());
 //    }
     private ReserveDTO getValidReserveDTO() {
-        return  new ReserveDTO("radojkovicika@gmail.com",1,"ilija",new Date(),"testtestest","reasonreasonreason",
+        return  new ReserveDTO("radojkovicika@gmail.com",1L,"ilija",new Date(),"testtestest","reasonreasonreason",
                 100,2,4,1,1);
     }
 

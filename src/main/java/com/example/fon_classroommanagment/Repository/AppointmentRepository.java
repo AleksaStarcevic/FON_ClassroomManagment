@@ -14,7 +14,7 @@ import java.util.UUID;
 @Repository
 public interface AppointmentRepository extends JpaRepository<Appointment, UUID> {
 
-    @Query(value = "select a.id from Appointment  a where a.classroom.id=:classroomId and a.date=:date")
-    Optional<String> AppointmentAvailable(@Param("classroomId") Long classroomId,@Param("date") Date date);
+    @Query(value = "select a.id from Appointment  a where a.classroom.id=:classroomId and a.date=:date and ((a.Start_timeInHours<=:start_timeInHours and a.End_timeInHours>=:end_timeInHours) or (a.Start_timeInHours>=:start_timeInHours  and a.Start_timeInHours<:end_timeInHours and  a.End_timeInHours>=:end_timeInHours) or (a.Start_timeInHours<=:start_timeInHours and a.End_timeInHours>:start_timeInHours and a.End_timeInHours<=:end_timeInHours) or (a.Start_timeInHours>=:start_timeInHours and a.End_timeInHours<=:end_timeInHours))")
+    List<String> AppointmentAvailable(@Param("classroomId") Long classroomId,@Param("date") Date date,@Param("start_timeInHours") int start_timeInHours,@Param("end_timeInHours") int end_timeInHours);
 
 }
