@@ -51,11 +51,7 @@ appointmentService.DeleteAppointment(dto.getId().toString());
 
         }
 
-        @GetMapping("/filter")
-        public ResponseEntity<String> filter(@RequestBody @Valid FilterDTO filterDTO){
-        System.out.println(filterDTO);
-         return   ResponseEntity.ok("");
-        }
+
 
 
 

@@ -32,7 +32,9 @@ public class Constants {
     public static  final String EMAIL_HOST_SENDER="radojkovicika@gmail.com";
 
     public static  final String EMAIL_REGISTRATION_REQUEST_TEMPLATE="RegistrationEmail.html";
-    //promeni u tvoj
-    public static  final String CHANGE_PASSWORD_REQUEST_TEMPLATE="ChangePassword.html";
+
+    public static  final int MIN_CAPACITY=0;
+    public static  final int MAX_CAPACITY=120;
+
 
 }
