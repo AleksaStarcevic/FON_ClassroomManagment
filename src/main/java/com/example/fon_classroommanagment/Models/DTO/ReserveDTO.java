@@ -1,6 +1,7 @@
 package com.example.fon_classroommanagment.Models.DTO;
 
 import com.example.fon_classroommanagment.Anotations.CheckValues;
+import com.example.fon_classroommanagment.Models.Appointment.Appointment;
 import com.example.fon_classroommanagment.Models.Appointment.AppointmentStatus;
 import com.example.fon_classroommanagment.Models.Appointment.AppointmentType;
 import com.example.fon_classroommanagment.Models.Classroom.Classroom;
@@ -12,10 +13,8 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.Length;
 
-import javax.persistence.Column;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+
+import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.util.Date;
 import java.util.UUID;
@@ -37,7 +36,7 @@ public class ReserveDTO {
 
 
     @Positive(message = "Ucionica nije dobro uneta")
-    private int classroomId;
+    private Long classroomId;
 
 
 
@@ -47,6 +46,7 @@ public class ReserveDTO {
 
     @NotNull(message = "Datum nije  uneto")
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    @Temporal(TemporalType.DATE)
     private Date date;
 
 
@@ -81,4 +81,6 @@ public class ReserveDTO {
 
     @Positive(message = "Type mora biti pozitivan broj")
     private int type;
+
+
 }

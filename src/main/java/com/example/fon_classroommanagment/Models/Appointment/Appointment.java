@@ -40,6 +40,7 @@ public class Appointment {
     private String name;
 
     @Column(columnDefinition = "DATE",nullable = false)
+    @Temporal(TemporalType.DATE)
     private Date date;
 
 

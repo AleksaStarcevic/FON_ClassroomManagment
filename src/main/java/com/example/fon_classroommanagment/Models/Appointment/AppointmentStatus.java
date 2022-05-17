@@ -16,4 +16,8 @@ public class AppointmentStatus extends TypeClass {
     public AppointmentStatus(Long id, String name) {
         super(id, name);
     }
+
+    public AppointmentStatus(Long status) {
+        setId(status);
+    }
 }

@@ -16,6 +16,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.EntityNotFoundException;
 import javax.validation.ConstraintViolationException;
 import javax.validation.Valid;
 
@@ -58,6 +59,12 @@ private AccountService accountService;
 
     }
 
+    @ExceptionHandler(EntityNotFoundException.class)
+    public  ResponseEntity<String> HandleEntityNotFoundException(EntityNotFoundException exception){
+        return ResponseEntity.badRequest().body
+                ( exception.getMessage());
+
+    }
     @ExceptionHandler(ConstraintViolationException.class)
     public  ResponseEntity<String> HandleMethodArgumentsNotValid(ConstraintViolationException exception){
         return ResponseEntity.badRequest().body

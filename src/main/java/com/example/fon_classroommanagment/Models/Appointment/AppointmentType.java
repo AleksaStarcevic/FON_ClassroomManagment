@@ -15,4 +15,8 @@ public class AppointmentType extends TypeClass {
     public AppointmentType(Long id, String name) {
         super(id, name);
     }
+
+    public AppointmentType(Long type) {
+        setId(type);
+    }
 }

@@ -30,4 +30,8 @@ public class Classroom {
 
     @ManyToOne( optional = false)
     private ClassroomType type;
+
+    public Classroom(long classroomId) {
+        setId(classroomId);
+    }
 }

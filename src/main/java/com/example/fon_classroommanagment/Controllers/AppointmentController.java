@@ -1,5 +1,6 @@
 package com.example.fon_classroommanagment.Controllers;
 
+import com.example.fon_classroommanagment.Exceptions.ReservationExistsException;
 import com.example.fon_classroommanagment.Models.Appointment.Appointment;
 import com.example.fon_classroommanagment.Models.DTO.ConfirmAppointmentDTO;
 import com.example.fon_classroommanagment.Models.DTO.DeleteReservationDTO;
@@ -42,15 +43,22 @@ appointmentService.DeleteAppointment(dto.getId().toString());
         }
 
         @PostMapping("/reserve")
-        public void Reserve(@RequestBody  @Valid  ReserveDTO dto){
-System.out.println(dto);
-        //appointmentService.ReserveAppointment(dto);
+        public void Reserve(@RequestBody  @Valid  ReserveDTO dto) throws ReservationExistsException {
+
+        appointmentService.ReserveAppointment(dto);
 
         }
     @ExceptionHandler(ConstraintViolationException.class)
     public  ResponseEntity<String> HandleMethodArgumentsNotValid(ConstraintViolationException exception){
         return ResponseEntity.badRequest().body
                 ( exception.getConstraintViolations().toArray()[0].toString());
+
+    }
+
+    @ExceptionHandler(ReservationExistsException.class)
+    public  ResponseEntity<String> HandleReservationExistsException(ReservationExistsException exception){
+        return ResponseEntity.badRequest().body
+                ( exception.getMessage());
 
     }
     @ExceptionHandler(MethodArgumentNotValidException.class)
