@@ -29,8 +29,8 @@ public class AppointmentService {
     @Autowired
     private UserRepository userRepository;
 
-    public void DeleteAppointment(String id){
-        UUID idAppointment=UUID.fromString(id);
+    public void DeleteAppointment(String id) {
+        UUID idAppointment = UUID.fromString(id);
         appointmentRepository.deleteById(idAppointment);
     }
 
@@ -38,39 +38,37 @@ public class AppointmentService {
         return appointmentRepository.findAll();
     }
 
-    public void ReserveAppointment( ReserveDTO dto) throws ReservationExistsException {
-        if(AvailableRoom(dto.getClassroomId(),dto.getDate(),dto.getStart_timeInHours(),dto.getEnd_timeInHours())){
-        Appointment appointment=new Appointment(UUID.randomUUID(),userRepository.findByEmail(dto.getEmail()).getEmployee(),new Classroom(dto.getClassroomId()),dto.getName(),dto.getDate(),dto.getDecription(),dto.getReason(),dto.getNumber_of_attendies(),dto.getStart_timeInHours(),dto.getEnd_timeInHours(),new AppointmentStatus((long) dto.getStatus()),new AppointmentType((long) dto.getType()));
+    public void ReserveAppointment(ReserveDTO dto) throws ReservationExistsException {
+        if (AvailableRoom(dto.getClassroomId(), dto.getDate(), dto.getStart_timeInHours(), dto.getEnd_timeInHours())) {
+            Appointment appointment = new Appointment(UUID.randomUUID(), userRepository.findByEmail(dto.getEmail()).getEmployee(), new Classroom(dto.getClassroomId()), dto.getName(), dto.getDate(), dto.getDecription(), dto.getReason(), dto.getNumber_of_attendies(), dto.getStart_timeInHours(), dto.getEnd_timeInHours(), new AppointmentStatus((long) dto.getStatus()), new AppointmentType((long) dto.getType()));
             appointmentRepository.save(appointment);
-        }
-        else{
+        } else {
             throw new ReservationExistsException("Rezervacija je zauzeta,pokusajte drugo vreme");
         }
     }
 
     private boolean AvailableRoom(Long classroomId, Date date, int start_timeInHours, int end_timeInHours) {
-       List<String> o=appointmentRepository.AppointmentAvailable(classroomId,date,start_timeInHours,end_timeInHours);
+        List<String> o = appointmentRepository.AppointmentAvailable(classroomId, date, start_timeInHours, end_timeInHours);
         System.out.println(o);
 
 
         return o.isEmpty();
     }
 
-
     public void ConfirmAppointment(ConfirmAppointmentDTO dto) {
         Optional<Appointment> appointment = appointmentRepository.findById(dto.getId());
         System.out.println(dto);
-        if(appointment.isPresent()){
+        if (appointment.isPresent()) {
             //send email to person to notify him/her that appointment has changed
-            if(dto.getStatus().getName().equals(APPOINTMENT_DECLINED)){
+            if (dto.getStatus().getName().equals(APPOINTMENT_DECLINED)) {
                 //send email thats diclined delete it
                 appointmentRepository.deleteById(dto.getId());
-            }
-            else {
+            } else {
                 appointment.get().setStatus(dto.getStatus());
                 appointmentRepository.save(appointment.get());
             }
         }
+
 
     }
 }
