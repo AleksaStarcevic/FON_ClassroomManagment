@@ -1,8 +1,10 @@
 package com.example.fon_classroommanagment.Services;
 
 
+import com.example.fon_classroommanagment.Exceptions.ClassroomExistsException;
 import com.example.fon_classroommanagment.Models.Classroom.Classroom;
 import com.example.fon_classroommanagment.Models.DTO.FilterDTO;
+import com.example.fon_classroommanagment.Models.DTO.SearchClassroomDTO;
 import com.example.fon_classroommanagment.Repository.ClassroomRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,5 +24,12 @@ public class ClassroomService {
         else{
            return repository.filterAll(filterDTO.getMin_capacity(),filterDTO.getMax_capacity(),filterDTO.getType());
         }
+    }
+
+    public List<Classroom> searchClassroom(SearchClassroomDTO dto) throws ClassroomExistsException {
+        List<Classroom> classrooms = repository.findByName(dto.getName());
+        if(classrooms.isEmpty()) throw new ClassroomExistsException("Classroom with that name doesn't exist");
+        return classrooms;
+
     }
 }
