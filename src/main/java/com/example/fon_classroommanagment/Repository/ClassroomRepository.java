@@ -20,6 +20,6 @@ List<Classroom> filter(@Param("min_capacity") int min_capacity, @Param("max_capa
     @Query(value = "select  c from Classroom  c where  c.number_of_seats BETWEEN :min_capacity AND :max_capacity and  c.type.id=:type order by c.number_of_seats")
     List<Classroom> filterAll(@Param("min_capacity") int min_capacity, @Param("max_capacity") int max_capacity,@Param("type") Long type);
 
-    List<Classroom> findByName(String name);
+    List<Classroom> findByNameContaining(String name);
 
 }

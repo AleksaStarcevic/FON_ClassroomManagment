@@ -26,10 +26,9 @@ public class ClassroomService {
         }
     }
 
-    public List<Classroom> searchClassroom(SearchClassroomDTO dto) throws ClassroomExistsException {
-        List<Classroom> classrooms = repository.findByName(dto.getName());
-        if(classrooms.isEmpty()) throw new ClassroomExistsException("Classroom with that name doesn't exist");
-        return classrooms;
+    public List<Classroom> searchClassroom(SearchClassroomDTO dto)  {
+        //if(classrooms.isEmpty()) throw new ClassroomExistsException("Classroom with that name doesn't exist");
+        return repository.findByNameContaining(dto.getName());
 
     }
 }

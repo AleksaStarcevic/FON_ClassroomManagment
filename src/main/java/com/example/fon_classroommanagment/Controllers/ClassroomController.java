@@ -27,8 +27,8 @@ public class ClassroomController {
     }
 
 
-    @PostMapping("/searchClassroom")
-    public ResponseEntity<List<Classroom>> searchClassroom(@RequestBody SearchClassroomDTO dto) throws ClassroomExistsException {
+    @GetMapping("/searchClassroom")
+    public ResponseEntity<List<Classroom>> searchClassroom(@RequestBody SearchClassroomDTO dto) {
         List<Classroom> classrooms =  service.searchClassroom(dto);
         return ResponseEntity.status(HttpStatus.OK).body(classrooms);
 

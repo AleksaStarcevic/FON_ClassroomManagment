@@ -14,6 +14,6 @@ import javax.validation.constraints.NotNull;
 
 public class SearchClassroomDTO {
 
-    @NotEmpty(message = "Ime ne sme biti prazno i null")
+    @NotEmpty(message = "Ime ne sme biti prazno")
     private String name;
 }
