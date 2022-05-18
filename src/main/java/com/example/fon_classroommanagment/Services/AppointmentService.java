@@ -5,6 +5,7 @@ import com.example.fon_classroommanagment.Models.Appointment.Appointment;
 import com.example.fon_classroommanagment.Models.Appointment.AppointmentStatus;
 import com.example.fon_classroommanagment.Models.Appointment.AppointmentType;
 import com.example.fon_classroommanagment.Models.Classroom.Classroom;
+import com.example.fon_classroommanagment.Models.DTO.ConfirmAppointmentDTO;
 import com.example.fon_classroommanagment.Models.DTO.FilterDTO;
 import com.example.fon_classroommanagment.Models.DTO.ReserveDTO;
 import com.example.fon_classroommanagment.Repository.AppointmentRepository;
@@ -17,6 +18,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+
+import static com.example.fon_classroommanagment.Configuration.Constants.APPOINTMENT_DECLINED;
 
 @Service
 public class AppointmentService {
@@ -54,5 +57,20 @@ public class AppointmentService {
     }
 
 
+    public void ConfirmAppointment(ConfirmAppointmentDTO dto) {
+        Optional<Appointment> appointment = appointmentRepository.findById(dto.getId());
+        System.out.println(dto);
+//        if(appointment.isPresent()){
+//            //send email to person to notify him/her that appointment has changed
+//            if(dto.getStatus().getName().equals(APPOINTMENT_DECLINED)){
+//                //send email thats diclined delete it
+//                appointmentRepository.deleteById(dto.getId());
+//            }
+//            else {
+//                appointment.get().setStatus(dto.getStatus());
+//                appointmentRepository.save(appointment.get());
+//            }
+//        }
 
+    }
 }
