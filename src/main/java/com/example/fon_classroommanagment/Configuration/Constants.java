@@ -34,6 +34,7 @@ public class Constants {
     public static  final String EMAIL_REGISTRATION_REQUEST_TEMPLATE="RegistrationEmail.html";
 
     public static  final int MIN_CAPACITY=0;
+    public  static  final  String APPOINTMENT_DECLINED="DECLINED";
     public static  final int MAX_CAPACITY=120;
 
 

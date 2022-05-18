@@ -41,7 +41,7 @@ appointmentService.DeleteAppointment(dto.getId().toString());
 
         @PostMapping("/confirmAppointment")
         public void ConfirmAppointment(@RequestBody ConfirmAppointmentDTO dto){
-
+        appointmentService.ConfirmAppointment(dto);
         }
 
         @PostMapping("/reserve")

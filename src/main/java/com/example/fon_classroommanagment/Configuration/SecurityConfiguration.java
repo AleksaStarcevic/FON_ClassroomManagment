@@ -26,7 +26,7 @@ private BCryptPasswordEncoder encoder;
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
         http.authorizeRequests().mvcMatchers("/register","/registerConfirmed/{token}").permitAll().and()
-
+                .authorizeRequests().mvcMatchers("/confirmAppointment").hasAuthority("ROLE_ADMIN").and()
                 .authorizeRequests().anyRequest().authenticated().and()
                 .formLogin().and().httpBasic()
                 .and().addFilter(new UserFilter(authenticationManager()))
