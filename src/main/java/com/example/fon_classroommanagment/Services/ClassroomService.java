@@ -3,6 +3,7 @@ package com.example.fon_classroommanagment.Services;
 
 import com.example.fon_classroommanagment.Exceptions.ClassroomExistsException;
 import com.example.fon_classroommanagment.Models.Classroom.Classroom;
+import com.example.fon_classroommanagment.Models.DTO.ClassroomDetailsDTO;
 import com.example.fon_classroommanagment.Models.DTO.FilterDTO;
 import com.example.fon_classroommanagment.Models.DTO.SearchClassroomDTO;
 import com.example.fon_classroommanagment.Repository.ClassroomRepository;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ClassroomService {
@@ -31,4 +33,12 @@ public class ClassroomService {
         return repository.findByNameContaining(dto.getName());
 
     }
+
+    public Classroom classroomDetails(ClassroomDetailsDTO dto) throws ClassroomExistsException {
+       Optional<Classroom> classroom = repository.findById(dto.getId());
+       if(!classroom.isPresent()) throw new ClassroomExistsException("Classroom with given id doesn't exist");
+       return classroom.get();
+    }
+
+
 }

@@ -21,5 +21,4 @@ List<Classroom> filter(@Param("min_capacity") int min_capacity, @Param("max_capa
     List<Classroom> filterAll(@Param("min_capacity") int min_capacity, @Param("max_capacity") int max_capacity,@Param("type") Long type);
 
     List<Classroom> findByNameContaining(String name);
-
 }

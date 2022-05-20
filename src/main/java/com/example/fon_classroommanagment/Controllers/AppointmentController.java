@@ -2,12 +2,10 @@ package com.example.fon_classroommanagment.Controllers;
 
 import com.example.fon_classroommanagment.Exceptions.ReservationExistsException;
 import com.example.fon_classroommanagment.Models.Appointment.Appointment;
-import com.example.fon_classroommanagment.Models.DTO.ConfirmAppointmentDTO;
-import com.example.fon_classroommanagment.Models.DTO.DeleteReservationDTO;
-import com.example.fon_classroommanagment.Models.DTO.FilterDTO;
-import com.example.fon_classroommanagment.Models.DTO.ReserveDTO;
+import com.example.fon_classroommanagment.Models.DTO.*;
 import com.example.fon_classroommanagment.Services.AppointmentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
@@ -16,7 +14,6 @@ import javax.persistence.EntityNotFoundException;
 import javax.validation.ConstraintViolationException;
 import javax.validation.Valid;
 import java.util.List;
-import java.util.UUID;
 
 @RestController
 public class AppointmentController {
@@ -50,6 +47,11 @@ appointmentService.DeleteAppointment(dto.getId().toString());
         appointmentService.ReserveAppointment(dto);
 
         }
+
+    @GetMapping("/searchReservation")
+    public ResponseEntity<List<Appointment>> searchReservation(@RequestBody  @Valid SearchReservationDTO dto) throws ReservationExistsException {
+        return ResponseEntity.status(HttpStatus.OK).body(appointmentService.searchReservation(dto));
+    }
 
 
 

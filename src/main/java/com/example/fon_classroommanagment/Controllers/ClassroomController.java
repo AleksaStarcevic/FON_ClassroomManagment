@@ -3,6 +3,7 @@ package com.example.fon_classroommanagment.Controllers;
 import com.example.fon_classroommanagment.Exceptions.ClassroomExistsException;
 import com.example.fon_classroommanagment.Exceptions.UserExistsExcetion;
 import com.example.fon_classroommanagment.Models.Classroom.Classroom;
+import com.example.fon_classroommanagment.Models.DTO.ClassroomDetailsDTO;
 import com.example.fon_classroommanagment.Models.DTO.FilterDTO;
 import com.example.fon_classroommanagment.Models.DTO.SearchClassroomDTO;
 import com.example.fon_classroommanagment.Services.ClassroomService;
@@ -21,17 +22,22 @@ public class ClassroomController {
     private ClassroomService service;
 
     @GetMapping("/filter")
-    public ResponseEntity<String> filter(@RequestBody @Valid FilterDTO filterDTO){
+    public ResponseEntity<String> filter(@RequestBody @Valid FilterDTO filterDTO) {
         System.out.println(service.filter(filterDTO));
-        return   ResponseEntity.ok("");
+        return ResponseEntity.ok("");
     }
 
 
     @GetMapping("/searchClassroom")
     public ResponseEntity<List<Classroom>> searchClassroom(@RequestBody SearchClassroomDTO dto) {
-        List<Classroom> classrooms =  service.searchClassroom(dto);
+        List<Classroom> classrooms = service.searchClassroom(dto);
         return ResponseEntity.status(HttpStatus.OK).body(classrooms);
 
+    }
+    @GetMapping("/classroomDetails")
+    public ResponseEntity<Classroom> classroomDetails(@RequestBody ClassroomDetailsDTO dto) throws ClassroomExistsException {
+        Classroom classroom = service.classroomDetails(dto);
+        return ResponseEntity.status(HttpStatus.OK).body(classroom);
     }
 
 
