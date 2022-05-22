@@ -19,7 +19,7 @@ import java.util.Date;
 @AllArgsConstructor
 public class SearchReservationDTO {
 
-    @NotNull(message = "Datum ne sme biti null")
+    @NotNull(message = "Datum ne sme biti prazan")
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     @Temporal(TemporalType.DATE)
     private Date date;

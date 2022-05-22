@@ -27,6 +27,14 @@ public class ClassroomController {
         return ResponseEntity.ok("");
     }
 
+    @GetMapping("/getClassrooms")
+    public ResponseEntity<List<Classroom>> getClassrooms(@RequestParam("page") int page){
+
+
+
+    return ResponseEntity.ok( service.getAllClassrooms(page-1));
+    }
+
 
     @GetMapping("/searchClassroom")
     public ResponseEntity<List<Classroom>> searchClassroom(@RequestBody SearchClassroomDTO dto) {

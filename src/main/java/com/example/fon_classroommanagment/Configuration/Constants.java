@@ -37,5 +37,7 @@ public class Constants {
     public  static  final  String APPOINTMENT_DECLINED="DECLINED";
     public static  final int MAX_CAPACITY=120;
 
+    public static  final int PAGE_SIZE=10;
+
 
 }

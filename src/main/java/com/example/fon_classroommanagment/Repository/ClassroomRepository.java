@@ -1,15 +1,17 @@
 package com.example.fon_classroommanagment.Repository;
 
 import com.example.fon_classroommanagment.Models.Classroom.Classroom;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
-public interface ClassroomRepository extends JpaRepository<Classroom,Long> {
+public interface ClassroomRepository extends JpaRepository<Classroom,Long>, PagingAndSortingRepository<Classroom,Long> {
 
 @Query(value = "select  c from Classroom  c where  c.number_of_seats BETWEEN :min_capacity AND :max_capacity ")
 List<Classroom> filter(@Param("min_capacity") int min_capacity, @Param("max_capacity") int max_capacity);
@@ -21,4 +23,5 @@ List<Classroom> filter(@Param("min_capacity") int min_capacity, @Param("max_capa
     List<Classroom> filterAll(@Param("min_capacity") int min_capacity, @Param("max_capacity") int max_capacity,@Param("type") Long type);
 
     List<Classroom> findByNameContaining(String name);
+
 }
