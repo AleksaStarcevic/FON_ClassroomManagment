@@ -13,8 +13,8 @@ import java.util.List;
 @Repository
 public interface ClassroomRepository extends JpaRepository<Classroom,Long>, PagingAndSortingRepository<Classroom,Long> {
 
-@Query(value = "select  c from Classroom  c where  c.number_of_seats BETWEEN :min_capacity AND :max_capacity ")
-List<Classroom> filter(@Param("min_capacity") int min_capacity, @Param("max_capacity") int max_capacity);
+@Query(value = "select  c from Classroom  c where  c.number_of_seats BETWEEN :min_capacity AND :max_capacity  and c.aircondition=:airconditionParam and c.projector=:projectorParam")
+List<Classroom> filter(@Param("min_capacity") int min_capacity, @Param("max_capacity") int max_capacity,@Param("airconditionParam") boolean airconditionParam,@Param("projectorParam") boolean projectorParam);
 
     @Query(value = "select  c from Classroom  c where  c.number_of_seats BETWEEN :min_capacity AND :max_capacity and  c.type.id=:type")
     List<Classroom> filterWithType(@Param("min_capacity") int min_capacity, @Param("max_capacity") int max_capacity, @Param("type") Long type);

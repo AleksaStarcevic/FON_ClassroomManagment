@@ -1,7 +1,6 @@
 package com.example.fon_classroommanagment.Controllers;
 
 import com.example.fon_classroommanagment.Exceptions.ClassroomExistsException;
-import com.example.fon_classroommanagment.Exceptions.UserExistsExcetion;
 import com.example.fon_classroommanagment.Models.Classroom.Classroom;
 import com.example.fon_classroommanagment.Models.DTO.ClassroomDetailsDTO;
 import com.example.fon_classroommanagment.Models.DTO.FilterDTO;
@@ -22,9 +21,9 @@ public class ClassroomController {
     private ClassroomService service;
 
     @GetMapping("/filter")
-    public ResponseEntity<String> filter(@RequestBody @Valid FilterDTO filterDTO) {
-        System.out.println(service.filter(filterDTO));
-        return ResponseEntity.ok("");
+    public ResponseEntity<List<Classroom>> filter(@RequestBody @Valid FilterDTO filterDTO) {
+
+        return ResponseEntity.ok( service.filter(filterDTO));
     }
 
     @GetMapping("/getClassrooms")

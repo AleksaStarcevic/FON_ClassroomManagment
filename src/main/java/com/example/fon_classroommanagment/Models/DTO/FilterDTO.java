@@ -26,7 +26,8 @@ public class FilterDTO {
     @Positive(message = "Tip ucionice nije dobro unet")
     private Long type;
 
-
+private boolean aircondition;
+private boolean projector;
     private boolean sortByCapacity;
 
 }

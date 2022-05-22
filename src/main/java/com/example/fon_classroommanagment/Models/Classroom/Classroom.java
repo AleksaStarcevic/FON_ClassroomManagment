@@ -28,6 +28,10 @@ public class Classroom {
     @Column(columnDefinition = "INT(11) UNSIGNED",nullable = false)
     private int number_of_computers;
 
+    private boolean aircondition;
+
+    private boolean projector;
+
     @ManyToOne( optional = false)
     private ClassroomType type;
 
