@@ -65,6 +65,11 @@ public class AppointmentController {
         }
 
 
+        @GetMapping("/IsClassroomAvailableForDate")
+        public ResponseEntity<Boolean> getIsClassroomAvailableForDate(@RequestBody @Valid RequestIsClassroomAvailableForDateDTO dto ){
+          return  ResponseEntity.ok(appointmentService.IsClassroomAvailableAtDate(dto));
+        }
+
         private List<GetForDateAppointmentDTO> getForDateAppointmentDTOS(   List<Appointment> appointments){
             return appointments.stream().map(x->new GetForDateAppointmentDTO(x.getStart_timeInHours(),x.getEnd_timeInHours(),x.getType().getName(),x.getClassroom().getName(),x.getDecription())).collect(Collectors.toList());
         }

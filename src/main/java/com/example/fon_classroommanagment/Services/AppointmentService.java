@@ -45,7 +45,7 @@ public class AppointmentService {
                 Appointment appointment = new Appointment(UUID.randomUUID(), userRepository.findByEmail(dto.getEmail()).getEmployee(), new Classroom(dto.getClassroomId()), dto.getName(), dto.getDate(), dto.getDecription(), dto.getReason(), dto.getNumber_of_attendies(), dto.getStart_timeInHours(), dto.getEnd_timeInHours(), new AppointmentStatus((long) dto.getStatus()), new AppointmentType((long) dto.getType()));
                 appointmentRepository.save(appointment);
             } else {
-                throw new ReservationExistsException("Rezervacija je zauzeta,pokusajte drugo vreme");
+                throw new ReservationExistsException("Rezervacija "+dto.getName()+" datuma: "+dto.getDate()+" ,se ne moze rezervisati,pogledajte da li se dobro uneli podatke,ili je neko vec rezervisao ucionicu pre vas");
             }
 
         }
@@ -86,5 +86,12 @@ public class AppointmentService {
 
     public List<Appointment> getForDate(RequestAppointmetDateDTO requestAppointmetDateDTO) {
         return  appointmentRepository.findByDate(requestAppointmetDateDTO.getDatum());
+    }
+
+    public boolean IsClassroomAvailableAtDate(RequestIsClassroomAvailableForDateDTO dto) {
+        System.out.println(dto);
+        List<Appointment> resQuery=appointmentRepository.findByDateAndClassroom(dto.getDate(),new Classroom(dto.getClassroomId()));
+        System.out.println(resQuery);
+        return resQuery.size()==0;
     }
 }
