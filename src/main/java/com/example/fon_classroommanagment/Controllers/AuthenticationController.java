@@ -3,6 +3,7 @@ package com.example.fon_classroommanagment.Controllers;
 import com.example.fon_classroommanagment.Events.AccountRegistrationRequestEvent;
 import com.example.fon_classroommanagment.Exceptions.UserExistsExcetion;
 import com.example.fon_classroommanagment.Models.DTO.AccountDTO;
+import com.example.fon_classroommanagment.Models.DTO.ChangeEmailDTO;
 import com.example.fon_classroommanagment.Models.DTO.ChangePasswordDTO;
 import com.example.fon_classroommanagment.Models.User.Account;
 import com.example.fon_classroommanagment.Models.User.UserProfile;
@@ -52,6 +53,12 @@ private AccountService accountService;
     @PostMapping("/ChangePassword")
     public void ChangePassword(@RequestBody @Valid ChangePasswordDTO password) throws UserExistsExcetion {
         userService.ChangePassword(password);
+
+    }
+
+    @PatchMapping("/changeEmail")
+    public void changeEmail(@RequestBody @Valid ChangeEmailDTO dto) throws UserExistsExcetion {
+        userService.changeEmail(dto);
 
     }
 
