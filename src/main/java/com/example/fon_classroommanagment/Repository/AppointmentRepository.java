@@ -53,5 +53,5 @@ public interface AppointmentRepository extends JpaRepository<Appointment, UUID> 
     List<Appointment> findByDate(Date date);
 
 
-    List<Appointment> findByDateAndClassroom( Date date,Classroom classroom);
+    List<Appointment> findByDateAndClassroom( Date date,Long id);
 }

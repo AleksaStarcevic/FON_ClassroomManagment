@@ -91,7 +91,7 @@ public class AppointmentService {
 
     public boolean IsClassroomAvailableAtDate(RequestIsClassroomAvailableForDateDTO dto) {
         System.out.println(dto);
-        List<Appointment> resQuery=appointmentRepository.findByDateAndClassroom(dto.getDate(),new Classroom(dto.getClassroomId()));
+        List<Appointment> resQuery=appointmentRepository.findByDateAndClassroom(dto.getDate(),dto.getClassroomId());
         System.out.println(resQuery);
         return resQuery.size()==0;
     }
