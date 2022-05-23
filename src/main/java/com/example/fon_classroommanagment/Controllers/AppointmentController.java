@@ -21,17 +21,17 @@ public class AppointmentController {
     @Autowired
     private AppointmentService appointmentService;
 
-    @DeleteMapping("/DeleteReservation")
-    public void DeleteAppointment(@RequestBody DeleteReservationDTO dto){
-appointmentService.DeleteAppointment(dto.getId().toString());
+        @DeleteMapping("/DeleteReservation")
+        public void DeleteAppointment(@RequestBody DeleteReservationDTO dto){
+    appointmentService.DeleteAppointment(dto.getId().toString());
 
-    }
-    @GetMapping("/getAll")
-    public ResponseEntity<List<Appointment>> getAll(){
-        return ResponseEntity.ok(appointmentService.getAll());
-    }
+        }
+        @GetMapping("/getAll")
+        public ResponseEntity<List<Appointment>> getAll(){
+            return ResponseEntity.ok(appointmentService.getAll());
+        }
 
-    @GetMapping("/test")
+        @GetMapping("/test")
         public ResponseEntity<String> test(){
         return  ResponseEntity.ok("ok");
         }
@@ -48,10 +48,10 @@ appointmentService.DeleteAppointment(dto.getId().toString());
 
         }
 
-    @GetMapping("/searchReservation")
-    public ResponseEntity<List<Appointment>> searchReservation(@RequestBody  @Valid SearchReservationDTO dto) throws ReservationExistsException {
-        return ResponseEntity.status(HttpStatus.OK).body(appointmentService.searchReservation(dto));
-    }
+        @GetMapping("/searchReservation")
+        public ResponseEntity<List<Appointment>> searchReservation(@RequestBody  @Valid SearchReservationDTO dto) throws ReservationExistsException {
+            return ResponseEntity.status(HttpStatus.OK).body(appointmentService.searchReservation(dto));
+        }
 
 
 

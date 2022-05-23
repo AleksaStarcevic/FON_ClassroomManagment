@@ -45,10 +45,7 @@ List<ClassroomPagingDTO> result=CreateClassroomPagingDTOs(resultQuery);
 
     }
 
-    private   List<ClassroomPagingDTO> CreateClassroomPagingDTOs( List<Classroom> resultQuery ){
-        return resultQuery.stream().map(x->new ClassroomPagingDTO(x.getName(),x.getNumber_of_seats(),x.isProjector(),x.getType().getName().equals(RC_TYPE_NAME))).collect(Collectors.toList());
 
-    }
     @GetMapping("/classroomDetails")
     public ResponseEntity<ClassroomDetailsDTO> classroomDetails(@RequestBody @Valid RequestClassroomDetailsDTO dto) throws ClassroomExistsException {
         Classroom classroom = service.classroomDetails(dto);
@@ -57,6 +54,9 @@ List<ClassroomPagingDTO> result=CreateClassroomPagingDTOs(resultQuery);
     }
 
 
+    private   List<ClassroomPagingDTO> CreateClassroomPagingDTOs( List<Classroom> resultQuery ){
+        return resultQuery.stream().map(x->new ClassroomPagingDTO(x.getName(),x.getNumber_of_seats(),x.isProjector(),x.getType().getName().equals(RC_TYPE_NAME))).collect(Collectors.toList());
 
+    }
 
 }

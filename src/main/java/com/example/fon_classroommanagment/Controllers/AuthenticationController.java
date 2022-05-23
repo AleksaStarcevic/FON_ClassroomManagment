@@ -42,16 +42,12 @@ private AccountService accountService;
 
     }
 
-
-
-
     @GetMapping("/registerConfirmed/{token}")
     public void registerAccountConfirmed(@PathVariable("token")  String token){
 
         accountService.ConfirmAccount(token);
 
     }
-
 
     @PostMapping("/ChangePassword")
     public void ChangePassword(@RequestBody @Valid ChangePasswordDTO password) throws UserExistsExcetion {
