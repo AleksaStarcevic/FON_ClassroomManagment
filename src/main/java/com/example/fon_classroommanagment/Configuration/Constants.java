@@ -39,5 +39,8 @@ public class Constants {
 
     public static  final int PAGE_SIZE=10;
     public static  final String RC_TYPE_NAME="RC";
+    //stavi da je 1 kasnije jer je meni u bazi 3,a cekanje treba da bude 1. kao
+    public static  final int STATUS_CEKANJA=3;
+    public static  final int MAX_VREME_ZAKAZIVANJA=20;
 
 }

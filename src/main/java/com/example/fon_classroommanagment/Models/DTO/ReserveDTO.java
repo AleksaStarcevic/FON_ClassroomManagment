@@ -7,6 +7,7 @@ import com.example.fon_classroommanagment.Models.Appointment.AppointmentType;
 import com.example.fon_classroommanagment.Models.Classroom.Classroom;
 import com.example.fon_classroommanagment.Models.Emplayee.Employee;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,6 +19,9 @@ import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.util.Date;
 import java.util.UUID;
+
+import static com.example.fon_classroommanagment.Configuration.Constants.MAX_VREME_ZAKAZIVANJA;
+import static com.example.fon_classroommanagment.Configuration.Constants.STATUS_CEKANJA;
 
 @Data
 @AllArgsConstructor
@@ -68,15 +72,16 @@ public class ReserveDTO {
 
 
     @Positive(message = "Pocetno vreme mora biti pozitivno")
-    @Max(value = 10,message = "Maksimalno se moze rezervisati 10 h")
+    @Max(value = MAX_VREME_ZAKAZIVANJA,message = "Maksimalno se moze rezervisati 10 h")
     private int start_timeInHours;
 
     @Positive(message = "Krajnje vreme mora biti pozitivno")
-    @Max(value = 10,message = "Maksimalno se moze rezervisati 10 h")
+    @Max(value = MAX_VREME_ZAKAZIVANJA,message = "Maksimalno se moze rezervisati 10 h")
     private int end_timeInHours;
 
-  @Positive(message = "Status mora biti pozitivan broj")
-    private int status;
+ // @Positive(message = "Status mora biti pozitivan broj")
+  @JsonIgnore
+    private int status=STATUS_CEKANJA;
 
 
     @Positive(message = "Type mora biti pozitivan broj")

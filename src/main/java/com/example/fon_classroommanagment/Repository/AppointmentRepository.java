@@ -24,4 +24,7 @@ public interface AppointmentRepository extends JpaRepository<Appointment, UUID> 
 
     @Query(value = "select a from Appointment a where a.classroom.id =:classroomId and a.date=:date")
     List<Appointment> searchReservationByClassroomAndDate(@Param("classroomId") Long classroomId, @Param("date") Date date);
+
+
+    List<Appointment> findByDate(Date date);
 }

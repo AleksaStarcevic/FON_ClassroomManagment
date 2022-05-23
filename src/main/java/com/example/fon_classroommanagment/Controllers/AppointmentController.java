@@ -14,6 +14,7 @@ import javax.persistence.EntityNotFoundException;
 import javax.validation.ConstraintViolationException;
 import javax.validation.Valid;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 public class AppointmentController {
@@ -54,7 +55,17 @@ public class AppointmentController {
         }
 
 
+        @GetMapping("/GetForDate")
+        public ResponseEntity<List<GetForDateAppointmentDTO>> getAppointmentsForDate(@RequestBody @Valid RequestAppointmetDateDTO requestAppointmetDateDTO){
+            List<Appointment> appointments=appointmentService.getForDate(requestAppointmetDateDTO);
+            List<GetForDateAppointmentDTO> result=getForDateAppointmentDTOS(appointments);
+            return  ResponseEntity.ok(result);
+        }
 
+
+        private List<GetForDateAppointmentDTO> getForDateAppointmentDTOS(   List<Appointment> appointments){
+            return appointments.stream().map(x->new GetForDateAppointmentDTO(x.getStart_timeInHours(),x.getEnd_timeInHours(),x.getType().getName(),x.getClassroom().getName(),x.getDecription())).collect(Collectors.toList());
+        }
 
 
 

@@ -5,10 +5,7 @@ import com.example.fon_classroommanagment.Models.Appointment.Appointment;
 import com.example.fon_classroommanagment.Models.Appointment.AppointmentStatus;
 import com.example.fon_classroommanagment.Models.Appointment.AppointmentType;
 import com.example.fon_classroommanagment.Models.Classroom.Classroom;
-import com.example.fon_classroommanagment.Models.DTO.ConfirmAppointmentDTO;
-import com.example.fon_classroommanagment.Models.DTO.FilterDTO;
-import com.example.fon_classroommanagment.Models.DTO.ReserveDTO;
-import com.example.fon_classroommanagment.Models.DTO.SearchReservationDTO;
+import com.example.fon_classroommanagment.Models.DTO.*;
 import com.example.fon_classroommanagment.Repository.AppointmentRepository;
 import com.example.fon_classroommanagment.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -77,5 +74,9 @@ public class AppointmentService {
         List<Appointment> appointments = appointmentRepository.searchReservationByClassroomAndDate(dto.getClassroomId(),dto.getDate());
         if(appointments.isEmpty()) throw new ReservationExistsException("No reservations in given classroom at given date");
       return appointmentRepository.searchReservationByClassroomAndDate(dto.getClassroomId(),dto.getDate());
+    }
+
+    public List<Appointment> getForDate(RequestAppointmetDateDTO requestAppointmetDateDTO) {
+        return  appointmentRepository.findByDate(requestAppointmetDateDTO.getDatum());
     }
 }
