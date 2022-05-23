@@ -58,30 +58,5 @@ appointmentService.DeleteAppointment(dto.getId().toString());
 
 
 
-    @ExceptionHandler(ConstraintViolationException.class)
-    public  ResponseEntity<String> HandleMethodArgumentsNotValid(ConstraintViolationException exception){
-        return ResponseEntity.badRequest().body
-                ( exception.getConstraintViolations().toArray()[0].toString());
-
-    }
-
-    @ExceptionHandler(EntityNotFoundException.class)
-    public  ResponseEntity<String> HandleEntityNotFoundException(EntityNotFoundException exception){
-        return ResponseEntity.badRequest().body
-                ( exception.getMessage());
-
-    }
-    @ExceptionHandler(ReservationExistsException.class)
-    public  ResponseEntity<String> HandleReservationExistsException(ReservationExistsException exception){
-        return ResponseEntity.badRequest().body
-                ( exception.getMessage());
-
-    }
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    public  ResponseEntity<String> HandleMethodArgumentsNotValid(MethodArgumentNotValidException exception){
-
-        return (exception.hasGlobalErrors())? ResponseEntity.badRequest().body
-                (exception.getGlobalError().getDefaultMessage()):ResponseEntity.badRequest().body(exception.getBindingResult().getFieldErrors().get(0).getDefaultMessage());
-    }
 
 }

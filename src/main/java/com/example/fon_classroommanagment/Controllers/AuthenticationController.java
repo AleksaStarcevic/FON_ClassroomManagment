@@ -59,26 +59,5 @@ private AccountService accountService;
 
     }
 
-    @ExceptionHandler(EntityNotFoundException.class)
-    public  ResponseEntity<String> HandleEntityNotFoundException(EntityNotFoundException exception){
-        return ResponseEntity.badRequest().body
-                ( exception.getMessage());
 
-    }
-    @ExceptionHandler(ConstraintViolationException.class)
-    public  ResponseEntity<String> HandleMethodArgumentsNotValid(ConstraintViolationException exception){
-        return ResponseEntity.badRequest().body
-                ( exception.getConstraintViolations().toArray()[0].toString());
-
-    }
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    public  ResponseEntity<String> HandleMethodArgumentsNotValid(MethodArgumentNotValidException exception){
-       return ResponseEntity.badRequest().body
-               (exception.getBindingResult().getFieldErrors().get(0).getDefaultMessage());
-    }
-
-    @ExceptionHandler(UserExistsExcetion.class)
-    public  ResponseEntity<String> HandleUserDoesNotExist(UserExistsExcetion exception){
-        return ResponseEntity.badRequest().body(exception.getMessage());
-    }
 }

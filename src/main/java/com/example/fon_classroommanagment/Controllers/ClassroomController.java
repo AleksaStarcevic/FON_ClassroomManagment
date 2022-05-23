@@ -57,9 +57,6 @@ List<ClassroomPagingDTO> result=CreateClassroomPagingDTOs(resultQuery);
     }
 
 
-    @ExceptionHandler(ClassroomExistsException.class)
-    public  ResponseEntity<String> HandleClassroomDoesNotExist(ClassroomExistsException exception){
-        return ResponseEntity.badRequest().body(exception.getMessage());
-    }
+
 
 }
