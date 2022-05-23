@@ -10,6 +10,7 @@ import com.example.fon_classroommanagment.Repository.AppointmentRepository;
 import com.example.fon_classroommanagment.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.validation.Valid;
 import java.util.Date;
@@ -36,13 +37,20 @@ public class AppointmentService {
         return appointmentRepository.findAll();
     }
 
-    public void ReserveAppointment(ReserveDTO dto) throws ReservationExistsException {
-        if (AvailableRoom(dto.getClassroomId(), dto.getDate(), dto.getStart_timeInHours(), dto.getEnd_timeInHours())) {
-            Appointment appointment = new Appointment(UUID.randomUUID(), userRepository.findByEmail(dto.getEmail()).getEmployee(), new Classroom(dto.getClassroomId()), dto.getName(), dto.getDate(), dto.getDecription(), dto.getReason(), dto.getNumber_of_attendies(), dto.getStart_timeInHours(), dto.getEnd_timeInHours(), new AppointmentStatus((long) dto.getStatus()), new AppointmentType((long) dto.getType()));
-            appointmentRepository.save(appointment);
-        } else {
-            throw new ReservationExistsException("Rezervacija je zauzeta,pokusajte drugo vreme");
+    @Transactional(rollbackFor=ReservationExistsException.class)
+    public void ReserveAppointment(List<ReserveDTO> dtoList) throws ReservationExistsException {
+
+        for (ReserveDTO dto:dtoList) {
+            if (AvailableRoom(dto.getClassroomId(), dto.getDate(), dto.getStart_timeInHours(), dto.getEnd_timeInHours())) {
+                Appointment appointment = new Appointment(UUID.randomUUID(), userRepository.findByEmail(dto.getEmail()).getEmployee(), new Classroom(dto.getClassroomId()), dto.getName(), dto.getDate(), dto.getDecription(), dto.getReason(), dto.getNumber_of_attendies(), dto.getStart_timeInHours(), dto.getEnd_timeInHours(), new AppointmentStatus((long) dto.getStatus()), new AppointmentType((long) dto.getType()));
+                appointmentRepository.save(appointment);
+            } else {
+                throw new ReservationExistsException("Rezervacija je zauzeta,pokusajte drugo vreme");
+            }
+
         }
+
+
     }
 
     private boolean AvailableRoom(Long classroomId, Date date, int start_timeInHours, int end_timeInHours) {

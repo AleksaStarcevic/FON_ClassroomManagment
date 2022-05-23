@@ -7,6 +7,7 @@ import com.example.fon_classroommanagment.Services.AppointmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,6 +18,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
+@Validated
 public class AppointmentController {
 
     @Autowired
@@ -43,7 +45,7 @@ public class AppointmentController {
         }
 
         @PostMapping("/reserve")
-        public void Reserve(@RequestBody  @Valid  ReserveDTO dto) throws ReservationExistsException {
+        public void Reserve(@RequestBody  @Valid  List<ReserveDTO> dto) throws ReservationExistsException {
 
         appointmentService.ReserveAppointment(dto);
 
