@@ -79,9 +79,10 @@ public class AppointmentService {
     }
 
     public List<Appointment> searchReservation(SearchReservationDTO dto) throws ReservationExistsException {
-        List<Appointment> appointments = appointmentRepository.searchReservationByClassroomAndDate(dto.getClassroomId(),dto.getDate());
-        if(appointments.isEmpty()) throw new ReservationExistsException("No reservations in given classroom at given date");
-      return appointmentRepository.searchReservationByClassroomAndDate(dto.getClassroomId(),dto.getDate());
+        List<Appointment> appointments = appointmentRepository.searchReservationsByClassroomAndDate(dto.getClassroomId(), dto.getDate());
+        if (appointments.isEmpty())
+            throw new ReservationExistsException("No reservations in given classroom at given date");
+        return appointmentRepository.searchReservationsByClassroomAndDate(dto.getClassroomId(), dto.getDate());
     }
 
     public List<Appointment> getForDate(RequestAppointmetDateDTO requestAppointmetDateDTO) {
@@ -94,4 +95,32 @@ public class AppointmentService {
         System.out.println(resQuery);
         return resQuery.size()==0;
     }
+
+    public void updateReservation(UpdateReservationDTO dto) throws ReservationExistsException {
+        if (AppointmentAvailableExceptThis(dto.getId(),dto.getClassroomId(), dto.getDate(), dto.getStart_timeInHours(), dto.getEnd_timeInHours())) {
+            appointmentRepository.updateReservation(dto.getId(),dto.getClassroomId(),
+                    dto.getName(),
+                    dto.getDate(),
+                    dto.getDecription(),
+                    dto.getReason(),
+                    dto.getNumber_of_attendies(),
+                    dto.getStart_timeInHours(),
+                    dto.getEnd_timeInHours(),
+                    dto.getType());
+        } else {
+            throw new ReservationExistsException("Rezervacija je zauzeta,pokusajte drugo vreme");
+        }
+
+
+    }
+
+    private boolean AppointmentAvailableExceptThis(UUID id,Long classroomId, Date date, int start_timeInHours, int end_timeInHours) {
+        List<String> o = appointmentRepository.AppointmentAvailableExceptThis(id,classroomId, date, start_timeInHours, end_timeInHours);
+        System.out.println(o);
+
+
+        return o.isEmpty();
+    }
+
+
 }

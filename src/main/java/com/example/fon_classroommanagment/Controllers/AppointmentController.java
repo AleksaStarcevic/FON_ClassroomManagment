@@ -74,6 +74,11 @@ public class AppointmentController {
             return appointments.stream().map(x->new GetForDateAppointmentDTO(x.getStart_timeInHours(),x.getEnd_timeInHours(),x.getType().getName(),x.getClassroom().getName(),x.getDecription())).collect(Collectors.toList());
         }
 
+    @PatchMapping("/updateReservation")
+    public void updateReservation(@RequestBody @Valid UpdateReservationDTO dto) throws ReservationExistsException {
+         appointmentService.updateReservation(dto);
+    }
+
 
 
 
