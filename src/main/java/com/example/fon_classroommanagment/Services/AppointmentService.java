@@ -9,7 +9,6 @@ import com.example.fon_classroommanagment.Models.DTO.*;
 import com.example.fon_classroommanagment.Repository.AppointmentRepository;
 import com.example.fon_classroommanagment.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,8 +27,6 @@ public class AppointmentService {
     private AppointmentRepository appointmentRepository;
     @Autowired
     private UserRepository userRepository;
-    @Autowired
-    private ApplicationEventPublisher publisher;
 
     public void DeleteAppointment(String id) {
         UUID idAppointment = UUID.fromString(id);
@@ -82,9 +79,9 @@ public class AppointmentService {
     }
 
     public List<Appointment> searchReservation(SearchReservationDTO dto) throws ReservationExistsException {
-        List<Appointment> appointments = appointmentRepository.searchReservationsByClassroomAndDate(dto.getClassroomId(),dto.getDate());
+        List<Appointment> appointments = appointmentRepository.searchReservationByClassroomAndDate(dto.getClassroomId(),dto.getDate());
         if(appointments.isEmpty()) throw new ReservationExistsException("No reservations in given classroom at given date");
-      return appointmentRepository.searchReservationsByClassroomAndDate(dto.getClassroomId(),dto.getDate());
+      return appointmentRepository.searchReservationByClassroomAndDate(dto.getClassroomId(),dto.getDate());
     }
 
     public List<Appointment> getForDate(RequestAppointmetDateDTO requestAppointmetDateDTO) {
@@ -92,18 +89,13 @@ public class AppointmentService {
     }
 
     public boolean IsClassroomAvailableAtDate(RequestIsClassroomAvailableForDateDTO dto) {
-
-        List<Appointment> resQuery=appointmentRepository.findByDateAndClassroom(dto.getDate(),new Classroom(dto.getClassroomId()));
-
+<<<<<<<<< Temporary merge branch 1
+        System.out.println(dto);
+        List<Appointment> resQuery=appointmentRepository.findByDateAndClassroom(dto.getDate(),dto.getClassroomId());
+        System.out.println(resQuery);
         return resQuery.size()==0;
     }
 
-    public void ConfirmAllAppointments(List<ConfirmAppointmentDTO> dto) {
-        for (ConfirmAppointmentDTO appointmentDTO : dto) {
-            ConfirmAppointment(appointmentDTO);
-
-        }
-    }
     public void updateReservation(UpdateReservationDTO dto) throws ReservationExistsException {
         if (AppointmentAvailableExceptThis(dto.getId(),dto.getClassroomId(), dto.getDate(), dto.getStart_timeInHours(), dto.getEnd_timeInHours())) {
             appointmentRepository.updateReservation(dto.getId(),dto.getClassroomId(),
@@ -129,4 +121,20 @@ public class AppointmentService {
 
         return o.isEmpty();
     }
+
+
+=========
+
+        List<Appointment> resQuery=appointmentRepository.findByDateAndClassroom(dto.getDate(),new Classroom(dto.getClassroomId()));
+
+        return resQuery.size()==0;
+    }
+
+    public void ConfirmAllAppointments(List<ConfirmAppointmentDTO> dto) {
+        for (ConfirmAppointmentDTO appointmentDTO: dto) {
+            ConfirmAppointment(appointmentDTO);
+
+        }
+    }
+>>>>>>>>> Temporary merge branch 2
 }
