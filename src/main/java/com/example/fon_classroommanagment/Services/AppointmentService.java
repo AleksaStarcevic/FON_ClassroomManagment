@@ -19,6 +19,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import static com.example.fon_classroommanagment.Configuration.Constants.APPOINTMENT_DECLINED;
 
@@ -91,10 +92,12 @@ public class AppointmentService {
       return appointmentRepository.searchReservationsByClassroomAndDate(dto.getClassroomId(),dto.getDate());
     }
 
-    public List<Appointment> getForDate(RequestAppointmetDateDTO requestAppointmetDateDTO) {
-        return  appointmentRepository.findByDate(requestAppointmetDateDTO.getDatum());
+    public List<GetForDateAppointmentDTO> getForDate(RequestAppointmetDateDTO requestAppointmetDateDTO) {
+        return  getForDateAppointmentDTOS(appointmentRepository.findByDate(requestAppointmetDateDTO.getDatum()));
     }
-
+    private List<GetForDateAppointmentDTO> getForDateAppointmentDTOS(   List<Appointment> appointments){
+        return appointments.stream().map(x->new GetForDateAppointmentDTO(x.getStart_timeInHours(),x.getEnd_timeInHours(),x.getType().getName(),x.getClassroom().getName(),x.getDecription())).collect(Collectors.toList());
+    }
     public boolean IsClassroomAvailableAtDate(RequestIsClassroomAvailableForDateDTO dto) {
 
         List<Appointment> resQuery=appointmentRepository.findByDateAndClassroom(dto.getDate(),new Classroom(dto.getClassroomId()));

@@ -6,14 +6,16 @@ import com.example.fon_classroommanagment.Models.Email.Email;
 import com.example.fon_classroommanagment.Models.Email.EmailSender;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
+import org.springframework.stereotype.Component;
 
 import javax.mail.MessagingException;
 
 import java.util.HashMap;
+import java.util.Objects;
 
-import static com.example.fon_classroommanagment.Configuration.Constants.EMAIL_APPOINTMENT_APPROVED_TEMPLATE;
-import static com.example.fon_classroommanagment.Configuration.Constants.EMAIL_HOST_SENDER;
+import static com.example.fon_classroommanagment.Configuration.Constants.*;
 
+@Component
 public class AppointmentApprovedEventListner implements ApplicationListener<EmailApprovedAppointnemnt> {
     @Autowired
     private EmailSender mailSender;
@@ -29,9 +31,11 @@ public class AppointmentApprovedEventListner implements ApplicationListener<Emai
                 new HashMap<>()
                 {{
                     put("nameEmployee", appointment.getEmployee().getFirstName());
-                    put("nameClassroom",appointment.getName());
+                    put("nameClassroom",appointment.getClassroom().getName());
+                    put("datum",appointment.getDate());
+                            put("vreme",appointment.getStart_timeInHours()+"h "+"-"+appointment.getEnd_timeInHours()+"h");
                     put("tip",appointment.getType().getName());
-                    put("status",appointment.getStatus().getName());
+                    put("status",(Objects.equals(appointment.getStatus().getName(), APPOINTMENT_APPROVED))?"dozvoljen":"odbijen");
 
                 }});
 

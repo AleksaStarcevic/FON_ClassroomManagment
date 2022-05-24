@@ -66,22 +66,19 @@ public class AppointmentController {
 
         @GetMapping("/GetForDate")
         public ResponseEntity<List<GetForDateAppointmentDTO>> getAppointmentsForDate(@RequestBody @Valid RequestAppointmetDateDTO requestAppointmetDateDTO){
-            List<Appointment> appointments=appointmentService.getForDate(requestAppointmetDateDTO);
-            List<GetForDateAppointmentDTO> result=getForDateAppointmentDTOS(appointments);
-            return  ResponseEntity.ok(result);
+
+            return  ResponseEntity.ok(appointmentService.getForDate(requestAppointmetDateDTO));
         }
 
 
-    
+
 
         @GetMapping("/IsClassroomAvailableForDate")
         public ResponseEntity<Boolean> getIsClassroomAvailableForDate(@RequestBody @Valid RequestIsClassroomAvailableForDateDTO dto ){
           return  ResponseEntity.ok(appointmentService.IsClassroomAvailableAtDate(dto));
         }
 
-        private List<GetForDateAppointmentDTO> getForDateAppointmentDTOS(   List<Appointment> appointments){
-            return appointments.stream().map(x->new GetForDateAppointmentDTO(x.getStart_timeInHours(),x.getEnd_timeInHours(),x.getType().getName(),x.getClassroom().getName(),x.getDecription())).collect(Collectors.toList());
-        }
+
 
     @PatchMapping("/updateReservation")
     public void updateReservation(@RequestBody @Valid UpdateReservationDTO dto) throws ReservationExistsException {
