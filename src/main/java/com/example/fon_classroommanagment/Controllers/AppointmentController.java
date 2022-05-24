@@ -1,10 +1,13 @@
 package com.example.fon_classroommanagment.Controllers;
 
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.impl.JWTParser;
 import com.example.fon_classroommanagment.Exceptions.ReservationExistsException;
 import com.example.fon_classroommanagment.Models.Appointment.Appointment;
 import com.example.fon_classroommanagment.Models.DTO.*;
 import com.example.fon_classroommanagment.Services.AppointmentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.oauth2.resource.OAuth2ResourceServerProperties;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -68,6 +71,8 @@ public class AppointmentController {
             return  ResponseEntity.ok(result);
         }
 
+
+    
 
         @GetMapping("/IsClassroomAvailableForDate")
         public ResponseEntity<Boolean> getIsClassroomAvailableForDate(@RequestBody @Valid RequestIsClassroomAvailableForDateDTO dto ){

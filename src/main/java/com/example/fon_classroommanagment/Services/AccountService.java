@@ -63,7 +63,7 @@ public class AccountService {
         Account account=accountRepository.findByEmail(validationToken.getAccount().getEmail());
 
         UserRole simpleUserRole=new UserRole(1L,"USER");
-        Employee employee=new Employee(account.getFirstName(),account.getLastName(),account.getDepartment(),account.getTitle(),account.getType());
+        Employee employee=new Employee(account.getFirstName(),account.getLastName(),account.getDepartment(),account.getTitle(),account.getType(),account.getEmail());
         UserProfile user=new UserProfile(UUID.randomUUID(),account.getEmail(),account.getPassword(),simpleUserRole,employee);
         tokenValidationAccountRepository.delete(validationToken);
         return userService.saveUser(user);

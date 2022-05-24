@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
 
 import static com.example.fon_classroommanagment.Configuration.Constants.EMPLOYEE_TABLE_NAME;
 
@@ -34,11 +35,15 @@ public class Employee {
     @ManyToOne( optional = false)
     private  EmployeeType type;
 
-    public Employee(String firstName, String lastName, EmployeeDepartment department, EducationTitle title, EmployeeType type) {
+    @Email(message = "Email mora biti u dobrom formatu")
+    private String email;
+
+    public Employee(String firstName, String lastName, EmployeeDepartment department, EducationTitle title, EmployeeType type,String email) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.department = department;
         this.title = title;
         this.type = type;
+        this.email=email;
     }
 }

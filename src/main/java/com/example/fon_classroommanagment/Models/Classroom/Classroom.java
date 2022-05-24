@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.Positive;
 
 import static com.example.fon_classroommanagment.Configuration.Constants.CLASSROOM_TABLE_NAME;
 
@@ -31,6 +32,15 @@ public class Classroom {
     private boolean aircondition;
 
     private boolean projector;
+
+    @Positive(message = "Povrsina mora biti pozitivan broj")
+    private int povrsina;
+
+    @Positive(message = "Sprat mora biti pozitivan broj")
+    private int sprat;
+
+    @Positive(message = "Broj tabli mora biti pozitivan broj")
+    private int br_tabli;
 
     @ManyToOne( optional = false)
     private ClassroomType type;

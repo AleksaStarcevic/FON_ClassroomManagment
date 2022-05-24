@@ -33,8 +33,12 @@ public class Constants {
 
     public static  final String EMAIL_REGISTRATION_REQUEST_TEMPLATE="RegistrationEmail.html";
 
+    public static  final String EMAIL_APPOINTMENT_APPROVED_TEMPLATE="AppointmentApproved.html";
+
     public static  final int MIN_CAPACITY=1;
     public  static  final  String APPOINTMENT_DECLINED="DECLINED";
+    public  static  final  String APPOINTMENT_LOADING="LOADING";
+    public  static  final  String APPOINTMENT_APPROVED="APPROVED";
     public static  final int MAX_CAPACITY=120;
 
     public static  final int PAGE_SIZE=10;

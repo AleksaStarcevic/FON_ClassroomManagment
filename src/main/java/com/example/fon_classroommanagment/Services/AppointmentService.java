@@ -1,5 +1,6 @@
 package com.example.fon_classroommanagment.Services;
 
+import com.example.fon_classroommanagment.Events.EmailApprovedAppointnemnt;
 import com.example.fon_classroommanagment.Exceptions.ReservationExistsException;
 import com.example.fon_classroommanagment.Models.Appointment.Appointment;
 import com.example.fon_classroommanagment.Models.Appointment.AppointmentStatus;
@@ -9,6 +10,7 @@ import com.example.fon_classroommanagment.Models.DTO.*;
 import com.example.fon_classroommanagment.Repository.AppointmentRepository;
 import com.example.fon_classroommanagment.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,6 +29,8 @@ public class AppointmentService {
     private AppointmentRepository appointmentRepository;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private       ApplicationEventPublisher publisher;
 
     public void DeleteAppointment(String id) {
         UUID idAppointment = UUID.fromString(id);
@@ -63,16 +67,19 @@ public class AppointmentService {
 
     public void ConfirmAppointment(ConfirmAppointmentDTO dto) {
         Optional<Appointment> appointment = appointmentRepository.findById(dto.getId());
-        System.out.println(dto);
+        System.out.println(appointment);
         if (appointment.isPresent()) {
             //send email to person to notify him/her that appointment has changed
             if (dto.getStatus().getName().equals(APPOINTMENT_DECLINED)) {
                 //send email thats diclined delete it
                 appointmentRepository.deleteById(dto.getId());
             } else {
+                publisher.publishEvent(new EmailApprovedAppointnemnt(appointment.get()));
                 appointment.get().setStatus(dto.getStatus());
                 appointmentRepository.save(appointment.get());
             }
+        }else{
+            //ne postoji appointment vrati poruku
         }
 
 
