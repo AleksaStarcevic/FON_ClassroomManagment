@@ -20,6 +20,11 @@ public class ControllerExceptionHandler {
         return ResponseEntity.badRequest().body
                 ( exception.getConstraintViolations().toArray()[0].toString());
 
+    }    @ExceptionHandler(AppointmentDoesNotExistsException.class)
+    public ResponseEntity<String> HandleAppointmentDoesNotExists(AppointmentDoesNotExistsException exception){
+        return ResponseEntity.badRequest().body
+                ( exception.getMessage());
+
     }
 
     @ExceptionHandler(EntityNotFoundException.class)

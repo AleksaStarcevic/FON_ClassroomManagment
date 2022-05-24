@@ -1,6 +1,7 @@
 package com.example.fon_classroommanagment.Services;
 
 import com.example.fon_classroommanagment.Events.EmailApprovedAppointnemnt;
+import com.example.fon_classroommanagment.Exceptions.AppointmentDoesNotExistsException;
 import com.example.fon_classroommanagment.Exceptions.ReservationExistsException;
 import com.example.fon_classroommanagment.Models.Appointment.Appointment;
 import com.example.fon_classroommanagment.Models.Appointment.AppointmentStatus;
@@ -14,7 +15,6 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.validation.Valid;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -66,21 +66,25 @@ public class AppointmentService {
         return o.isEmpty();
     }
 
-    public void ConfirmAppointment(ConfirmAppointmentDTO dto) {
-        Optional<Appointment> appointment = appointmentRepository.findById(dto.getId());
-        System.out.println(appointment);
+    public void ConfirmAppointment(ConfirmAppointmentDTO dto) throws AppointmentDoesNotExistsException {
+        Optional<Appointment> appointment = FindById(dto.getId());
+
         if (appointment.isPresent()) {
-            //send email to person to notify him/her that appointment has changed
+
+            appointment.get().setStatus(dto.getStatus());
+            publisher.publishEvent(new EmailApprovedAppointnemnt(appointment.get()));
+
             if (dto.getStatus().getName().equals(APPOINTMENT_DECLINED)) {
-                //send email thats diclined delete it
+
                 appointmentRepository.deleteById(dto.getId());
             } else {
-                publisher.publishEvent(new EmailApprovedAppointnemnt(appointment.get()));
-                appointment.get().setStatus(dto.getStatus());
+
+
                 appointmentRepository.save(appointment.get());
             }
+
         }else{
-            //ne postoji appointment vrati poruku
+         throw  new AppointmentDoesNotExistsException("Termin ne postoji");
         }
 
 
@@ -104,6 +108,12 @@ public class AppointmentService {
 
 
         return resQuery.size()==0;
+    }
+    public void ConfirmAllAppointments(List<ConfirmAppointmentDTO> dto) throws AppointmentDoesNotExistsException {
+        for (ConfirmAppointmentDTO appointmentDTO: dto) {
+            ConfirmAppointment(appointmentDTO);
+
+        }
     }
 
     public void updateReservation(UpdateReservationDTO dto) throws ReservationExistsException {
@@ -135,11 +145,9 @@ public class AppointmentService {
 
 
 
-    public void ConfirmAllAppointments(List<ConfirmAppointmentDTO> dto) {
-        for (ConfirmAppointmentDTO appointmentDTO: dto) {
-            ConfirmAppointment(appointmentDTO);
 
-        }
+    private Optional<Appointment> FindById(UUID id){
+     return    appointmentRepository.findById(id);
     }
 
 }

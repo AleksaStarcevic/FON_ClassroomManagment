@@ -2,6 +2,7 @@ package com.example.fon_classroommanagment.Controllers;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.impl.JWTParser;
+import com.example.fon_classroommanagment.Exceptions.AppointmentDoesNotExistsException;
 import com.example.fon_classroommanagment.Exceptions.ReservationExistsException;
 import com.example.fon_classroommanagment.Models.Appointment.Appointment;
 import com.example.fon_classroommanagment.Models.DTO.*;
@@ -43,12 +44,12 @@ public class AppointmentController {
         }
 
         @PostMapping("/confirmAppointment")
-        public void ConfirmAppointment(@RequestBody @Valid ConfirmAppointmentDTO dto){
+        public void ConfirmAppointment(@RequestBody @Valid ConfirmAppointmentDTO dto) throws AppointmentDoesNotExistsException {
               appointmentService.ConfirmAppointment(dto);
         }
 
     @PostMapping("/confirmAllAppointment")
-    public void ConfirmAppointment(@RequestBody List<ConfirmAppointmentDTO> dto){
+    public void ConfirmAppointment(@RequestBody List<ConfirmAppointmentDTO> dto) throws AppointmentDoesNotExistsException {
         appointmentService.ConfirmAllAppointments(dto);
     }
         @PostMapping("/reserve")
