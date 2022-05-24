@@ -19,6 +19,7 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
+import static com.example.fon_classroommanagment.Configuration.Constants.BEARER_STRING;
 import static com.example.fon_classroommanagment.Configuration.Constants.SECRET;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
@@ -31,8 +32,8 @@ public class BeforeRequestTokenFilter extends OncePerRequestFilter {
         else{
             String authHeader=request.getHeader(AUTHORIZATION);
 
-            if(authHeader!=null && authHeader.startsWith("Bearer ")){
-                String token=authHeader.substring("Bearer ".length());
+            if(authHeader!=null && authHeader.startsWith(BEARER_STRING)){
+                String token=authHeader.substring(BEARER_STRING.length());
                 Algorithm algorithm=Algorithm.HMAC256(SECRET.getBytes());
                 JWTVerifier verifier= JWT.require(algorithm).build();
                 if(  JWT.decode(token).getExpiresAt().before(new Date())) {

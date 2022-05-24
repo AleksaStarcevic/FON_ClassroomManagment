@@ -4,6 +4,8 @@ import com.example.fon_classroommanagment.Configuration.UserProfileDetails;
 import com.example.fon_classroommanagment.Exceptions.UserExistsExcetion;
 import com.example.fon_classroommanagment.Models.DTO.ChangeEmailDTO;
 import com.example.fon_classroommanagment.Models.DTO.ChangePasswordDTO;
+import com.example.fon_classroommanagment.Models.DTO.UserDetailsDTO;
+import com.example.fon_classroommanagment.Models.Emplayee.Employee;
 import com.example.fon_classroommanagment.Models.User.UserProfile;
 import com.example.fon_classroommanagment.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,5 +59,13 @@ private BCryptPasswordEncoder encoder;
     public void changeEmail(ChangeEmailDTO dto) throws UserExistsExcetion {
         UserProfile userProfile=findById(dto.getId());
         userRepository.changeEmail(userProfile.getId(),userProfile.getEmail());
+    }
+
+    public UserDetailsDTO getUserDetails(String email) {
+        UserProfile user=userRepository.findByEmail(email);
+        Employee employee=user.getEmployee();
+        return   new UserDetailsDTO(employee.getFirstName(),employee.getLastName(),employee.getType().getName());
+
+
     }
 }

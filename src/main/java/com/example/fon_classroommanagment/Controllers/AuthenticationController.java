@@ -28,8 +28,7 @@ public class AuthenticationController {
     @Autowired
     private ApplicationEventPublisher publisher;
 
-    @Autowired
-    private UserService userService;
+
 
 @Autowired
 private AccountService accountService;
@@ -50,17 +49,7 @@ private AccountService accountService;
 
     }
 
-    @PostMapping("/ChangePassword")
-    public void ChangePassword(@RequestBody @Valid ChangePasswordDTO password) throws UserExistsExcetion {
-        userService.ChangePassword(password);
 
-    }
-
-    @PatchMapping("/changeEmail")
-    public void changeEmail(@RequestBody @Valid ChangeEmailDTO dto) throws UserExistsExcetion {
-        userService.changeEmail(dto);
-
-    }
 
 
 }
