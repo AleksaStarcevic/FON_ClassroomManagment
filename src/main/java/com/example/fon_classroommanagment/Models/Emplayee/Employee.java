@@ -36,7 +36,12 @@ public class Employee {
     private  EmployeeType type;
 
     @Email(message = "Email mora biti u dobrom formatu")
+    @Column(nullable = false,columnDefinition = "VARCHAR(30)")
     private String email;
+
+    @Lob
+    @Column(name = "image", columnDefinition = "LONGBLOB")
+    private byte[] file;
 
     public Employee(String firstName, String lastName, EmployeeDepartment department, EducationTitle title, EmployeeType type,String email) {
         this.firstName = firstName;
