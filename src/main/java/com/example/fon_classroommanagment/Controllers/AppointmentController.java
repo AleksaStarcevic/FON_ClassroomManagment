@@ -25,8 +25,8 @@ public class AppointmentController {
     private AppointmentService appointmentService;
 
         @DeleteMapping("/DeleteReservation")
-        public void DeleteAppointment(@RequestBody DeleteReservationDTO dto){
-    appointmentService.DeleteAppointment(dto.getId().toString());
+        public void DeleteAppointment(@RequestBody @Valid DeleteReservationDTO dto){
+             appointmentService.DeleteAppointment(dto.getId().toString());
 
         }
         @GetMapping("/getAll")
@@ -40,10 +40,14 @@ public class AppointmentController {
         }
 
         @PostMapping("/confirmAppointment")
-        public void ConfirmAppointment(@RequestBody ConfirmAppointmentDTO dto){
-        appointmentService.ConfirmAppointment(dto);
+        public void ConfirmAppointment(@RequestBody @Valid ConfirmAppointmentDTO dto){
+              appointmentService.ConfirmAppointment(dto);
         }
 
+    @PostMapping("/confirmAllAppointment")
+    public void ConfirmAppointment(@RequestBody List<ConfirmAppointmentDTO> dto){
+        appointmentService.ConfirmAllAppointments(dto);
+    }
         @PostMapping("/reserve")
         public void Reserve(@RequestBody  @Valid  List<ReserveDTO> dto) throws ReservationExistsException {
 

@@ -16,8 +16,15 @@
     <properties>
         <java.version>11</java.version>
     </properties>
+    <!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-core -->
+
 
     <dependencies>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-core</artifactId>
+            <version>5.7.1</version>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-thymeleaf</artifactId>

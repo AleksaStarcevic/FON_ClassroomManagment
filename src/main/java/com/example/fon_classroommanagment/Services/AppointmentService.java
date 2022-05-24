@@ -1,14 +1,17 @@
 package com.example.fon_classroommanagment.Services;
 
+import com.example.fon_classroommanagment.Events.EmailApprovedAppointnemnt;
 import com.example.fon_classroommanagment.Exceptions.ReservationExistsException;
 import com.example.fon_classroommanagment.Models.Appointment.Appointment;
 import com.example.fon_classroommanagment.Models.Appointment.AppointmentStatus;
 import com.example.fon_classroommanagment.Models.Appointment.AppointmentType;
 import com.example.fon_classroommanagment.Models.Classroom.Classroom;
 import com.example.fon_classroommanagment.Models.DTO.*;
+import com.example.fon_classroommanagment.Models.Email.EmailSender;
 import com.example.fon_classroommanagment.Repository.AppointmentRepository;
 import com.example.fon_classroommanagment.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,6 +30,9 @@ public class AppointmentService {
     private AppointmentRepository appointmentRepository;
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private ApplicationEventPublisher publisher;
 
     public void DeleteAppointment(String id) {
         UUID idAppointment = UUID.fromString(id);
@@ -63,9 +69,10 @@ public class AppointmentService {
 
     public void ConfirmAppointment(ConfirmAppointmentDTO dto) {
         Optional<Appointment> appointment = appointmentRepository.findById(dto.getId());
-        System.out.println(dto);
+
         if (appointment.isPresent()) {
             //send email to person to notify him/her that appointment has changed
+         //   publisher.publishEvent(new EmailApprovedAppointnemnt());
             if (dto.getStatus().getName().equals(APPOINTMENT_DECLINED)) {
                 //send email thats diclined delete it
                 appointmentRepository.deleteById(dto.getId());
@@ -89,9 +96,16 @@ public class AppointmentService {
     }
 
     public boolean IsClassroomAvailableAtDate(RequestIsClassroomAvailableForDateDTO dto) {
-        System.out.println(dto);
+
         List<Appointment> resQuery=appointmentRepository.findByDateAndClassroom(dto.getDate(),new Classroom(dto.getClassroomId()));
-        System.out.println(resQuery);
+
         return resQuery.size()==0;
+    }
+
+    public void ConfirmAllAppointments(List<ConfirmAppointmentDTO> dto) {
+        for (ConfirmAppointmentDTO appointmentDTO: dto) {
+            ConfirmAppointment(appointmentDTO);
+
+        }
     }
 }

@@ -7,15 +7,18 @@ import com.example.fon_classroommanagment.Services.ClassroomService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Positive;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import static com.example.fon_classroommanagment.Configuration.Constants.RC_TYPE_NAME;
 
 @RestController
+@Validated
 public class ClassroomController {
 
     @Autowired
@@ -29,7 +32,7 @@ List<ClassroomPagingDTO> result=CreateClassroomPagingDTOs(resultQuiery);
     }
 
     @GetMapping("/getClassrooms")
-    public ResponseEntity<List<ClassroomPagingDTO>> getClassrooms(@RequestParam("page") int page){
+    public ResponseEntity<List<ClassroomPagingDTO>> getClassrooms(@RequestParam("page")  @Positive(message = "Page mora biti pozitivan broj") int page){
 
 List<Classroom> resultQuery=service.getAllClassrooms(page-1);
 List<ClassroomPagingDTO> result=CreateClassroomPagingDTOs(resultQuery);

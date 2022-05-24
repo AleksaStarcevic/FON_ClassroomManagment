@@ -48,11 +48,11 @@ public class TestFilterDTO {
     }
     private static Stream<Arguments> generateValid(){
         return  Stream.of(
-                Arguments.of(new FilterDTO(10,20,1L,true
+                Arguments.of(new FilterDTO(10,20,1L,true,true,true
                       )),
                 Arguments.of(
                         new FilterDTO(
-                             20,20,1L,false))
+                             20,20,1L,false,false,false))
 
 
         );
@@ -61,13 +61,13 @@ public class TestFilterDTO {
 
     private static Stream<Arguments> generateInvalid(){
         return  Stream.of(
-                Arguments.of(new FilterDTO(-2,-2,-1L,true
+                Arguments.of(new FilterDTO(-2,-2,-1L,true,true,true
                 )),
                 Arguments.of(
                         new FilterDTO(
-                                -1,-2,-1L,false)),
+                                -1,-2,-1L,false,true,true)),
                 Arguments.of(new FilterDTO(
-                                -1,-1,-5L,false))
+                                -1,-1,-5L,false,false,false))
 
 
 

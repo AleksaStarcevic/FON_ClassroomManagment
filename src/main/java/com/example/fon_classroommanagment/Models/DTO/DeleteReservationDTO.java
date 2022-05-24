@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotNull;
 import java.util.UUID;
 
 @Data
@@ -11,5 +12,6 @@ import java.util.UUID;
 @NoArgsConstructor
 public class DeleteReservationDTO {
 
+    @NotNull(message = "Id ne sme biti prazan")
     private UUID id;
 }

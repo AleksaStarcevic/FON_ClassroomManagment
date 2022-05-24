@@ -1,5 +1,6 @@
 package com.example.fon_classroommanagment.Controllers;
-
+import static com.example.fon_classroommanagment.Configuration.Constants.*;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.*;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.example.fon_classroommanagment.Configuration.UserProfileDetails;
@@ -22,7 +23,10 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -30,8 +34,6 @@ import java.lang.reflect.Array;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static com.example.fon_classroommanagment.Configuration.Constants.SECRET;
-import static com.example.fon_classroommanagment.Configuration.Constants.VALIDATION_TOKEN_EXPIRATION;
 import static org.springframework.security.config.web.server.SecurityWebFiltersOrder.AUTHENTICATION;
 import static org.springframework.security.config.web.server.SecurityWebFiltersOrder.AUTHORIZATION;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.jwt;
@@ -39,7 +41,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
-@RunWith(SpringRunner.class)
+@RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(
         classes = TestAppointmentController.class)
 @AutoConfigureMockMvc
@@ -92,15 +94,31 @@ private UserFilter userFilter;
                 .content(json));
     }
 
-//    @Test
-//    public void Test_DeleteReservation_Valid() throws Exception {
-//
-//
-//        String json=ConvertObjectToJson(getValidDeleteDTO(UUID.randomUUID()));
-//        mockMvc.perform(delete("/DeleteReservation").with(jwt())
-//                .contentType(MediaType.APPLICATION_JSON)
-//                .content(json)).andExpect(status().isOk());
-//    }
+    @Test
+    public void Test_DeleteReservation_Valid() throws Exception {
+        String token=CreateJWTToken("USER");
+
+        String json=ConvertObjectToJson(getValidDeleteDTO(UUID.randomUUID()));
+        mockMvc.perform(delete("/DeleteReservation").header("Authorization","Bearer "+token)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(json)).andExpect(status().isOk());
+    }
+
+    @Test
+    public void Test_ConfirmAppointment() throws Exception {
+        String token=CreateJWTToken("ROLE_ADMIN");
+        mockMvc.perform(post("/confirmAppointment").header("Authorization","Bearer "+token)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+    }
+    @Test
+    public void Test_ConfirmAppointment_Forbidden() throws Exception {
+        String token=CreateJWTToken("ROLE_USER");
+        mockMvc.perform(post("/confirmAppointment").header("Authorization","Bearer "+token)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isForbidden());
+    }
+
     private ReserveDTO getValidReserveDTO() {
         return  new ReserveDTO("radojkovicika@gmail.com",1L,"ilija",new Date(),"testtestest","reasonreasonreason",
                 100,2,4,1,1);
@@ -109,16 +127,17 @@ private UserFilter userFilter;
     private  DeleteReservationDTO getValidDeleteDTO(UUID id){
         return new DeleteReservationDTO(id);
     }
+    private String CreateJWTToken(String role) {
+        Algorithm algorithm=Algorithm.HMAC256(SECRET.getBytes());
 
-//    @Test
-//    public void Test_DeleteReservation_Success() throws Exception {
-//
-//        String id="13g3erg12125g";
-//
-//        mockMvc.perform(delete("/DeleteReservation").param("id",id))
-//                .andExpect(status().isOk());
-//    }
-//
+        Set<SimpleGrantedAuthority> admin = Collections.singleton(new SimpleGrantedAuthority(role));
+        return JWT.create()
+                .withSubject("radojkovicika@gmail.com")
+                .withExpiresAt(new Date( Calendar.getInstance().getTimeInMillis() + (VALIDATION_TOKEN_EXPIRATION)))
+                .withClaim("roles",admin.stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()) )
+                .sign(algorithm);
+    }
+
 
 
     private DeleteReservationDTO getValidDeleteReservationDTO(){
