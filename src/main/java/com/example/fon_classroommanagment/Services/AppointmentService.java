@@ -1,13 +1,11 @@
 package com.example.fon_classroommanagment.Services;
 
-import com.example.fon_classroommanagment.Events.EmailApprovedAppointnemnt;
 import com.example.fon_classroommanagment.Exceptions.ReservationExistsException;
 import com.example.fon_classroommanagment.Models.Appointment.Appointment;
 import com.example.fon_classroommanagment.Models.Appointment.AppointmentStatus;
 import com.example.fon_classroommanagment.Models.Appointment.AppointmentType;
 import com.example.fon_classroommanagment.Models.Classroom.Classroom;
 import com.example.fon_classroommanagment.Models.DTO.*;
-import com.example.fon_classroommanagment.Models.Email.EmailSender;
 import com.example.fon_classroommanagment.Repository.AppointmentRepository;
 import com.example.fon_classroommanagment.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +28,6 @@ public class AppointmentService {
     private AppointmentRepository appointmentRepository;
     @Autowired
     private UserRepository userRepository;
-
     @Autowired
     private ApplicationEventPublisher publisher;
 
@@ -69,10 +66,9 @@ public class AppointmentService {
 
     public void ConfirmAppointment(ConfirmAppointmentDTO dto) {
         Optional<Appointment> appointment = appointmentRepository.findById(dto.getId());
-
+        System.out.println(dto);
         if (appointment.isPresent()) {
             //send email to person to notify him/her that appointment has changed
-         //   publisher.publishEvent(new EmailApprovedAppointnemnt());
             if (dto.getStatus().getName().equals(APPOINTMENT_DECLINED)) {
                 //send email thats diclined delete it
                 appointmentRepository.deleteById(dto.getId());
@@ -86,9 +82,9 @@ public class AppointmentService {
     }
 
     public List<Appointment> searchReservation(SearchReservationDTO dto) throws ReservationExistsException {
-        List<Appointment> appointments = appointmentRepository.searchReservationByClassroomAndDate(dto.getClassroomId(),dto.getDate());
+        List<Appointment> appointments = appointmentRepository.searchReservationsByClassroomAndDate(dto.getClassroomId(),dto.getDate());
         if(appointments.isEmpty()) throw new ReservationExistsException("No reservations in given classroom at given date");
-      return appointmentRepository.searchReservationByClassroomAndDate(dto.getClassroomId(),dto.getDate());
+      return appointmentRepository.searchReservationsByClassroomAndDate(dto.getClassroomId(),dto.getDate());
     }
 
     public List<Appointment> getForDate(RequestAppointmetDateDTO requestAppointmetDateDTO) {
@@ -103,9 +99,34 @@ public class AppointmentService {
     }
 
     public void ConfirmAllAppointments(List<ConfirmAppointmentDTO> dto) {
-        for (ConfirmAppointmentDTO appointmentDTO: dto) {
+        for (ConfirmAppointmentDTO appointmentDTO : dto) {
             ConfirmAppointment(appointmentDTO);
 
         }
+    }
+    public void updateReservation(UpdateReservationDTO dto) throws ReservationExistsException {
+        if (AppointmentAvailableExceptThis(dto.getId(),dto.getClassroomId(), dto.getDate(), dto.getStart_timeInHours(), dto.getEnd_timeInHours())) {
+            appointmentRepository.updateReservation(dto.getId(),dto.getClassroomId(),
+                    dto.getName(),
+                    dto.getDate(),
+                    dto.getDecription(),
+                    dto.getReason(),
+                    dto.getNumber_of_attendies(),
+                    dto.getStart_timeInHours(),
+                    dto.getEnd_timeInHours(),
+                    dto.getType());
+        } else {
+            throw new ReservationExistsException("Rezervacija je zauzeta,pokusajte drugo vreme");
+        }
+
+
+    }
+
+    private boolean AppointmentAvailableExceptThis(UUID id,Long classroomId, Date date, int start_timeInHours, int end_timeInHours) {
+        List<String> o = appointmentRepository.AppointmentAvailableExceptThis(id,classroomId, date, start_timeInHours, end_timeInHours);
+        System.out.println(o);
+
+
+        return o.isEmpty();
     }
 }
