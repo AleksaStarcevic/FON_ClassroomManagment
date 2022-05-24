@@ -26,4 +26,8 @@ public class SearchReservationDTO {
 
     @NotNull(message = "classroomId ne sme biti null")
     private Long classroomId;
+
+    @Positive(message = "Pocetno vreme mora biti pozitivno")
+    @Max(value = 10,message = "Maksimalno se moze rezervisati 10 h")
+    private int start_timeInHours;
 }
