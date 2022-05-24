@@ -79,9 +79,9 @@ public class AppointmentService {
     }
 
     public List<Appointment> searchReservation(SearchReservationDTO dto) throws ReservationExistsException {
-        List<Appointment> appointments = appointmentRepository.searchReservationByClassroomAndDate(dto.getClassroomId(),dto.getDate());
+        List<Appointment> appointments = appointmentRepository.searchReservationsByClassroomAndDate(dto.getClassroomId(),dto.getDate());
         if(appointments.isEmpty()) throw new ReservationExistsException("No reservations in given classroom at given date");
-      return appointmentRepository.searchReservationByClassroomAndDate(dto.getClassroomId(),dto.getDate());
+      return appointmentRepository.searchReservationsByClassroomAndDate(dto.getClassroomId(),dto.getDate());
     }
 
     public List<Appointment> getForDate(RequestAppointmetDateDTO requestAppointmetDateDTO) {
@@ -89,10 +89,10 @@ public class AppointmentService {
     }
 
     public boolean IsClassroomAvailableAtDate(RequestIsClassroomAvailableForDateDTO dto) {
-<<<<<<<<< Temporary merge branch 1
-        System.out.println(dto);
-        List<Appointment> resQuery=appointmentRepository.findByDateAndClassroom(dto.getDate(),dto.getClassroomId());
-        System.out.println(resQuery);
+
+        List<Appointment> resQuery=appointmentRepository.findByDateAndClassroom(dto.getDate(),new Classroom(dto.getClassroomId()));
+
+
         return resQuery.size()==0;
     }
 
@@ -123,12 +123,7 @@ public class AppointmentService {
     }
 
 
-=========
 
-        List<Appointment> resQuery=appointmentRepository.findByDateAndClassroom(dto.getDate(),new Classroom(dto.getClassroomId()));
-
-        return resQuery.size()==0;
-    }
 
     public void ConfirmAllAppointments(List<ConfirmAppointmentDTO> dto) {
         for (ConfirmAppointmentDTO appointmentDTO: dto) {
@@ -136,5 +131,5 @@ public class AppointmentService {
 
         }
     }
->>>>>>>>> Temporary merge branch 2
+
 }
