@@ -2,7 +2,6 @@ package com.example.fon_classroommanagment.Controllers;
 
 import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.example.fon_classroommanagment.Exceptions.AppointmentsForUserException;
-import com.example.fon_classroommanagment.Exceptions.UserExistsExcetion;
 import com.example.fon_classroommanagment.Models.DTO.*;
 import com.example.fon_classroommanagment.Services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,4 +42,9 @@ public class UserController {
         return  ResponseEntity.ok(  userService.getAppointmentsForUser(authentication.getName()));
     }
 
+    @GetMapping("/requestedAppointments")
+    public ResponseEntity<RequestedAppointmentsDTO> getRequestedAppointments(){
+
+        return ResponseEntity.ok(null);
+    }
 }
