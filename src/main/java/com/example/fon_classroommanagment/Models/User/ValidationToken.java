@@ -3,6 +3,7 @@ package com.example.fon_classroommanagment.Models.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.apache.tomcat.jni.Local;
 
 import javax.persistence.*;
 
@@ -11,6 +12,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.UUID;
 
+import static com.example.fon_classroommanagment.Configuration.Constants.EXPIRATION_TIME;
 import static com.example.fon_classroommanagment.Configuration.Constants.VALIDATION_TOKEN_ACCOUNT;
 
 @Entity
@@ -20,15 +22,17 @@ import static com.example.fon_classroommanagment.Configuration.Constants.VALIDAT
 @NoArgsConstructor
 public class ValidationToken {
 
-    private  static  final int EXPIRATION_TIME=60*10*1000;
+
 
     @Id
     private String token;
     @Temporal(TemporalType.TIMESTAMP)
     private Date expirationDate= new Date( Calendar.getInstance().getTimeInMillis() + (EXPIRATION_TIME));
 
-    @Transient
-    public boolean isExpired=expirationDate.before(new Date());
+
+    public boolean isExpired(){
+        return new Date().getTime()>expirationDate.getTime();
+    }
     @OneToOne(cascade = CascadeType.ALL,orphanRemoval = true)
     private Account account;
 

@@ -1,6 +1,9 @@
 package com.example.fon_classroommanagment.Controllers;
 
+import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.example.fon_classroommanagment.Events.AccountRegistrationRequestEvent;
+import com.example.fon_classroommanagment.Exceptions.AppointmentDoesNotExistsException;
+import com.example.fon_classroommanagment.Exceptions.TokenNotFaundException;
 import com.example.fon_classroommanagment.Exceptions.UserExistsExcetion;
 import com.example.fon_classroommanagment.Models.DTO.AccountDTO;
 import com.example.fon_classroommanagment.Models.DTO.ChangeEmailDTO;
@@ -43,11 +46,12 @@ private AccountService accountService;
     }
 
     @GetMapping("/registerConfirmed/{token}")
-    public void registerAccountConfirmed(@PathVariable("token")  String token){
+    public void registerAccountConfirmed(@PathVariable("token")  String token) throws TokenNotFaundException, TokenExpiredException {
 
         accountService.ConfirmAccount(token);
 
     }
+
 
 
 

@@ -1,5 +1,6 @@
 package com.example.fon_classroommanagment.Exceptions;
 
+import com.auth0.jwt.exceptions.TokenExpiredException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -40,9 +41,25 @@ public class ControllerExceptionHandler {
 
     }
 
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<String> HandleAppointmentDoesNotExists(MethodArgumentNotValidException exception){
+        return ResponseEntity.badRequest().body
+                ( exception.getBindingResult().getFieldErrors().get(0).getDefaultMessage());
+
+    }
 
     @ExceptionHandler(UserExistsExcetion.class)
     public  ResponseEntity<String> HandleUserDoesNotExist(UserExistsExcetion exception){
+        return ResponseEntity.badRequest().body(exception.getMessage());
+    }
+
+    @ExceptionHandler(TokenNotFaundException.class)
+    public  ResponseEntity<String> HandleTokenNotFaundExcecption(TokenNotFaundException exception){
+        return ResponseEntity.badRequest().body(exception.getMessage());
+    }
+
+    @ExceptionHandler(TokenExpiredException.class)
+    public  ResponseEntity<String> HandleTokenExpiredException(TokenExpiredException exception){
         return ResponseEntity.badRequest().body(exception.getMessage());
     }
 
