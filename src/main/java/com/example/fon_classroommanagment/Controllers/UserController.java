@@ -39,7 +39,7 @@ public class UserController {
     }
 
     @GetMapping("/getAppointmentsForUser")
-    public ResponseEntity<List<AppointmentsForUserDTO>> getAppointmentsForUser(Authentication authentication) throws UserExistsExcetion, AppointmentsForUserException {
+    public ResponseEntity<List<AppointmentsForUserDTO>> getAppointmentsForUser(Authentication authentication) throws  AppointmentsForUserException {
         return  ResponseEntity.ok(  userService.getAppointmentsForUser(authentication.getName()));
     }
 

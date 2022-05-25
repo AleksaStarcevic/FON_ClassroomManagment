@@ -16,7 +16,7 @@ import java.util.Date;
 @AllArgsConstructor
 public class RequestIsClassroomAvailableForDateDTO {
 
-    @NotNull(message = "Datum nije  uneto")
+    @NotNull(message = "Datum nije  unet")
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     @Temporal(TemporalType.DATE)
     private Date date;
