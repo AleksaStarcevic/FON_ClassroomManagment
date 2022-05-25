@@ -52,7 +52,8 @@ public class AppointmentController {
     public void ConfirmAppointment(@RequestBody List<ConfirmAppointmentDTO> dto) throws AppointmentDoesNotExistsException {
         appointmentService.ConfirmAllAppointments(dto);
     }
-        @PostMapping("/reserve")
+
+    @PostMapping("/reserve")
         public void Reserve(@RequestBody  @Valid  List<ReserveDTO> dto) throws ReservationExistsException {
 
         appointmentService.ReserveAppointment(dto);

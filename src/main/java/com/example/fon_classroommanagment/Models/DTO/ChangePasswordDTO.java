@@ -18,7 +18,14 @@ public class ChangePasswordDTO {
     @Size(min = 4,message = "Password mora imate bar 4 slova")
     private String password;
 
+    @NotNull(message = "id ne sme biti prazan")
     private UUID id;
 
     private Date timeStamp=new Date();
+
+    public ChangePasswordDTO(String password, UUID id) {
+        this.password = password;
+        this.id = id;
+
+    }
 }

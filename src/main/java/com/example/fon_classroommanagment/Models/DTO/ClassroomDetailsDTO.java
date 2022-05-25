@@ -22,7 +22,6 @@ public class ClassroomDetailsDTO {
     private int number_of_seats;
 
     @Positive(message = "Broj kompijutera mora biti pozitivan broj")
-
     private int number_of_computers;
 
 

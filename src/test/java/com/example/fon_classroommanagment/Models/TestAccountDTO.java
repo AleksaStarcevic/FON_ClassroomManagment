@@ -41,49 +41,21 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
         classes = TestAccountDTO.class)
 @AutoConfigureMockMvc
 @ContextConfiguration(classes= FonClassroomManagmentApplication.class)
-public class TestAccountDTO {
+public class TestAccountDTO extends  ModelTest<AccountDTO>{
 
-    @Autowired
-    private LocalValidatorFactoryBean validator;
 
-    @Autowired
-    private MockMvc mockMvc;
+
+
 
     @Autowired
     ObjectMapper objectMapper;
 
-    @ParameterizedTest
-   @MethodSource("generateValid")
-    public void Test_InvalidDTO(AccountDTO accountDTO)  {
-
-        Assertions.assertTrue(validator.validateProperty(accountDTO,"firstName").isEmpty());
-        Assertions.assertTrue(validator.validateProperty(accountDTO,"lastName").isEmpty());
-        Assertions.assertTrue(validator.validateProperty(accountDTO,"email").isEmpty());
-        Assertions.assertTrue(validator.validateProperty(accountDTO,"password").isEmpty());
-
-        Assertions.assertTrue(validator.validateProperty(accountDTO,"department").isEmpty());
-
-        Assertions.assertTrue(validator.validateProperty(accountDTO,"title").isEmpty());
-        Assertions.assertTrue(validator.validateProperty(accountDTO,"type").isEmpty());
-    }
 
 
-    @ParameterizedTest
-    @MethodSource("generateInvalid")
-    public void Test_FirstName_Failed(AccountDTO accountDTO)  {
 
 
-        Assertions.assertFalse(validator.validateProperty(accountDTO, "firstName").isEmpty());
-        Assertions.assertFalse(validator.validateProperty(accountDTO,"lastName").isEmpty());
-        Assertions.assertFalse(validator.validateProperty(accountDTO,"email").isEmpty());
-        Assertions.assertFalse(validator.validateProperty(accountDTO,"password").isEmpty());
 
-        Assertions.assertFalse(validator.validateProperty(accountDTO,"department").isEmpty());
 
-        Assertions.assertFalse(validator.validateProperty(accountDTO,"title").isEmpty());
-        Assertions.assertFalse(validator.validateProperty(accountDTO,"type").isEmpty());
-
-    }
 
 
     public static Stream<Arguments> generateInvalid() {
@@ -131,6 +103,40 @@ public class TestAccountDTO {
 
 
                 );
+
+    }
+
+
+    @Override
+    @ParameterizedTest
+    @MethodSource("generateValid")
+    protected void TestValid(AccountDTO accountDTO) {
+        Assertions.assertTrue(validator.validateProperty(accountDTO,"firstName").isEmpty());
+        Assertions.assertTrue(validator.validateProperty(accountDTO,"lastName").isEmpty());
+        Assertions.assertTrue(validator.validateProperty(accountDTO,"email").isEmpty());
+        Assertions.assertTrue(validator.validateProperty(accountDTO,"password").isEmpty());
+
+        Assertions.assertTrue(validator.validateProperty(accountDTO,"department").isEmpty());
+
+        Assertions.assertTrue(validator.validateProperty(accountDTO,"title").isEmpty());
+        Assertions.assertTrue(validator.validateProperty(accountDTO,"type").isEmpty());
+
+    }
+
+    @Override
+    @ParameterizedTest
+    @MethodSource("generateInvalid")
+    protected void TestInvalid(AccountDTO accountDTO) {
+
+        Assertions.assertFalse(validator.validateProperty(accountDTO, "firstName").isEmpty());
+        Assertions.assertFalse(validator.validateProperty(accountDTO,"lastName").isEmpty());
+        Assertions.assertFalse(validator.validateProperty(accountDTO,"email").isEmpty());
+        Assertions.assertFalse(validator.validateProperty(accountDTO,"password").isEmpty());
+
+        Assertions.assertFalse(validator.validateProperty(accountDTO,"department").isEmpty());
+
+        Assertions.assertFalse(validator.validateProperty(accountDTO,"title").isEmpty());
+        Assertions.assertFalse(validator.validateProperty(accountDTO,"type").isEmpty());
 
     }
 }

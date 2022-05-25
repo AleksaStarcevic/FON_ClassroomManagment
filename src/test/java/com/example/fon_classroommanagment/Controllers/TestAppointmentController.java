@@ -85,6 +85,24 @@ private UserFilter userFilter;
     }
 
     @Test
+    public void Test_ConfirmAllAppointments_Exists_Valid() throws Exception {
+        List<ConfirmAppointmentDTO> list=Arrays.asList(getValidConfirmAppointmentDTO(),getValidConfirmAppointmentDTO());
+        String json=ConvertObjectToJson(list);
+        String token=CreateJWTToken("USER");
+        mockMvc.perform(post("/confirmAllAppointment").header("Authorization","Bearer "+token)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(json)).andExpect(status().isBadRequest());
+
+    }
+    @Test
+    public void Test_ConfirmAllAppointments_Exists_Invalid() throws Exception {
+
+
+    }
+
+
+
+    @Test
     public void Test_FilterAppointment_Exists() throws Exception {
 
 
@@ -151,5 +169,7 @@ private UserFilter userFilter;
         return  new ConfirmAppointmentDTO(UUID.randomUUID());
     }
 
-
+    private ConfirmAppointmentDTO getInvalidConfirmAppointmentDTO() {
+        return new ConfirmAppointmentDTO();
+    }
 }

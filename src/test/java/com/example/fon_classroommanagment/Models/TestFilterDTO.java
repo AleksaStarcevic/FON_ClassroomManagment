@@ -19,33 +19,17 @@ import java.util.stream.Stream;
         classes = TestAccountDTO.class)
 @AutoConfigureMockMvc
 @ContextConfiguration(classes= FonClassroomManagmentApplication.class)
-public class TestFilterDTO {
+public class TestFilterDTO extends  ModelTest<FilterDTO> {
 
     @Autowired
     private LocalValidatorFactoryBean validator;
 
-    @ParameterizedTest
-    @MethodSource("generateValid")
-    public void Test_InvalidDTO(FilterDTO filter)  {
-
-        Assertions.assertTrue(validator.validateProperty(filter,"min_capacity").isEmpty());
-        Assertions.assertTrue(validator.validateProperty(filter,"max_capacity").isEmpty());
-        Assertions.assertTrue(validator.validateProperty(filter,"type").isEmpty());
-        Assertions.assertTrue(validator.validateProperty(filter,"sortByCapacity").isEmpty());
-
-    }
 
 
-    @ParameterizedTest
-    @MethodSource("generateInvalid")
-    public void Test_FirstName_Failed(FilterDTO filter)  {
 
 
-        Assertions.assertFalse(validator.validateProperty(filter,"min_capacity").isEmpty());
-        Assertions.assertFalse(validator.validateProperty(filter,"max_capacity").isEmpty());
-        Assertions.assertFalse(validator.validateProperty(filter,"type").isEmpty());
 
-    }
+
     private static Stream<Arguments> generateValid(){
         return  Stream.of(
                 Arguments.of(new FilterDTO(10,20,1L,true,true,true
@@ -72,5 +56,27 @@ public class TestFilterDTO {
 
 
         );
+    }
+
+    @Override
+    @ParameterizedTest
+    @MethodSource("generateValid")
+    protected void TestValid(FilterDTO filter) {
+        Assertions.assertTrue(validator.validateProperty(filter,"min_capacity").isEmpty());
+        Assertions.assertTrue(validator.validateProperty(filter,"max_capacity").isEmpty());
+        Assertions.assertTrue(validator.validateProperty(filter,"type").isEmpty());
+        Assertions.assertTrue(validator.validateProperty(filter,"sortByCapacity").isEmpty());
+
+    }
+
+    @Override
+    @ParameterizedTest
+    @MethodSource("generateInvalid")
+    protected void TestInvalid(FilterDTO filter) {
+
+        Assertions.assertFalse(validator.validateProperty(filter,"min_capacity").isEmpty());
+        Assertions.assertFalse(validator.validateProperty(filter,"max_capacity").isEmpty());
+        Assertions.assertFalse(validator.validateProperty(filter,"type").isEmpty());
+
     }
 }
