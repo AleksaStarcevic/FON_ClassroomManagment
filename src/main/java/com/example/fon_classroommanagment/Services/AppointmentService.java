@@ -117,7 +117,7 @@ public class AppointmentService {
     }
 
     public void updateReservation(UpdateReservationDTO dto) throws ReservationExistsException {
-        if (AppointmentAvailableExceptThis(dto.getId(),dto.getClassroomId(), dto.getDate(), dto.getStart_timeInHours(), dto.getEnd_timeInHours())) {
+        if (AppointmentConflict(dto)) {
             appointmentRepository.updateReservation(dto.getId(),dto.getClassroomId(),
                     dto.getName(),
                     dto.getDate(),
@@ -134,8 +134,8 @@ public class AppointmentService {
 
     }
 
-    private boolean AppointmentAvailableExceptThis(UUID id,Long classroomId, Date date, int start_timeInHours, int end_timeInHours) {
-        List<String> o = appointmentRepository.AppointmentAvailableExceptThis(id,classroomId, date, start_timeInHours, end_timeInHours);
+    private boolean AppointmentConflict(UpdateReservationDTO dto) {
+        List<String> o = appointmentRepository.AppointmentConflict(dto.getId(),dto.getClassroomId(), dto.getDate(), dto.getStart_timeInHours(), dto.getEnd_timeInHours());
         System.out.println(o);
 
 
