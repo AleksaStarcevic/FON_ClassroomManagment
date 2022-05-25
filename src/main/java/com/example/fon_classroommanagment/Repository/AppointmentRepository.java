@@ -48,7 +48,7 @@ public interface AppointmentRepository extends JpaRepository<Appointment, UUID> 
             "(a.Start_timeInHours>=:start_timeInHours  and a.Start_timeInHours<:end_timeInHours and  a.End_timeInHours>=:end_timeInHours) " +
             "or (a.Start_timeInHours<=:start_timeInHours and a.End_timeInHours>:start_timeInHours and a.End_timeInHours<=:end_timeInHours) " +
             "or (a.Start_timeInHours>=:start_timeInHours and a.End_timeInHours<=:end_timeInHours)) and a.id<>:id")
-    List<String> AppointmentAvailableExceptThis(@Param("id") UUID id,@Param("classroomId") Long classroomId,@Param("date") Date date,@Param("start_timeInHours") int start_timeInHours,@Param("end_timeInHours") int end_timeInHours);
+    List<String> AppointmentConflict(@Param("id") UUID id,@Param("classroomId") Long classroomId,@Param("date") Date date,@Param("start_timeInHours") int start_timeInHours,@Param("end_timeInHours") int end_timeInHours);
 
 
 
@@ -57,4 +57,5 @@ public interface AppointmentRepository extends JpaRepository<Appointment, UUID> 
 
 
     List<Appointment> findByDateAndClassroom(Date date, Classroom classroom);
+    List<Appointment> findByEmployeeId(Long id);
 }

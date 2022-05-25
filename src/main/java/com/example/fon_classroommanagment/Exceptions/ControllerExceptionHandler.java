@@ -45,4 +45,9 @@ public class ControllerExceptionHandler {
     public  ResponseEntity<String> HandleUserDoesNotExist(UserExistsExcetion exception){
         return ResponseEntity.badRequest().body(exception.getMessage());
     }
+
+    @ExceptionHandler(AppointmentsForUserException.class)
+    public  ResponseEntity<String> HandleAppointmentsForUserException(AppointmentsForUserException exception){
+        return ResponseEntity.badRequest().body(exception.getMessage());
+    }
 }

@@ -1,12 +1,13 @@
 package com.example.fon_classroommanagment.Services;
 
 import com.example.fon_classroommanagment.Configuration.UserProfileDetails;
+import com.example.fon_classroommanagment.Exceptions.AppointmentsForUserException;
 import com.example.fon_classroommanagment.Exceptions.UserExistsExcetion;
-import com.example.fon_classroommanagment.Models.DTO.ChangeEmailDTO;
-import com.example.fon_classroommanagment.Models.DTO.ChangePasswordDTO;
-import com.example.fon_classroommanagment.Models.DTO.UserDetailsDTO;
+import com.example.fon_classroommanagment.Models.Appointment.Appointment;
+import com.example.fon_classroommanagment.Models.DTO.*;
 import com.example.fon_classroommanagment.Models.Emplayee.Employee;
 import com.example.fon_classroommanagment.Models.User.UserProfile;
+import com.example.fon_classroommanagment.Repository.AppointmentRepository;
 import com.example.fon_classroommanagment.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -15,13 +16,15 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 public class UserService implements UserDetailsService {
    @Autowired
    private UserRepository userRepository;
+
+   @Autowired
+   private AppointmentRepository appointmentRepository;
 
 @Autowired
 private BCryptPasswordEncoder encoder;
@@ -64,8 +67,33 @@ private BCryptPasswordEncoder encoder;
     public UserDetailsDTO getUserDetails(String email) {
         UserProfile user=userRepository.findByEmail(email);
         Employee employee=user.getEmployee();
-        return   new UserDetailsDTO(employee.getFirstName(),employee.getLastName(),employee.getType().getName());
+        return  new UserDetailsDTO(employee.getFirstName(),employee.getLastName(),employee.getType().getName(),employee.getFile());
 
+
+    }
+
+    public List<AppointmentsForUserDTO> getAppointmentsForUser(String id) throws UserExistsExcetion, AppointmentsForUserException {
+
+        Optional<UserProfile> optional = userRepository.findById(UUID.fromString(id));
+        if (!optional.isPresent()) throw new UserExistsExcetion("There is no user with given id");
+        UserProfile userProfile = optional.get();
+        Employee employee = userProfile.getEmployee();
+
+        List<Appointment> appointments = appointmentRepository.findByEmployeeId(employee.getId());
+
+        if (appointments.isEmpty()) throw new AppointmentsForUserException("No reservations for this user");
+
+        List<AppointmentsForUserDTO> appointmentsForUserDTOS = new ArrayList<>();
+        for (Appointment appointment : appointments) {
+            appointmentsForUserDTOS.add(new AppointmentsForUserDTO(
+                    appointment.getName(),
+                    appointment.getClassroom().getName(),
+                    appointment.getDate(),
+                    appointment.getStart_timeInHours(),
+                    appointment.getEnd_timeInHours()));
+
+        }
+        return appointmentsForUserDTOS;
 
     }
 }
