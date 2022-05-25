@@ -43,8 +43,9 @@ public class UserController {
     }
 
     @GetMapping("/requestedAppointments")
-    public ResponseEntity<RequestedAppointmentsDTO> getRequestedAppointments(){
+    public ResponseEntity<List<RequestedAppointmentsDTO>> getRequestedAppointments(){
 
-        return ResponseEntity.ok(null);
+
+        return ResponseEntity.ok(userService.getRequestedAppointments());
     }
 }

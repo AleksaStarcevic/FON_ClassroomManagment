@@ -100,4 +100,8 @@ private BCryptPasswordEncoder encoder;
         return appointmentsForUserDTOS;
 
     }
+
+    public List<RequestedAppointmentsDTO> getRequestedAppointments() {
+        return appointmentRepository.getRequestedAppointmentsForUsers();
+    }
 }
