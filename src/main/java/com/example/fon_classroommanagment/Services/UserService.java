@@ -1,5 +1,6 @@
 package com.example.fon_classroommanagment.Services;
 
+import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.example.fon_classroommanagment.Configuration.UserProfileDetails;
 import com.example.fon_classroommanagment.Exceptions.AppointmentsForUserException;
 import com.example.fon_classroommanagment.Exceptions.UserExistsExcetion;
@@ -54,30 +55,33 @@ private BCryptPasswordEncoder encoder;
         return profile.get();
     }
 
-    public void ChangePassword(ChangePasswordDTO password) throws UserExistsExcetion {
-        UserProfile userProfile=findById(password.getId());
+    public void ChangePassword(ChangePasswordDTO password,String email) throws TokenExpiredException {
+        UserProfile userProfile=findByEmail(email);
+        if(userProfile==null) throw new TokenExpiredException("Please login again,there is no user with given email");
         userRepository.updatePhone(userProfile.getId(),encoder.encode(password.getPassword()));
     }
 
-    public void changeEmail(ChangeEmailDTO dto) throws UserExistsExcetion {
-        UserProfile userProfile=findById(dto.getId());
-        userRepository.changeEmail(userProfile.getId(),userProfile.getEmail());
+    public void changeEmail(String email,ChangeEmailDTO dto) throws  TokenExpiredException {
+        UserProfile userProfile=findByEmail(email);
+        if(userProfile==null) throw new TokenExpiredException("Please login again,there is no user with given email");
+        userRepository.changeEmail(userProfile.getId(),dto.getEmail());
     }
 
-    public UserDetailsDTO getUserDetails(String email) {
+    public UserDetailsDTO getUserDetails(String email) throws  TokenExpiredException{
         UserProfile user=userRepository.findByEmail(email);
+        if(user==null) throw new TokenExpiredException("Please login again,there is no user with given email");
         Employee employee=user.getEmployee();
         return  new UserDetailsDTO(employee.getFirstName(),employee.getLastName(),employee.getType().getName(),employee.getFile());
 
 
     }
 
-    public List<AppointmentsForUserDTO> getAppointmentsForUser(String id) throws UserExistsExcetion, AppointmentsForUserException {
+    public List<AppointmentsForUserDTO> getAppointmentsForUser(String email) throws AppointmentsForUserException {
 
-        Optional<UserProfile> optional = userRepository.findById(UUID.fromString(id));
-        if (!optional.isPresent()) throw new UserExistsExcetion("There is no user with given id");
-        UserProfile userProfile = optional.get();
-        Employee employee = userProfile.getEmployee();
+        UserProfile user = userRepository.findByEmail(email);
+        if(user==null) throw new TokenExpiredException("Please login again,there is no user with given email");
+
+        Employee employee = user.getEmployee();
 
         List<Appointment> appointments = appointmentRepository.findByEmployeeId(employee.getId());
 

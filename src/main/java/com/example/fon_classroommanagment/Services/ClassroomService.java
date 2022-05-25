@@ -23,14 +23,9 @@ public class ClassroomService {
     private ClassroomRepository repository;
     public List<Classroom> filter(FilterDTO filterDTO) {
 
-     //  if(filterDTO.getType()==0 && !filterDTO.isSortByCapacity())
+
           return   repository.filter(filterDTO.getMin_capacity(),filterDTO.getMax_capacity(),filterDTO.isAircondition(),filterDTO.isProjector());
-//   else if(!filterDTO.isSortByCapacity() && filterDTO.getType()!=0){
-//            return repository.filterWithType(filterDTO.getMin_capacity(),filterDTO.getMax_capacity(),filterDTO.getType());
-//        }
-//        else{
-//            return repository.filterAll(filterDTO.getMin_capacity(),filterDTO.getMax_capacity(),filterDTO.getType());
-//        }
+
     }
 
     public List<Classroom> searchClassroom(SearchClassroomDTO dto)  {
@@ -41,7 +36,7 @@ public class ClassroomService {
 
     public Classroom classroomDetails(RequestClassroomDetailsDTO dto) throws ClassroomExistsException {
        Optional<Classroom> classroom = repository.findById(dto.getId());
-       if(!classroom.isPresent()) throw new ClassroomExistsException("Classroom with given id doesn't exist");
+       if(classroom.isEmpty()) throw new ClassroomExistsException("Classroom with given id doesn't exist");
        return classroom.get();
     }
 

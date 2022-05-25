@@ -22,28 +22,19 @@ import java.util.stream.Stream;
         classes = TestAccountDTO.class)
 @AutoConfigureMockMvc
 @ContextConfiguration(classes= FonClassroomManagmentApplication.class)
-public class TestChangeEmailDTO extends  ModelTest {
+public class TestChangeEmailDTO extends  ModelTest<ChangeEmailDTO> {
 
 
 
-    @ParameterizedTest
-    @MethodSource("generateValid")
-    public void Test_Valid(ChangeEmailDTO dto){
-        Assertions.assertTrue(validator.validateProperty(dto,"email").isEmpty());
 
-    }
-    @ParameterizedTest
-    @MethodSource("generateInvalid")
-    public void Test_Invalid(ChangeEmailDTO dto){
 
-    }
 
     private static Stream<Arguments> generateValid(){
         return  Stream.of(
-                Arguments.of(new ChangeEmailDTO(UUID.randomUUID(),"test@gmail.com"
+                Arguments.of(new ChangeEmailDTO("test@gmail.com"
                 )),
                 Arguments.of(
-                        new ChangeEmailDTO(UUID.randomUUID(),"test123@gmail.com")
+                        new ChangeEmailDTO("test123@gmail.com")
 
 
         ));
@@ -51,10 +42,10 @@ public class TestChangeEmailDTO extends  ModelTest {
 
     private static Stream<Arguments> generateInvalid(){
         return  Stream.of(
-                Arguments.of(new ChangeEmailDTO(UUID.randomUUID(),"testgmail.com"
+                Arguments.of(new ChangeEmailDTO("testgmail.com"
                 )),
                 Arguments.of(
-                        new ChangeEmailDTO(UUID.randomUUID(),"test123gcom")
+                        new ChangeEmailDTO("test123gcom")
 
 
                 ));
@@ -62,12 +53,20 @@ public class TestChangeEmailDTO extends  ModelTest {
 
 
     @Override
-    protected void TestValid(Object entity) {
+    @ParameterizedTest
+    @MethodSource("generateValid")
+    protected void TestValid(ChangeEmailDTO dto) {
+        Assertions.assertTrue(validator.validateProperty(dto,"email").isEmpty());
 
     }
 
     @Override
-    protected void TestInvalid(Object entity) {
+    @ParameterizedTest
+    @MethodSource("generateInvalid")
+    protected void TestInvalid(ChangeEmailDTO dto) {
+        Assertions.assertFalse(validator.validateProperty(dto,"email").isEmpty());
 
     }
+
+
 }

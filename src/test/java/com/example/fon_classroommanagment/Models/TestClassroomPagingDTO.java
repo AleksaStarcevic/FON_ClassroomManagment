@@ -39,17 +39,17 @@ public class TestClassroomPagingDTO extends  ModelTest<ClassroomPagingDTO> {
 
     private static Stream<Arguments> generateValid(){
         return  Stream.of(
-                Arguments.of(new ClassroomPagingDTO("TestName",
+                Arguments.of(new ClassroomPagingDTO(1L,"TestName",
                         23,true,true))
         );
     }
 
     private static Stream<Arguments> generateInvalid(){
         return  Stream.of(
-                Arguments.of(new ClassroomPagingDTO(null,-4,false,false)
+                Arguments.of(new ClassroomPagingDTO(null,null,-4,false,false)
                 ),
                 Arguments.of(
-                        new ClassroomPagingDTO("",-6,false,false)
+                        new ClassroomPagingDTO(null,"",-6,false,false)
 
 
                 ));

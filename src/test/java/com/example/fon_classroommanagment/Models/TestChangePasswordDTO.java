@@ -31,7 +31,6 @@ public class TestChangePasswordDTO extends  ModelTest<ChangePasswordDTO> {
     public void TestValid(ChangePasswordDTO dto){
         Assertions.assertTrue(validator.validateProperty(dto,"password").isEmpty());
 
-        Assertions.assertTrue(validator.validateProperty(dto,"id").isEmpty());
 
     }
     @ParameterizedTest
@@ -40,15 +39,15 @@ public class TestChangePasswordDTO extends  ModelTest<ChangePasswordDTO> {
     public void TestInvalid(ChangePasswordDTO dto){
         Assertions.assertFalse(validator.validateProperty(dto,"password").isEmpty());
 
-        Assertions.assertFalse(validator.validateProperty(dto,"id").isEmpty());
+
 
     }
 
     private static Stream<Arguments> generateValid(){
         return  Stream.of(
-                Arguments.of(new ChangePasswordDTO("1234",UUID.randomUUID())),
+                Arguments.of(new ChangePasswordDTO("1234")),
                 Arguments.of(
-                        new ChangePasswordDTO("etestes2",UUID.randomUUID())
+                        new ChangePasswordDTO("etestes2")
 
 
                 ));
@@ -56,6 +55,8 @@ public class TestChangePasswordDTO extends  ModelTest<ChangePasswordDTO> {
 
     private static Stream<Arguments> generateInvalid(){
         return  Stream.of(
+                Arguments.of(new ChangePasswordDTO("123",null)
+                ),
                 Arguments.of(new ChangePasswordDTO("123",null)
                 ),
                 Arguments.of(

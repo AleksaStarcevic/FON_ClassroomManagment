@@ -17,7 +17,6 @@ import java.util.UUID;
 public class ChangeEmailDTO {
 
 
-    private UUID id;
 
     @NotNull(message = "email ne sme biti null")
     @Email(message = "email nije u dobrom formatu")

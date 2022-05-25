@@ -1,5 +1,6 @@
 package com.example.fon_classroommanagment.Controllers;
 
+import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.example.fon_classroommanagment.Exceptions.AppointmentsForUserException;
 import com.example.fon_classroommanagment.Exceptions.UserExistsExcetion;
 import com.example.fon_classroommanagment.Models.DTO.*;
@@ -18,27 +19,28 @@ public class UserController {
     private UserService userService;
 
     @PostMapping("/ChangePassword")
-    public void ChangePassword(@RequestBody @Valid ChangePasswordDTO password) throws UserExistsExcetion {
-        userService.ChangePassword(password);
+    public void ChangePassword(@RequestBody @Valid ChangePasswordDTO password,Authentication authentication) throws TokenExpiredException {
+
+        userService.ChangePassword(password,authentication.getName());
 
     }
 
-    @PatchMapping("/changeEmail")
-    public void changeEmail(@RequestBody @Valid ChangeEmailDTO dto) throws UserExistsExcetion {
-        userService.changeEmail(dto);
+    @PostMapping("/changeEmail")
+    public void changeEmail(@RequestBody @Valid ChangeEmailDTO dto, Authentication authentication) throws TokenExpiredException {
+        userService.changeEmail(authentication.getName(),dto);
 
     }
 
     @GetMapping("/UserDetails")
-    public ResponseEntity<UserDetailsDTO> getUserDetails(Authentication authentication){
+    public ResponseEntity<UserDetailsDTO> getUserDetails(Authentication authentication)throws  TokenExpiredException{
 
 
         return  ResponseEntity.ok(  userService.getUserDetails(authentication.getName()));
     }
 
-    @GetMapping("/getAppointmentsForUser/{id}")
-    public ResponseEntity<List<AppointmentsForUserDTO>> getAppointmentsForUser(@PathVariable String id) throws UserExistsExcetion, AppointmentsForUserException {
-        return  ResponseEntity.ok(  userService.getAppointmentsForUser(id));
+    @GetMapping("/getAppointmentsForUser")
+    public ResponseEntity<List<AppointmentsForUserDTO>> getAppointmentsForUser(Authentication authentication) throws UserExistsExcetion, AppointmentsForUserException {
+        return  ResponseEntity.ok(  userService.getAppointmentsForUser(authentication.getName()));
     }
 
 }

@@ -1,6 +1,8 @@
 package com.example.fon_classroommanagment.Controllers;
 
 
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.algorithms.Algorithm;
 import com.example.fon_classroommanagment.Configuration.SecurityConfiguration;
 import com.example.fon_classroommanagment.Configuration.UserProfileDetails;
 import com.example.fon_classroommanagment.Filters.UserFilter;
@@ -34,17 +36,19 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.SecurityConfig;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
 import javax.validation.ConstraintViolationException;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static com.example.fon_classroommanagment.Configuration.Constants.SECRET;
+import static com.example.fon_classroommanagment.Configuration.Constants.VALIDATION_TOKEN_EXPIRATION;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -67,8 +71,7 @@ public class TestAuthenticationController {
     private AccountService accountService;
 
 
-    @MockBean
-    private AuthenticationController controller;
+
     @Autowired
     ObjectMapper objectMapper;
     @MockBean
@@ -106,6 +109,20 @@ public void Test_ChangePassword_Exists() throws Exception {
 }
 
 
+@Test
+public void Test_Register_Valid() throws Exception {
+
+}
+    private String CreateJWTToken(String role) {
+        Algorithm algorithm=Algorithm.HMAC256(SECRET.getBytes());
+
+        Set<SimpleGrantedAuthority> admin = Collections.singleton(new SimpleGrantedAuthority(role));
+        return JWT.create()
+                .withSubject("radojkovicika@gmail.com")
+                .withExpiresAt(new Date( Calendar.getInstance().getTimeInMillis() + (VALIDATION_TOKEN_EXPIRATION)))
+                .withClaim("roles",admin.stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()) )
+                .sign(algorithm);
+    }
 //@ParameterizedTest
 //@MethodSource("getInvalidRegisterObjects")
 //public void Test_InvalidBodyRegister(AccountDTO dto) throws Exception {
@@ -208,7 +225,7 @@ private static Stream<Arguments> getInvalidRegisterObjects(){
          );
     }
     private ChangePasswordDTO CreateChangePasswordDTOValid(){
-    return  new ChangePasswordDTO("1234",UUID.randomUUID(),new Date());
+    return  new ChangePasswordDTO("1234",new Date());
     }
 
 

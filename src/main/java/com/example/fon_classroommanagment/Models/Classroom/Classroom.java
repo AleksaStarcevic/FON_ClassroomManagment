@@ -29,8 +29,10 @@ public class Classroom {
     @Column(columnDefinition = "INT(11) UNSIGNED",nullable = false)
     private int number_of_computers;
 
-    private boolean aircondition;
+    @Column(columnDefinition = "TINYINT(1)",nullable = false)
 
+    private boolean aircondition;
+    @Column(columnDefinition = "TINYINT(1)",nullable = false)
     private boolean projector;
 
     @Positive(message = "Povrsina mora biti pozitivan broj")
