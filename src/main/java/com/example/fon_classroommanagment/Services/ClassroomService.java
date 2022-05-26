@@ -3,9 +3,11 @@ package com.example.fon_classroommanagment.Services;
 
 import com.example.fon_classroommanagment.Exceptions.ClassroomExistsException;
 import com.example.fon_classroommanagment.Models.Classroom.Classroom;
+import com.example.fon_classroommanagment.Models.DTO.ClassroomDetailsDTO;
 import com.example.fon_classroommanagment.Models.DTO.RequestClassroomDetailsDTO;
 import com.example.fon_classroommanagment.Models.DTO.FilterDTO;
 import com.example.fon_classroommanagment.Models.DTO.SearchClassroomDTO;
+import com.example.fon_classroommanagment.Repository.AppointmentRepository;
 import com.example.fon_classroommanagment.Repository.ClassroomRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -21,6 +23,10 @@ import static com.example.fon_classroommanagment.Configuration.Constants.PAGE_SI
 public class ClassroomService {
     @Autowired
     private ClassroomRepository repository;
+
+    @Autowired
+    private AppointmentRepository appointmentRepository;
+
     public List<Classroom> filter(FilterDTO filterDTO) {
 
 
@@ -34,10 +40,31 @@ public class ClassroomService {
 
     }
 
-    public Classroom classroomDetails(RequestClassroomDetailsDTO dto) throws ClassroomExistsException {
-       Optional<Classroom> classroom = repository.findById(dto.getId());
-       if(classroom.isEmpty()) throw new ClassroomExistsException("Classroom with given id doesn't exist");
-       return classroom.get();
+    public ClassroomDetailsDTO classroomDetails(RequestClassroomDetailsDTO dto) throws ClassroomExistsException {
+        Optional<Classroom> optional = repository.findById(dto.getId());
+        if (optional.isEmpty()) throw new ClassroomExistsException("Classroom with given id doesn't exist");
+        Classroom classroom = optional.get();
+        List<Double[]> monthsPercentage = appointmentRepository.reservationsByMonths(dto.getId());
+
+        for (Double[] month : monthsPercentage) {
+            for (int i = 1; i < month.length; i++) {
+                month[i] = (month[i] / 310) * 100;
+
+            }
+        }
+
+        ClassroomDetailsDTO result = new ClassroomDetailsDTO(classroom.getName(),
+                classroom.getNumber_of_seats(),
+                classroom.getNumber_of_computers(),
+                classroom.isAircondition(),
+                classroom.isProjector(),
+                classroom.getType(),
+                classroom.getPovrsina(),
+                classroom.getSprat(),
+                classroom.getBr_tabli(), monthsPercentage);
+
+
+        return result;
     }
 
 

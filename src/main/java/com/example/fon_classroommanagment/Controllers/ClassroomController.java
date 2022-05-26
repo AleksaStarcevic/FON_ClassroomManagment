@@ -51,9 +51,7 @@ List<ClassroomPagingDTO> result=CreateClassroomPagingDTOs(resultQuery);
 
     @GetMapping("/classroomDetails")
     public ResponseEntity<ClassroomDetailsDTO> classroomDetails(@RequestBody @Valid RequestClassroomDetailsDTO dto) throws ClassroomExistsException {
-        Classroom classroom = service.classroomDetails(dto);
-        ClassroomDetailsDTO result=new ClassroomDetailsDTO(classroom.getName(),classroom.getNumber_of_seats(),classroom.getNumber_of_computers(),classroom.isAircondition(),classroom.isProjector(),classroom.getType());
-        return ResponseEntity.status(HttpStatus.OK).body(result);
+        return ResponseEntity.status(HttpStatus.OK).body(service.classroomDetails(dto));
     }
 
 
