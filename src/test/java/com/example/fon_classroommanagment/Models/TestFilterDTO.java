@@ -21,8 +21,7 @@ import java.util.stream.Stream;
 @ContextConfiguration(classes= FonClassroomManagmentApplication.class)
 public class TestFilterDTO extends  ModelTest<FilterDTO> {
 
-    @Autowired
-    private LocalValidatorFactoryBean validator;
+
 
 
 

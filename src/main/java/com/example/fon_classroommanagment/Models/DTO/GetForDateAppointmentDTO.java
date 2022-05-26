@@ -24,9 +24,11 @@ public class GetForDateAppointmentDTO {
     private int End_timeInHours;
 
     @NotNull(message = "Tip termina ne sme biti prazan")
+    @NotEmpty(message = "Tip termina mora sadrzati karaktere")
     private String typeName;
 
     @NotNull(message = "Ucionica ne sme biti prazan")
+    @NotEmpty(message = "Ucionica mora sadrzati karaktere")
     private String classroomName;
 
     @NotEmpty(message = "Opis mora sadrzati neke reci")
