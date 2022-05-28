@@ -11,10 +11,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @Repository
 public interface AppointmentRepository extends JpaRepository<Appointment, UUID> {
@@ -59,6 +56,9 @@ public interface AppointmentRepository extends JpaRepository<Appointment, UUID> 
 
     List<Appointment> findByDateAndClassroom(Date date, Classroom classroom);
     List<Appointment> findByEmployeeId(Long id);
+
+    @Query("select month(a.date),count(a.date) from Appointment a where a.classroom.id =:id group by month(a.date)")
+    List<Double[]> reservationsByMonths(Long id);
 
     @Query("select new com.example.fon_classroommanagment.Models.DTO.RequestedAppointmentsDTO(p.employee.file,p.employee.firstName,p.employee.lastName,count(p)) from Appointment  p order by p.employee.id")
     List<RequestedAppointmentsDTO> getRequestedAppointmentsForUsers();
