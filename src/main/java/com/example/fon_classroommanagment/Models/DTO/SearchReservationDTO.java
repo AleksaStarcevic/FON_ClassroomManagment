@@ -25,6 +25,7 @@ public class SearchReservationDTO {
     private Date date;
 
     @NotNull(message = "classroomId ne sme biti null")
+    @Positive(message = "Id ucionice mora biti pozitivan broj")
     private Long classroomId;
 
     @Positive(message = "Pocetno vreme mora biti pozitivno")
