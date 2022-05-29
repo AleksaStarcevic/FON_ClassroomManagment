@@ -55,9 +55,17 @@ List<ClassroomPagingDTO> result=CreateClassroomPagingDTOs(resultQuery);
     }
 
 
+
+    @GetMapping("/GetForDateClassroom")
+    public ResponseEntity<List<GetForDateAppointmentDTO>> getAppointmentsForDateClassroom(@RequestBody @Valid RequestIsClassroomAvailableForDateDTO requestAppointmetDateDTO) throws ClassroomExistsException {
+
+        return  ResponseEntity.ok(service.getForDateClassroom(requestAppointmetDateDTO));
+    }
+
     private   List<ClassroomPagingDTO> CreateClassroomPagingDTOs( List<Classroom> resultQuery ){
         return resultQuery.stream().map(x->new ClassroomPagingDTO(x.getId(),x.getName(),x.getNumber_of_seats(),x.isProjector(),x.getType().getName().equals(RC_TYPE_NAME))).collect(Collectors.toList());
 
     }
+
 
 }

@@ -22,5 +22,6 @@ public class RequestIsClassroomAvailableForDateDTO {
     private Date date;
 
     @Positive(message = "Ucionica nije dobro uneta")
+    @NotNull(message = "Ucionica ne sme biti prazna")
     private Long classroomId;
 }

@@ -75,6 +75,8 @@ public class AppointmentController {
 
 
 
+
+
         @GetMapping("/IsClassroomAvailableForDate")
         public ResponseEntity<Boolean> getIsClassroomAvailableForDate(@RequestBody @Valid RequestIsClassroomAvailableForDateDTO dto ){
           return  ResponseEntity.ok(appointmentService.IsClassroomAvailableAtDate(dto));
