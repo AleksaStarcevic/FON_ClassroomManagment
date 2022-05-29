@@ -12,6 +12,8 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
 import java.util.stream.Stream;
 
@@ -35,6 +37,10 @@ public class TestClassroomDetailsDTO extends  ModelTest<ClassroomDetailsDTO>{
 
             Assertions.assertTrue(super.validator.validateProperty(entity,"number_of_computers").isEmpty());
             Assertions.assertTrue(super.validator.validateProperty(entity,"type").isEmpty());
+            Assertions.assertTrue(super.validator.validateProperty(entity,"povrsina").isEmpty());
+            Assertions.assertTrue(super.validator.validateProperty(entity,"sprat").isEmpty());
+            Assertions.assertTrue(super.validator.validateProperty(entity,"br_tabli").isEmpty());
+            Assertions.assertTrue(super.validator.validateProperty(entity,"months_percentage").isEmpty());
 
 
     }
@@ -49,21 +55,48 @@ public class TestClassroomDetailsDTO extends  ModelTest<ClassroomDetailsDTO>{
 
         Assertions.assertFalse(validator.validateProperty(entity,"number_of_computers").isEmpty());
         Assertions.assertFalse(validator.validateProperty(entity,"type").isEmpty());
+        Assertions.assertFalse(validator.validateProperty(entity,"povrsina").isEmpty());
+        Assertions.assertFalse(validator.validateProperty(entity,"sprat").isEmpty());
+        Assertions.assertFalse(validator.validateProperty(entity,"br_tabli").isEmpty());
+        Assertions.assertFalse(validator.validateProperty(entity,"months_percentage").isEmpty());
 
     }
     private static Stream<Arguments> generateValid(){
+        List<Double[]> arr =  Arrays.asList(new Double[]{5.0,0.23}, new Double[]{6.0,0.56});
+
         return  Stream.of(
-                Arguments.of(new ClassroomDetailsDTO("Testname",23,23,true,true,
-                        new ClassroomType(1L,"TestName")))
+                Arguments.of(new ClassroomDetailsDTO("Testname",
+                        23,
+                        23,
+                        true,
+                        true,
+                        new ClassroomType(1L, "TestName"), 30, 1, 2, arr))
                );
     }
 
     private static Stream<Arguments> generateInvalid(){
         return  Stream.of(
-                Arguments.of(new ClassroomDetailsDTO(null,-4,-4,true,true,null)
+                Arguments.of(new ClassroomDetailsDTO(null,
+                        -4,
+                        -4,
+                        true,
+                        true,
+                        null,
+                        -20,
+                        -1,
+                        -2,
+                        null)
                 ),
-                Arguments.of(
-                        new ClassroomDetailsDTO("",-5,-5,false,false,null)
+                Arguments.of(new ClassroomDetailsDTO("",
+                                -5,
+                                -5,
+                                false,
+                                false,
+                                null,
+                                -20,
+                                -1,
+                                -1,
+                                null)
 
 
                 ));

@@ -41,6 +41,7 @@ public class ClassroomDetailsDTO {
     @Positive(message = "Broj tabli mora biti pozitivan broj")
     private int br_tabli;
 
+    @NotNull(message = "Lista ne sme biti null")
    private List<Double[]> months_percentage;
 
 

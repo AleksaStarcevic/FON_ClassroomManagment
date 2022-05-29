@@ -81,6 +81,8 @@ public class ReserveDTO {
 
  // @Positive(message = "Status mora biti pozitivan broj")
   @JsonIgnore
+    @Min(value = 3)
+    @Max(value = 3)
     private int status=STATUS_CEKANJA;
 
 
