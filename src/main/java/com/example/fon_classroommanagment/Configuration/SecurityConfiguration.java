@@ -25,7 +25,7 @@ private BCryptPasswordEncoder encoder;
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
-        http.authorizeRequests().mvcMatchers("/register","/registerConfirmed/{token}").permitAll().and()
+        http.authorizeRequests().mvcMatchers("/allEmployeeTypes","/allEducationTitle","/allEmployeeDepartment","/test","/register","/registerConfirmed/{token}").permitAll().and()
                 .authorizeRequests().mvcMatchers("/confirmAppointment","/requestedAppointments").hasAuthority("ADMIN").and()
                 .authorizeRequests().anyRequest().authenticated().and()
                 .formLogin().and().httpBasic()

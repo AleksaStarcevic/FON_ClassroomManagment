@@ -6,7 +6,10 @@ import com.example.fon_classroommanagment.Exceptions.AppointmentsForUserExceptio
 import com.example.fon_classroommanagment.Exceptions.UserExistsExcetion;
 import com.example.fon_classroommanagment.Models.Appointment.Appointment;
 import com.example.fon_classroommanagment.Models.DTO.*;
+import com.example.fon_classroommanagment.Models.Emplayee.EducationTitle;
 import com.example.fon_classroommanagment.Models.Emplayee.Employee;
+import com.example.fon_classroommanagment.Models.Emplayee.EmployeeDepartment;
+import com.example.fon_classroommanagment.Models.Emplayee.EmployeeType;
 import com.example.fon_classroommanagment.Models.User.UserProfile;
 import com.example.fon_classroommanagment.Repository.AppointmentRepository;
 import com.example.fon_classroommanagment.Repository.UserRepository;
@@ -34,6 +37,7 @@ private BCryptPasswordEncoder encoder;
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         UserProfile user=findByEmail(username);
+
         if(user==null) throw  new UsernameNotFoundException("Please register,user does not exit");
         return new UserProfileDetails(user);
     }
@@ -103,5 +107,15 @@ private BCryptPasswordEncoder encoder;
 
     public List<RequestedAppointmentsDTO> getRequestedAppointments() {
         return appointmentRepository.getRequestedAppointmentsForUsers();
+    }
+
+    public List<EmployeeType> getAllEmpoyeeTypes(){
+        return userRepository.getAlllEmployeeTypes();
+    }
+    public List<EducationTitle> getAllEducationTitles(){
+        return userRepository.getAllEducationTitles();
+    }
+    public List<EmployeeDepartment> getAllEmployeeDepartments(){
+        return userRepository.getAllEmployeeDepartments();
     }
 }

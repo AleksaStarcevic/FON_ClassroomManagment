@@ -2,6 +2,7 @@ package com.example.fon_classroommanagment.Exceptions;
 
 import com.auth0.jwt.exceptions.TokenExpiredException;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -36,6 +37,12 @@ public class ControllerExceptionHandler {
     }
     @ExceptionHandler(ReservationExistsException.class)
     public  ResponseEntity<String> HandleReservationExistsException(ReservationExistsException exception){
+        return ResponseEntity.badRequest().body
+                ( exception.getMessage());
+
+    }
+    @ExceptionHandler(UsernameNotFoundException.class)
+    public  ResponseEntity<String> HandleUserNotFoundExistsException(UsernameNotFoundException exception){
         return ResponseEntity.badRequest().body
                 ( exception.getMessage());
 
