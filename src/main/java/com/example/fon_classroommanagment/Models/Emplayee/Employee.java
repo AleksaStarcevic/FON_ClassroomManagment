@@ -41,14 +41,17 @@ public class Employee {
 
     @Lob
     @Column(name = "image", columnDefinition = "LONGBLOB")
-    private byte[] file;
+    private byte[] image;
 
-    public Employee(String firstName, String lastName, EmployeeDepartment department, EducationTitle title, EmployeeType type,String email) {
+
+
+    public Employee(String firstName, String lastName, EmployeeDepartment department, EducationTitle title, EmployeeType type,String email,byte[] image) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.department = department;
         this.title = title;
         this.type = type;
         this.email=email;
+        this.image=image;
     }
 }

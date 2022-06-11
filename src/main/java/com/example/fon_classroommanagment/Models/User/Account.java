@@ -37,6 +37,8 @@ public class Account {
 
     private String password;
 
+    private byte[] image;
+
 
 
 }

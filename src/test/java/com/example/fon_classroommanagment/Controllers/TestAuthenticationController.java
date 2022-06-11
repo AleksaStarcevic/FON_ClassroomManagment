@@ -110,7 +110,7 @@ public void Test_ChangePassword_Exists() throws Exception {
 
 
 @Test
-public void Test_Register_Valid() throws Exception {
+public void Test_Register_Valid()  {
 
 }
     private String CreateJWTToken(String role) {
@@ -146,7 +146,7 @@ private static Stream<Arguments> getInvalidRegisterObjects(){
                     new EducationTitle(1L,"cao"),
                     new EmployeeType(1L,"cao"),
                     "radojkovic@gmail.com",
-                    "1"
+                    "1",new byte[10]
             )),
             Arguments.of(new AccountDTO(
                     "ilija",
@@ -155,7 +155,8 @@ private static Stream<Arguments> getInvalidRegisterObjects(){
                     new EducationTitle(1L,"cao"),
                     new EmployeeType(1L,"cao"),
                     "radojkovic@gmail.com",
-                    "12"
+                    "12",
+                    new byte[10]
             )),
             Arguments.of(new AccountDTO(
                     "ilija",
@@ -164,7 +165,8 @@ private static Stream<Arguments> getInvalidRegisterObjects(){
                     new EducationTitle(1L,"cao"),
                     new EmployeeType(1L,"cao"),
                     "radojkovic@gmail.com",
-                    "123"
+                    "123",
+                    new byte[10]
             )),
             Arguments.of(new AccountDTO(
                     "ilija",
@@ -173,7 +175,8 @@ private static Stream<Arguments> getInvalidRegisterObjects(){
                     new EducationTitle(1L,"cao"),
                     new EmployeeType(1L,"cao"),
                     "radojkovic@gmail.com",
-                    "1"
+                    "1",
+                    new byte[10]
             )),
             Arguments.of(new AccountDTO(
                     "ilija",
@@ -183,6 +186,7 @@ private static Stream<Arguments> getInvalidRegisterObjects(){
                     new EmployeeType(1L,"cao"),
                     "radojkovic@gmail.com",
                     "1"
+                    , new byte[10]
             )),  Arguments.of(  new AccountDTO(
             "ilija",
             "radojkovic",
@@ -190,7 +194,8 @@ private static Stream<Arguments> getInvalidRegisterObjects(){
             new EducationTitle(1L,"cao"),
            null,
             "radojkovic@gmail.com",
-            "1"
+            "1",
+                    new byte[10]
     ))
     );
 }
@@ -203,6 +208,7 @@ private static Stream<Arguments> getInvalidRegisterObjects(){
                 new EmployeeType(1L,"cao"),
                 "radojkovic@gmail.com",
                 "1"
+                , new byte[10]
         );
     }
 
@@ -222,6 +228,7 @@ private static Stream<Arguments> getInvalidRegisterObjects(){
             new EmployeeType(1L,"cao"),
             "radojkovic@gmail.com",
             "1234"
+            , new byte[10]
          );
     }
     private ChangePasswordDTO CreateChangePasswordDTOValid(){

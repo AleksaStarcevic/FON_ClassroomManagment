@@ -75,7 +75,7 @@ private BCryptPasswordEncoder encoder;
         UserProfile user=userRepository.findByEmail(email);
         if(user==null) throw new TokenExpiredException("Please login again,there is no user with given email");
         Employee employee=user.getEmployee();
-        return  new UserDetailsDTO(employee.getFirstName(),employee.getLastName(),employee.getType().getName(),employee.getFile());
+        return  new UserDetailsDTO(employee.getFirstName(),employee.getLastName(),employee.getType().getName(),employee.getImage());
 
 
     }

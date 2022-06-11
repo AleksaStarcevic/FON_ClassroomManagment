@@ -67,7 +67,8 @@ public class TestAccountDTO extends  ModelTest<AccountDTO>{
                                 null,
                                null,
                                 null,
-                                null)),
+                                null,null
+                )),
                         Arguments.of(
                         new AccountDTO(
                                 "1234567891011121314151617",
@@ -76,7 +77,7 @@ public class TestAccountDTO extends  ModelTest<AccountDTO>{
                                 null,
                                 null,
                                 "gerrew2l.com",
-                                "g1"))
+                                "g1", new byte[10]))
 
 
                 );
@@ -91,7 +92,7 @@ public class TestAccountDTO extends  ModelTest<AccountDTO>{
                         new EducationTitle(1L,"test"),
                         new EmployeeType(1L,"test"),
                         "radojkovicika@gmail.com",
-                        "1234")),
+                        "1234", new byte[10])),
                         Arguments.of(new AccountDTO(
                         "test",
                         "testosew",
@@ -99,7 +100,7 @@ public class TestAccountDTO extends  ModelTest<AccountDTO>{
                         new EducationTitle(1L,"test"),
                         new EmployeeType(1L,"test"),
                         "gerrew22@gmail.com",
-                        "grertj431"))
+                        "grertj431", new byte[10]))
 
 
                 );

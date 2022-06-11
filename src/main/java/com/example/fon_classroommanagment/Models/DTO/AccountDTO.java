@@ -46,6 +46,8 @@ public class AccountDTO {
     @Size(min = 4,message = "Password mora imate bar 4 slova")
     private String password;
 
+    private byte[] image;
+
     private Date timeStamp=new Date();
 
     private String token;
@@ -57,11 +59,12 @@ public class AccountDTO {
                 getDepartment(),
                 getTitle(),
                 getType(),
-              getPassword()
+              getPassword(),
+               getImage()
         );
     }
 
-    public AccountDTO( String firstName, String lastName, EmployeeDepartment department, EducationTitle title, EmployeeType type, String email, String password) {
+    public AccountDTO( String firstName, String lastName, EmployeeDepartment department, EducationTitle title, EmployeeType type, String email, String password,byte[] image) {
 
         this.firstName = firstName;
         this.lastName = lastName;
@@ -70,5 +73,6 @@ public class AccountDTO {
         this.type = type;
         this.email = email;
         this.password = password;
+        this.image=image;
     }
 }
