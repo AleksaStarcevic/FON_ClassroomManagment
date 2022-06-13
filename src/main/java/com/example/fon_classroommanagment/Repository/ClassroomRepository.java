@@ -1,6 +1,7 @@
 package com.example.fon_classroommanagment.Repository;
 
 import com.example.fon_classroommanagment.Models.Classroom.Classroom;
+import com.example.fon_classroommanagment.Models.Classroom.ClassroomType;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -24,4 +25,6 @@ List<Classroom> filter(@Param("min_capacity") int min_capacity, @Param("max_capa
 
     List<Classroom> findByNameContaining(String name);
 
+    @Query(value = "select c from ClassroomType c")
+    List<ClassroomType> getAllClassroomTypes();
 }

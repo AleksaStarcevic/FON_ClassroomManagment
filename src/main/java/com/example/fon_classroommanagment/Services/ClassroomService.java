@@ -4,6 +4,7 @@ package com.example.fon_classroommanagment.Services;
 import com.example.fon_classroommanagment.Exceptions.ClassroomExistsException;
 import com.example.fon_classroommanagment.Models.Appointment.Appointment;
 import com.example.fon_classroommanagment.Models.Classroom.Classroom;
+import com.example.fon_classroommanagment.Models.Classroom.ClassroomType;
 import com.example.fon_classroommanagment.Models.DTO.*;
 import com.example.fon_classroommanagment.Repository.AppointmentRepository;
 import com.example.fon_classroommanagment.Repository.ClassroomRepository;
@@ -91,5 +92,7 @@ public class ClassroomService {
     }
 
 
-
+    public List<ClassroomType> getAllClassroomTypes() {
+        return classroomRepository.getAllClassroomTypes();
+    }
 }
