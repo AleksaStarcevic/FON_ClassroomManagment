@@ -1,9 +1,7 @@
 package com.example.fon_classroommanagment.Models;
 
 import com.example.fon_classroommanagment.FonClassroomManagmentApplication;
-import com.example.fon_classroommanagment.Models.Classroom.ClassroomType;
-import com.example.fon_classroommanagment.Models.DTO.ClassroomDetailsDTO;
-import com.example.fon_classroommanagment.Models.DTO.ClassroomPagingDTO;
+import com.example.fon_classroommanagment.Models.DTO.ClassroomCardDTO;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -18,11 +16,11 @@ import java.util.stream.Stream;
         classes = TestAccountDTO.class)
 @AutoConfigureMockMvc
 @ContextConfiguration(classes= FonClassroomManagmentApplication.class)
-public class TestClassroomPagingDTO extends  ModelTest<ClassroomPagingDTO> {
+public class TestClassroomPagingDTO extends  ModelTest<ClassroomCardDTO> {
     @Override
     @ParameterizedTest
     @MethodSource("generateValid")
-    protected void TestValid(ClassroomPagingDTO entity) {
+    protected void TestValid(ClassroomCardDTO entity) {
         Assertions.assertTrue(validator.validateProperty(entity,"name").isEmpty());
         Assertions.assertTrue(validator.validateProperty(entity,"number_of_seats").isEmpty());
 
@@ -31,7 +29,7 @@ public class TestClassroomPagingDTO extends  ModelTest<ClassroomPagingDTO> {
     @Override
     @ParameterizedTest
     @MethodSource("generateInvalid")
-    protected void TestInvalid(ClassroomPagingDTO entity) {
+    protected void TestInvalid(ClassroomCardDTO entity) {
         Assertions.assertFalse(validator.validateProperty(entity,"name").isEmpty());
         Assertions.assertFalse(validator.validateProperty(entity,"number_of_seats").isEmpty());
 
@@ -39,17 +37,17 @@ public class TestClassroomPagingDTO extends  ModelTest<ClassroomPagingDTO> {
 
     private static Stream<Arguments> generateValid(){
         return  Stream.of(
-                Arguments.of(new ClassroomPagingDTO(1L,"TestName",
+                Arguments.of(new ClassroomCardDTO(1L,"TestName",
                         23,true,true))
         );
     }
 
     private static Stream<Arguments> generateInvalid(){
         return  Stream.of(
-                Arguments.of(new ClassroomPagingDTO(null,null,-4,false,false)
+                Arguments.of(new ClassroomCardDTO(null,null,-4,false,false)
                 ),
                 Arguments.of(
-                        new ClassroomPagingDTO(null,"",-6,false,false)
+                        new ClassroomCardDTO(null,"",-6,false,false)
 
 
                 ));

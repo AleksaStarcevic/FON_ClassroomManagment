@@ -36,7 +36,8 @@ public class ClassroomService {
 
     public List<Classroom> searchClassroom(SearchClassroomDTO dto)  {
         //if(classrooms.isEmpty()) throw new ClassroomExistsException("Classroom with that name doesn't exist");
-        return classroomRepository.findByNameContaining(dto.getName());
+        return classroomRepository.findByNameContaining("%"+dto.getName()+"%",PageRequest.of(dto.getPage()-1, PAGE_SIZE)).getContent();
+
 
     }
 

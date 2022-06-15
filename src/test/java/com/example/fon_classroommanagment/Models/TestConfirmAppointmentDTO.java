@@ -2,7 +2,6 @@ package com.example.fon_classroommanagment.Models;
 
 import com.example.fon_classroommanagment.FonClassroomManagmentApplication;
 import com.example.fon_classroommanagment.Models.Appointment.AppointmentStatus;
-import com.example.fon_classroommanagment.Models.DTO.ClassroomPagingDTO;
 import com.example.fon_classroommanagment.Models.DTO.ConfirmAppointmentDTO;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;

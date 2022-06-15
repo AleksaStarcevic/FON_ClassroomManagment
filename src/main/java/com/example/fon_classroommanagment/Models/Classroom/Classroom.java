@@ -1,6 +1,7 @@
 package com.example.fon_classroommanagment.Models.Classroom;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -14,6 +15,7 @@ import static com.example.fon_classroommanagment.Configuration.Constants.CLASSRO
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+
 public class Classroom {
 
     @Id

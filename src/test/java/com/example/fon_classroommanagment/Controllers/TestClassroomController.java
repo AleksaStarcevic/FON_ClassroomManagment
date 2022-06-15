@@ -3,9 +3,6 @@ package com.example.fon_classroommanagment.Controllers;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.example.fon_classroommanagment.FonClassroomManagmentApplication;
-import com.example.fon_classroommanagment.Models.Classroom.Classroom;
-import com.example.fon_classroommanagment.Models.Classroom.ClassroomType;
-import com.example.fon_classroommanagment.Models.DTO.ClassroomPagingDTO;
 import com.example.fon_classroommanagment.Services.ClassroomService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
@@ -14,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.test.context.ContextConfiguration;
@@ -26,10 +22,7 @@ import java.util.stream.Collectors;
 
 import static com.example.fon_classroommanagment.Configuration.Constants.SECRET;
 import static com.example.fon_classroommanagment.Configuration.Constants.VALIDATION_TOKEN_EXPIRATION;
-import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)

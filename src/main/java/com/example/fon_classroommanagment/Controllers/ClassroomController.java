@@ -25,25 +25,25 @@ public class ClassroomController {
     private ClassroomService service;
 
     @GetMapping("/filter")
-    public ResponseEntity<List<ClassroomPagingDTO>> filter(@RequestBody @Valid FilterDTO filterDTO) {
+    public ResponseEntity<List<ClassroomCardDTO>> filter(@RequestBody @Valid FilterDTO filterDTO) {
 List<Classroom> resultQuiery=service.filter(filterDTO);
-List<ClassroomPagingDTO> result=CreateClassroomPagingDTOs(resultQuiery);
+List<ClassroomCardDTO> result=CreateClassroomPagingDTOs(resultQuiery);
         return ResponseEntity.ok(result );
     }
 
     @GetMapping("/getClassrooms")
-    public ResponseEntity<List<ClassroomPagingDTO>> getClassrooms(@RequestParam("page")  @Positive(message = "Page mora biti pozitivan broj") int page){
+    public ResponseEntity<List<ClassroomCardDTO>> getClassrooms(@RequestParam("page")  @Positive(message = "Page mora biti pozitivan broj") int page){
 
 List<Classroom> resultQuery=service.getAllClassrooms(page-1);
-List<ClassroomPagingDTO> result=CreateClassroomPagingDTOs(resultQuery);
+List<ClassroomCardDTO> result=CreateClassroomPagingDTOs(resultQuery);
         return ResponseEntity.ok(result);
     }
 
 
-    @GetMapping("/searchClassroom")
-    public ResponseEntity<List<ClassroomPagingDTO>> searchClassroom(@RequestBody  @Valid SearchClassroomDTO dto) {
+    @PostMapping("/searchClassroom")
+    public ResponseEntity<List<ClassroomCardDTO>> searchClassroom(@RequestBody  @Valid SearchClassroomDTO dto) {
         List<Classroom> classrooms = service.searchClassroom(dto);
-        List<ClassroomPagingDTO> result=CreateClassroomPagingDTOs(classrooms);
+        List<ClassroomCardDTO> result=CreateClassroomPagingDTOs(classrooms);
         return ResponseEntity.status(HttpStatus.OK).body(result);
 
     }
@@ -62,8 +62,8 @@ List<ClassroomPagingDTO> result=CreateClassroomPagingDTOs(resultQuery);
         return  ResponseEntity.ok(service.getForDateClassroom(requestAppointmetDateDTO));
     }
 
-    private   List<ClassroomPagingDTO> CreateClassroomPagingDTOs( List<Classroom> resultQuery ){
-        return resultQuery.stream().map(x->new ClassroomPagingDTO(x.getId(),x.getName(),x.getNumber_of_seats(),x.isProjector(),x.getType().getName().equals(RC_TYPE_NAME))).collect(Collectors.toList());
+    private   List<ClassroomCardDTO> CreateClassroomPagingDTOs(List<Classroom> resultQuery ){
+        return resultQuery.stream().map(x->new ClassroomCardDTO(x.getId(),x.getName(),x.getNumber_of_seats(),x.isProjector(),x.getType().getName().equals(RC_TYPE_NAME))).collect(Collectors.toList());
 
     }
 
