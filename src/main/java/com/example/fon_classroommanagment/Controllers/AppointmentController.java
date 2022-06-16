@@ -66,7 +66,7 @@ public class AppointmentController {
         }
 
 
-        @GetMapping("/GetForDate")
+        @PostMapping("/GetForDate")
         public ResponseEntity<List<GetForDateAppointmentDTO>> getAppointmentsForDate(@RequestBody @Valid RequestAppointmetDateDTO requestAppointmetDateDTO){
 
             return  ResponseEntity.ok(appointmentService.getForDate(requestAppointmetDateDTO));

@@ -20,8 +20,7 @@ import javax.validation.constraints.*;
 import java.util.Date;
 import java.util.UUID;
 
-import static com.example.fon_classroommanagment.Configuration.Constants.MAX_VREME_ZAKAZIVANJA;
-import static com.example.fon_classroommanagment.Configuration.Constants.STATUS_CEKANJA;
+import static com.example.fon_classroommanagment.Configuration.Constants.*;
 
 @Data
 @AllArgsConstructor
@@ -46,6 +45,7 @@ public class ReserveDTO {
 
     @Length(max = 45,message = "Maksimalna duzina opisa je 45 slova")
     @NotNull(message = "Ime nije  uneto")
+    @NotEmpty(message = "Ime ne sme biti prazno")
     private String name;
 
     @NotNull(message = "Datum nije  uneto")
@@ -72,11 +72,13 @@ public class ReserveDTO {
 
 
     @Positive(message = "Pocetno vreme mora biti pozitivno")
-    @Max(value = MAX_VREME_ZAKAZIVANJA,message = "Maksimalno se moze rezervisati 10 h")
+    @Max(value = MAX_VREME_ZAKAZIVANJA,message = "Maksimalno se moze rezervisati do 20 h")
+    @Min(value = MIN_VREME_ZAKAZIVANJA,message = "Minimalno se moze rezervisati od 8h")
     private int start_timeInHours;
 
     @Positive(message = "Krajnje vreme mora biti pozitivno")
-    @Max(value = MAX_VREME_ZAKAZIVANJA,message = "Maksimalno se moze rezervisati 10 h")
+    @Max(value = MAX_VREME_ZAKAZIVANJA,message = "Maksimalno se moze rezervisati do 20 h")
+    @Min(value = MIN_VREME_ZAKAZIVANJA,message = "Minimalno se moze rezervisati od 8h")
     private int end_timeInHours;
 
  // @Positive(message = "Status mora biti pozitivan broj")
