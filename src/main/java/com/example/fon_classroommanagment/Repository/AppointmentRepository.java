@@ -1,6 +1,7 @@
 package com.example.fon_classroommanagment.Repository;
 
 import com.example.fon_classroommanagment.Models.Appointment.Appointment;
+import com.example.fon_classroommanagment.Models.Appointment.AppointmentType;
 import com.example.fon_classroommanagment.Models.Classroom.Classroom;
 import com.example.fon_classroommanagment.Models.DTO.RequestedAppointmentsDTO;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -62,4 +63,7 @@ public interface AppointmentRepository extends JpaRepository<Appointment, UUID> 
 
     @Query("select new com.example.fon_classroommanagment.Models.DTO.RequestedAppointmentsDTO(p.employee.image,p.employee.firstName,p.employee.lastName,count(p)) from Appointment  p order by p.employee.id")
     List<RequestedAppointmentsDTO> getRequestedAppointmentsForUsers();
+
+    @Query("select c from AppointmentType  c")
+    List<AppointmentType> getAllAppointmentTypes();
 }

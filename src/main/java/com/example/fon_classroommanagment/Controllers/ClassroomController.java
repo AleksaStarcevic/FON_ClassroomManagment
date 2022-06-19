@@ -26,25 +26,23 @@ public class ClassroomController {
 
     @GetMapping("/filter")
     public ResponseEntity<List<ClassroomCardDTO>> filter(@RequestBody @Valid FilterDTO filterDTO) {
-List<Classroom> resultQuiery=service.filter(filterDTO);
-List<ClassroomCardDTO> result=CreateClassroomPagingDTOs(resultQuiery);
-        return ResponseEntity.ok(result );
+
+        return ResponseEntity.ok(service.filter(filterDTO));
     }
 
     @GetMapping("/getClassrooms")
     public ResponseEntity<List<ClassroomCardDTO>> getClassrooms(@RequestParam("page")  @Positive(message = "Page mora biti pozitivan broj") int page){
 
-List<Classroom> resultQuery=service.getAllClassrooms(page-1);
-List<ClassroomCardDTO> result=CreateClassroomPagingDTOs(resultQuery);
-        return ResponseEntity.ok(result);
+        return  ResponseEntity.ok(service.getAllClassrooms(page-1));
+
+
     }
 
 
     @PostMapping("/searchClassroom")
     public ResponseEntity<List<ClassroomCardDTO>> searchClassroom(@RequestBody  @Valid SearchClassroomDTO dto) {
-        List<Classroom> classrooms = service.searchClassroom(dto);
-        List<ClassroomCardDTO> result=CreateClassroomPagingDTOs(classrooms);
-        return ResponseEntity.status(HttpStatus.OK).body(result);
+       return ResponseEntity.ok(service.searchClassroom(dto));
+
 
     }
 
@@ -62,9 +60,10 @@ List<ClassroomCardDTO> result=CreateClassroomPagingDTOs(resultQuery);
         return  ResponseEntity.ok(service.getForDateClassroom(requestAppointmetDateDTO));
     }
 
-    private   List<ClassroomCardDTO> CreateClassroomPagingDTOs(List<Classroom> resultQuery ){
-        return resultQuery.stream().map(x->new ClassroomCardDTO(x.getId(),x.getName(),x.getNumber_of_seats(),x.isProjector(),x.getType().getName().equals(RC_TYPE_NAME))).collect(Collectors.toList());
 
+    @GetMapping("getClassroomsChip")
+    public ResponseEntity<List<ClassroomChipDTO>> getClassroomsAsChip(@RequestParam("name") String name){
+        return ResponseEntity.ok(service.getClassroomsAsChips(name));
     }
 
 
