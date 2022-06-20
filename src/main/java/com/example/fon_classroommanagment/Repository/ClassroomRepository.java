@@ -2,6 +2,7 @@ package com.example.fon_classroommanagment.Repository;
 
 import com.example.fon_classroommanagment.Models.Classroom.Classroom;
 import com.example.fon_classroommanagment.Models.Classroom.ClassroomType;
+import com.example.fon_classroommanagment.Models.DTO.ClassroomChipDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -30,4 +31,8 @@ List<Classroom> filter(@Param("min_capacity") int min_capacity, @Param("max_capa
 
     @Query(value = "select c from ClassroomType c")
     List<ClassroomType> getAllClassroomTypes();
+
+    @Query(value = "select  c from  Classroom  c where c.name like :name   ")
+    Page<Classroom> findByNameChips(@Param("name") String name, Pageable pageable);
+
 }

@@ -3,6 +3,7 @@ package com.example.fon_classroommanagment.Services;
 
 import com.example.fon_classroommanagment.Exceptions.ClassroomExistsException;
 import com.example.fon_classroommanagment.Models.Appointment.Appointment;
+import com.example.fon_classroommanagment.Models.Appointment.AppointmentType;
 import com.example.fon_classroommanagment.Models.Classroom.Classroom;
 import com.example.fon_classroommanagment.Models.Classroom.ClassroomType;
 import com.example.fon_classroommanagment.Models.DTO.*;
@@ -11,13 +12,14 @@ import com.example.fon_classroommanagment.Repository.ClassroomRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import static com.example.fon_classroommanagment.Configuration.Constants.PAGE_SIZE;
+import static com.example.fon_classroommanagment.Configuration.Constants.*;
 
 @Service
 public class ClassroomService {
@@ -27,17 +29,23 @@ public class ClassroomService {
     @Autowired
     private AppointmentRepository appointmentRepository;
 
-    public List<Classroom> filter(FilterDTO filterDTO) {
+    public List<ClassroomCardDTO> filter(FilterDTO filterDTO) {
 
 
-          return   classroomRepository.filter(filterDTO.getMin_capacity(),filterDTO.getMax_capacity(),filterDTO.isAircondition(),filterDTO.isProjector());
+          List<Classroom> result =classroomRepository.filter(filterDTO.getMin_capacity(),filterDTO.getMax_capacity(),filterDTO.isAircondition(),filterDTO.isProjector());
+        return CreateClassroomPagingDTOs(result);
+    }
+
+    public List<ClassroomCardDTO> searchClassroom(SearchClassroomDTO dto)  {
+        //if(classrooms.isEmpty()) throw new ClassroomExistsException("Classroom with that name doesn't exist");
+       List<Classroom> result= classroomRepository.findByNameContaining("%"+dto.getName()+"%",PageRequest.of(dto.getPage()-1, PAGE_SIZE)).getContent();
+        return CreateClassroomPagingDTOs(result);
+
 
     }
 
-    public List<Classroom> searchClassroom(SearchClassroomDTO dto)  {
-        //if(classrooms.isEmpty()) throw new ClassroomExistsException("Classroom with that name doesn't exist");
-        return classroomRepository.findByNameContaining("%"+dto.getName()+"%",PageRequest.of(dto.getPage()-1, PAGE_SIZE)).getContent();
-
+    private   List<ClassroomCardDTO> CreateClassroomPagingDTOs(List<Classroom> resultQuery ){
+        return resultQuery.stream().map(x->new ClassroomCardDTO(x.getId(),x.getName(),x.getNumber_of_seats(),x.isProjector(),x.getType().getName().equals(RC_TYPE_NAME))).collect(Collectors.toList());
 
     }
 
@@ -69,12 +77,12 @@ public class ClassroomService {
     }
 
 
-    public List<Classroom> getAllClassrooms(int page) {
+    public List<ClassroomCardDTO> getAllClassrooms(int page) {
 
 
 
         Page<Classroom> all = classroomRepository.findAll(PageRequest.of(page, PAGE_SIZE));
-        return all.getContent();
+        return CreateClassroomPagingDTOs(all.getContent());
     }
     public List<GetForDateAppointmentDTO> getForDateClassroom(RequestIsClassroomAvailableForDateDTO requestAppointmetDateDTO) throws ClassroomExistsException {
 
@@ -95,5 +103,19 @@ public class ClassroomService {
 
     public List<ClassroomType> getAllClassroomTypes() {
         return classroomRepository.getAllClassroomTypes();
+    }
+
+    public List<AppointmentType> getAllAppointmentTypes() {
+        return appointmentRepository.getAllAppointmentTypes();
+    }
+
+    public List<ClassroomChipDTO> getClassroomsAsChips(String name) {
+
+      List<Classroom> result= classroomRepository.findByNameChips("%"+name+"%", Pageable.ofSize(CHIP_SEARCH_ELEMENTS)).getContent();
+return CreateClassroomChipDTOs(result);
+    }
+    private   List<ClassroomChipDTO> CreateClassroomChipDTOs(List<Classroom> resultQuery ){
+        return resultQuery.stream().map(x->new ClassroomChipDTO(x.getId(),x.getName())).collect(Collectors.toList());
+
     }
 }

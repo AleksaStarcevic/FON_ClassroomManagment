@@ -1,5 +1,6 @@
 package com.example.fon_classroommanagment.Controllers;
 
+import com.example.fon_classroommanagment.Models.Appointment.AppointmentType;
 import com.example.fon_classroommanagment.Models.Classroom.ClassroomType;
 import com.example.fon_classroommanagment.Models.Emplayee.EducationTitle;
 import com.example.fon_classroommanagment.Models.Emplayee.EmployeeDepartment;
@@ -37,5 +38,10 @@ public class CommonDataController {
     @GetMapping("/allClassroomTypes")
     public ResponseEntity<List<ClassroomType>> getAllClassroomTypes(){
         return ResponseEntity.ok(classrromService.getAllClassroomTypes());
+    }
+
+    @GetMapping("/allAppointmentTypes")
+    public ResponseEntity<List<AppointmentType>> getAllAppointmentTypes(){
+        return ResponseEntity.ok(classrromService.getAllAppointmentTypes());
     }
 }

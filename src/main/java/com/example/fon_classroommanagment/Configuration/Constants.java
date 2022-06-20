@@ -53,4 +53,6 @@ public class Constants {
     public static  final int MIN_VREME_ZAKAZIVANJA=8;
     public static  final String BEARER_STRING="Bearer " ;
 
+    public static final int CHIP_SEARCH_ELEMENTS=3;
+
 }
