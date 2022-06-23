@@ -104,10 +104,9 @@ public class AppointmentService {
     }
     public boolean IsClassroomAvailableAtDate(RequestIsClassroomAvailableForDateDTO dto) {
 
-        List<Appointment> resQuery=appointmentRepository.findByDateAndClassroom(dto.getDate(),new Classroom(dto.getClassroomId()));
+        return AvailableRoom(dto.getClassroomId(), dto.getDate(), dto.getStart_timeInHours(), dto.getEnd_timeInHours());
 
 
-        return resQuery.size()==0;
     }
     public void ConfirmAllAppointments(List<ConfirmAppointmentDTO> dto) throws AppointmentDoesNotExistsException {
         for (ConfirmAppointmentDTO appointmentDTO: dto) {
