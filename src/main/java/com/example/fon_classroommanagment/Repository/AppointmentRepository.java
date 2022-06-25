@@ -3,6 +3,8 @@ package com.example.fon_classroommanagment.Repository;
 import com.example.fon_classroommanagment.Models.Appointment.Appointment;
 import com.example.fon_classroommanagment.Models.Appointment.AppointmentType;
 import com.example.fon_classroommanagment.Models.Classroom.Classroom;
+import com.example.fon_classroommanagment.Models.DTO.GetForDateAppointmentDTO;
+import com.example.fon_classroommanagment.Models.DTO.RequestAppointmetDaetForClassroomDTO;
 import com.example.fon_classroommanagment.Models.DTO.RequestedAppointmentsDTO;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -66,4 +68,8 @@ public interface AppointmentRepository extends JpaRepository<Appointment, UUID> 
 
     @Query("select c from AppointmentType  c")
     List<AppointmentType> getAllAppointmentTypes();
+
+
+    @Query("select t from Appointment  t where t.date =:date and t.classroom.id=:classroomId")
+    List<Appointment> findByDateAndClassroom(@Param("date") Date date,@Param("classroomId") Long classroomId);
 }

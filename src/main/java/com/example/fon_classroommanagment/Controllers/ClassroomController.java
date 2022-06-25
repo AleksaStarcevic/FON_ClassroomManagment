@@ -65,6 +65,11 @@ public class ClassroomController {
     public ResponseEntity<List<ClassroomChipDTO>> getClassroomsAsChip(@RequestParam("name") String name){
         return ResponseEntity.ok(service.getClassroomsAsChips(name));
     }
+    @GetMapping("getClassroomsChipAll")
+    public ResponseEntity<List<ClassroomChipDTO>> getClassroomsAsChip( @RequestParam("page") @Positive(message = "Page mora biti pozitivan broj")  int page ){
+        return ResponseEntity.ok(service.getAllClassroomsAsChips(page));
+    }
+
 
 
 

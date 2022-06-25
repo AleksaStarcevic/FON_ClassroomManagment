@@ -71,6 +71,11 @@ public class AppointmentController {
 
             return  ResponseEntity.ok(appointmentService.getForDate(requestAppointmetDateDTO));
         }
+        @PostMapping("/GetForDateAndClassroom")
+        public ResponseEntity<List<GetForDateAppointmentDTO>> getAppointmentsForDateAndClassroom(@RequestBody @Valid RequestAppointmetDaetForClassroomDTO requestAppointmetDateClassroomDTO){
+        System.out.println("stize"+ requestAppointmetDateClassroomDTO.toString());
+            return  ResponseEntity.ok(appointmentService.getForDateAndClassroom(requestAppointmetDateClassroomDTO));
+        }
 
 
 

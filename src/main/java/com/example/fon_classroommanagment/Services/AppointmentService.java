@@ -150,4 +150,9 @@ public class AppointmentService {
     }
 
 
+    public List<GetForDateAppointmentDTO> getForDateAndClassroom(RequestAppointmetDaetForClassroomDTO requestAppointmetDateClassroomDTO) {
+        List<Appointment> byDateAndClassroom = appointmentRepository.findByDateAndClassroom(requestAppointmetDateClassroomDTO.getDate(), requestAppointmetDateClassroomDTO.getClassroomId());
+        return getForDateAppointmentDTOS((byDateAndClassroom));
+
+    }
 }

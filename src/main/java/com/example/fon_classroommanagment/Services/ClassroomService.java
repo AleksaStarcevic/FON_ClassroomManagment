@@ -114,8 +114,15 @@ public class ClassroomService {
       List<Classroom> result= classroomRepository.findByNameChips("%"+name+"%", Pageable.ofSize(CHIP_SEARCH_ELEMENTS)).getContent();
 return CreateClassroomChipDTOs(result);
     }
+    public List<ClassroomChipDTO> getAllClassroomsAsChips(int page) {
+
+        Page<ClassroomChipDTO> all = classroomRepository.findAll(PageRequest.of(page-1, PAGE_SIZE)).map(x-> new ClassroomChipDTO(x.getId(),x.getName()));
+        return all.getContent();
+    }
+
     private   List<ClassroomChipDTO> CreateClassroomChipDTOs(List<Classroom> resultQuery ){
         return resultQuery.stream().map(x->new ClassroomChipDTO(x.getId(),x.getName())).collect(Collectors.toList());
 
     }
+
 }

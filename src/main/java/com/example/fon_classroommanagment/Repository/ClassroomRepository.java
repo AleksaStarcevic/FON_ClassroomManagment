@@ -33,6 +33,8 @@ List<Classroom> filter(@Param("min_capacity") int min_capacity, @Param("max_capa
     List<ClassroomType> getAllClassroomTypes();
 
     @Query(value = "select  c from  Classroom  c where c.name like :name   ")
-    Page<Classroom> findByNameChips(@Param("name") String name, Pageable pageable);
+    Page<Classroom> findByNameChips(@Param("name") String name,Pageable pageable);
+    @Query(value = "select  c from  Classroom  c where c.name like :name   ")
+    List<Classroom> findByNameChipsAll(@Param("name") String name);
 
 }
