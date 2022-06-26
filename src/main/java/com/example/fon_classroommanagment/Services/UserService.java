@@ -94,8 +94,10 @@ private BCryptPasswordEncoder encoder;
         List<AppointmentsForUserDTO> appointmentsForUserDTOS = new ArrayList<>();
         for (Appointment appointment : appointments) {
             appointmentsForUserDTOS.add(new AppointmentsForUserDTO(
-                    appointment.getName(),
+                    appointment.getId(),
                     appointment.getClassroom().getName(),
+                    appointment.getName()
+                  ,
                     appointment.getDate(),
                     appointment.getStart_timeInHours(),
                     appointment.getEnd_timeInHours()));

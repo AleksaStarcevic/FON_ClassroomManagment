@@ -49,11 +49,11 @@ public class ClassroomService {
 
     }
 
-    public ClassroomDetailsDTO classroomDetails(RequestClassroomDetailsDTO dto) throws ClassroomExistsException {
-        Optional<Classroom> optional = classroomRepository.findById(dto.getId());
+    public ClassroomDetailsDTO classroomDetails(Long classroomId) throws ClassroomExistsException {
+        Optional<Classroom> optional = classroomRepository.findById(classroomId);
         if (optional.isEmpty()) throw new ClassroomExistsException("Classroom with given id doesn't exist");
         Classroom classroom = optional.get();
-        List<Double[]> monthsPercentage = appointmentRepository.reservationsByMonths(dto.getId());
+        List<Double[]> monthsPercentage = appointmentRepository.reservationsByMonths(classroomId);
 
         for (Double[] month : monthsPercentage) {
             for (int i = 1; i < month.length; i++) {
@@ -62,7 +62,7 @@ public class ClassroomService {
             }
         }
 
-        ClassroomDetailsDTO result = new ClassroomDetailsDTO(classroom.getName(),
+        return new  ClassroomDetailsDTO(classroom.getName(),
                 classroom.getNumber_of_seats(),
                 classroom.getNumber_of_computers(),
                 classroom.isAircondition(),
@@ -73,7 +73,7 @@ public class ClassroomService {
                 classroom.getBr_tabli(), monthsPercentage);
 
 
-        return result;
+
     }
 
 

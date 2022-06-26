@@ -19,6 +19,7 @@ import javax.persistence.EntityNotFoundException;
 import javax.validation.ConstraintViolationException;
 import javax.validation.Valid;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @RestController
@@ -29,8 +30,8 @@ public class AppointmentController {
     private AppointmentService appointmentService;
 
         @DeleteMapping("/DeleteReservation")
-        public void DeleteAppointment(@RequestBody @Valid DeleteReservationDTO dto){
-             appointmentService.DeleteAppointment(dto.getId().toString());
+        public void DeleteAppointment(@RequestParam("id") @Valid UUID dto){
+             appointmentService.DeleteAppointment(dto.toString());
 
         }
         @GetMapping("/getAll")
@@ -73,7 +74,6 @@ public class AppointmentController {
         }
         @PostMapping("/GetForDateAndClassroom")
         public ResponseEntity<List<GetForDateAppointmentDTO>> getAppointmentsForDateAndClassroom(@RequestBody @Valid RequestAppointmetDaetForClassroomDTO requestAppointmetDateClassroomDTO){
-        System.out.println("stize"+ requestAppointmetDateClassroomDTO.toString());
             return  ResponseEntity.ok(appointmentService.getForDateAndClassroom(requestAppointmetDateClassroomDTO));
         }
 

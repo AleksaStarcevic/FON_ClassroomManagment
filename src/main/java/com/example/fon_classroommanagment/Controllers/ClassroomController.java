@@ -11,6 +11,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -48,8 +49,11 @@ public class ClassroomController {
 
 
     @GetMapping("/classroomDetails")
-    public ResponseEntity<ClassroomDetailsDTO> classroomDetails(@RequestBody @Valid RequestClassroomDetailsDTO dto) throws ClassroomExistsException {
-        return ResponseEntity.status(HttpStatus.OK).body(service.classroomDetails(dto));
+    public ResponseEntity<ClassroomDetailsDTO> classroomDetails(
+            @RequestParam("classroomId")
+            @Positive(message = "Id ucionice more biti pozitivan")
+            @NotNull(message = "Id ucionice ne sme biti prazan") Long classroomId) throws ClassroomExistsException {
+        return ResponseEntity.status(HttpStatus.OK).body(service.classroomDetails(classroomId));
     }
 
 
