@@ -4,6 +4,7 @@ import com.example.fon_classroommanagment.Models.Emplayee.EducationTitle;
 import com.example.fon_classroommanagment.Models.Emplayee.EmployeeDepartment;
 import com.example.fon_classroommanagment.Models.Emplayee.EmployeeType;
 import com.example.fon_classroommanagment.Models.User.UserProfile;
+import com.example.fon_classroommanagment.Models.User.UserRole;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -36,4 +37,7 @@ public interface UserRepository  extends JpaRepository<UserProfile, UUID> {
 
     @Query("select e from EmployeeDepartment  e")
     List<EmployeeDepartment> getAllEmployeeDepartments();
+
+
+
 }

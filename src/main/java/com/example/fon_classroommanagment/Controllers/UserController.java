@@ -48,4 +48,9 @@ public class UserController {
 
         return ResponseEntity.ok(userService.getRequestedAppointments());
     }
+
+    @GetMapping("/isAdmin")
+    public ResponseEntity<Boolean> isUserAdmin(Authentication authentication){
+        return ResponseEntity.ok(userService.isUserAdmin(authentication.getName()));
+    }
 }

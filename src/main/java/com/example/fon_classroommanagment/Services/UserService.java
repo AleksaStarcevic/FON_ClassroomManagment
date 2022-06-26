@@ -22,6 +22,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.*;
 
+import static com.example.fon_classroommanagment.Configuration.Constants.ADMIN_NAME_TYPE_ROLE;
+
 @Service
 public class UserService implements UserDetailsService {
    @Autowired
@@ -119,5 +121,10 @@ private BCryptPasswordEncoder encoder;
     }
     public List<EmployeeDepartment> getAllEmployeeDepartments(){
         return userRepository.getAllEmployeeDepartments();
+    }
+
+    public Boolean isUserAdmin(String name) {
+
+        return userRepository.findByEmail(name).getRole().getName().equals(ADMIN_NAME_TYPE_ROLE);
     }
 }
