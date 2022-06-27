@@ -15,6 +15,7 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.xml.crypto.Data;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -96,8 +97,8 @@ public class AppointmentService {
       return appointmentRepository.searchReservationsByClassroomAndDate(dto.getClassroomId(),dto.getDate());
     }
 
-    public List<GetForDateAppointmentDTO> getForDate(RequestAppointmetDateDTO requestAppointmetDateDTO) {
-        return  getForDateAppointmentDTOS(appointmentRepository.findByDate(requestAppointmetDateDTO.getDatum()));
+    public List<GetForDateAppointmentDTO> getForDate(Date date) {
+        return  getForDateAppointmentDTOS(appointmentRepository.findByDate(date));
     }
     private List<GetForDateAppointmentDTO> getForDateAppointmentDTOS(   List<Appointment> appointments){
         return appointments.stream().map(x->new GetForDateAppointmentDTO(x.getStart_timeInHours(),x.getEnd_timeInHours(),x.getType().getName(),x.getClassroom().getName(),x.getDecription())).collect(Collectors.toList());

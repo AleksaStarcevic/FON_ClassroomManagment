@@ -2,13 +2,32 @@ package com.example.fon_classroommanagment.Configuration;
 
 public class Routes {
 
+    //auth
+
+    public  static final String REGISTER ="/register";
+    public  static final String REGISTER_CONFIRM ="/register/{token}";
+
+
+
+    //appointment
+    public  static final String APPOINTMENT_PREFIX ="/appointment";
+    public  static final String APPOINTMENT_DELETE ="";
+    public  static final String APPOINTMENT_CLASSROOM ="/appointments";
+    public  static final String APPOINTMENTS ="";
+    public  static final String APPOINTMENT_CONFIRM ="/confirm";
+    public  static final String APPOINTMENT_CONFIRM_ALL ="/confirm/all";
+    public  static final String APPOINTMENT_RESERVE ="/reserve";
+    public  static final String APPOINTMENT_SEARCH ="/search";
+    public  static final String APPOINTMENT_DATE ="/{date}";
+
+
+
     //classroom
     public  static final String  CLASSROOM_PREFIX="/classroom";
     public  static final String  CLASSROOM_FILTER="/filter";
     public  static final String  CLASSROOM_PAGING="/{page}";
     public  static final String  CLASSROOM_SEARCH="/{page}/search";
     public  static final String  CLASSROOM_DETAILS="";
-    public  static final String  CLASSROOM_APPOITMENTS="/appointments";
     public  static final String CLASSROOM_PAGING_PARTIAL_INFO ="/main-info/{page}";
     public  static final String CLASSROOM_PARTIAL_INFO ="/main-info";
 

@@ -1,81 +1,78 @@
 package com.example.fon_classroommanagment.Controllers;
 
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.impl.JWTParser;
 import com.example.fon_classroommanagment.Exceptions.AppointmentDoesNotExistsException;
 import com.example.fon_classroommanagment.Exceptions.ReservationExistsException;
 import com.example.fon_classroommanagment.Models.Appointment.Appointment;
 import com.example.fon_classroommanagment.Models.DTO.*;
 import com.example.fon_classroommanagment.Services.AppointmentService;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.security.oauth2.resource.OAuth2ResourceServerProperties;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
-import javax.persistence.EntityNotFoundException;
-import javax.validation.ConstraintViolationException;
 import javax.validation.Valid;
+import javax.websocket.server.PathParam;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
+
+import static com.example.fon_classroommanagment.Configuration.Routes.*;
 
 @RestController()
+@RequestMapping(APPOINTMENT_PREFIX)
 @Validated
 public class AppointmentController {
 
     @Autowired
     private AppointmentService appointmentService;
 
-        @DeleteMapping("/appointment")
+        @DeleteMapping(APPOINTMENT_DELETE)
         public void DeleteAppointment(@RequestParam("id") @Valid UUID dto){
              appointmentService.DeleteAppointment(dto.toString());
 
         }
-        @GetMapping("/appointments-get")
+
+        @GetMapping(APPOINTMENTS)
         public ResponseEntity<List<Appointment>> getAll(){
             return ResponseEntity.ok(appointmentService.getAll());
         }
 
-        @GetMapping("/test")
-        public ResponseEntity<String> test(){
-        return  ResponseEntity.ok("ok");
-        }
 
-        @PostMapping("/appointment-confirm")
+
+        @PostMapping(APPOINTMENT_CONFIRM)
         public void ConfirmAppointment(@RequestBody @Valid ConfirmAppointmentDTO dto) throws AppointmentDoesNotExistsException {
               appointmentService.ConfirmAppointment(dto);
         }
 
-    @PostMapping("/confirmAllAppointment")
+    @PostMapping(APPOINTMENT_CONFIRM_ALL)
     public void ConfirmAppointment(@RequestBody List<ConfirmAppointmentDTO> dto) throws AppointmentDoesNotExistsException {
         appointmentService.ConfirmAllAppointments(dto);
     }
 
-    @PostMapping("/reserve")
+    @PostMapping(APPOINTMENT_RESERVE)
         public void Reserve(@RequestBody  @Valid  List<ReserveDTO> dto) throws ReservationExistsException {
 
         appointmentService.ReserveAppointment(dto);
 
         }
 
-        @GetMapping("/searchReservation")
+        @GetMapping(APPOINTMENT_SEARCH)
         public ResponseEntity<List<Appointment>> searchReservation(@RequestBody  @Valid SearchReservationDTO dto) throws ReservationExistsException {
             return ResponseEntity.status(HttpStatus.OK).body(appointmentService.searchReservation(dto));
         }
 
 
-        @PostMapping("/GetForDate")
-        public ResponseEntity<List<GetForDateAppointmentDTO>> getAppointmentsForDate(@RequestBody @Valid RequestAppointmetDateDTO requestAppointmetDateDTO){
+        @PostMapping(APPOINTMENT_DATE)
+        public ResponseEntity<List<GetForDateAppointmentDTO>> getAppointmentsForDate(@PathParam("date") @Valid @JsonFormat(shape=JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd") Date date){
 
-            return  ResponseEntity.ok(appointmentService.getForDate(requestAppointmetDateDTO));
+            return  ResponseEntity.ok(appointmentService.getForDate(date));
         }
-        @PostMapping("/GetForDateAndClassroom")
-        public ResponseEntity<List<GetForDateAppointmentDTO>> getAppointmentsForDateAndClassroom(@RequestBody @Valid RequestAppointmetDaetForClassroomDTO requestAppointmetDateClassroomDTO){
-            return  ResponseEntity.ok(appointmentService.getForDateAndClassroom(requestAppointmetDateClassroomDTO));
-        }
+    @PostMapping(APPOINTMENT_CLASSROOM)
+    public ResponseEntity<List<GetForDateAppointmentDTO>> getAppointmentsForDateAndClassroom(@RequestBody @Valid RequestAppointmetDaetForClassroomDTO requestAppointmetDateClassroomDTO){
+        return  ResponseEntity.ok(appointmentService.getForDateAndClassroom(requestAppointmetDateClassroomDTO));
+    }
 
 
 

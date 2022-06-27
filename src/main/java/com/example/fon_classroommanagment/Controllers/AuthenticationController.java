@@ -24,6 +24,9 @@ import javax.persistence.EntityNotFoundException;
 import javax.validation.ConstraintViolationException;
 import javax.validation.Valid;
 
+import static com.example.fon_classroommanagment.Configuration.Routes.REGISTER;
+import static com.example.fon_classroommanagment.Configuration.Routes.REGISTER_CONFIRM;
+
 @RestController
 @Validated
 public class AuthenticationController {
@@ -36,7 +39,7 @@ public class AuthenticationController {
 @Autowired
 private AccountService accountService;
 
-    @PostMapping ("/register")
+    @PostMapping (REGISTER)
     public void registerAccount(@RequestBody @Valid  AccountDTO accountDTO) throws UserExistsExcetion {
         Account account=accountDTO.CreateAccount();
         ValidationToken token=  accountService.createValidationToken(account);
@@ -45,7 +48,7 @@ private AccountService accountService;
 
     }
 
-    @GetMapping("/registerConfirmed/{token}")
+    @GetMapping(REGISTER_CONFIRM)
     public void registerAccountConfirmed(@PathVariable("token")  String token) throws TokenNotFaundException, TokenExpiredException {
 
         accountService.ConfirmAccount(token);

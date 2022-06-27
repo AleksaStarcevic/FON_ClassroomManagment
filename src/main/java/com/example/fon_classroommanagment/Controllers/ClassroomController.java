@@ -57,11 +57,11 @@ public class ClassroomController {
 
 
 
-    @GetMapping(CLASSROOM_APPOITMENTS)
-    public ResponseEntity<List<GetForDateAppointmentDTO>> getAppointmentsForDateClassroom(@RequestBody @Valid RequestIsClassroomAvailableForDateDTO requestAppointmetDateDTO) throws ClassroomExistsException {
-
-        return  ResponseEntity.ok(service.getForDateClassroom(requestAppointmetDateDTO));
-    }
+//    @PostMapping(CLASSROOM_APPOITMENTS)
+//    public ResponseEntity<List<GetForDateAppointmentDTO>> getAppointmentsForDateClassroom(@RequestBody @Valid RequestIsClassroomAvailableForDateDTO requestAppointmetDateDTO) throws ClassroomExistsException {
+//
+//        return  ResponseEntity.ok(service.getForDateClassroom(requestAppointmetDateDTO));
+//    }
 
 
     @GetMapping(CLASSROOM_PARTIAL_INFO)
@@ -72,6 +72,8 @@ public class ClassroomController {
     public ResponseEntity<List<ClassroomChipDTO>> getClassroomsAsChip( @PathVariable("page") @Positive(message = "Page mora biti pozitivan broj")  int page ){
         return ResponseEntity.ok(service.getAllClassroomsAsChips(page));
     }
+
+
 
 
 
