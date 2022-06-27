@@ -41,7 +41,7 @@ public class Constants {
 
     public static  final int MIN_CAPACITY=1;
     public  static  final  String APPOINTMENT_DECLINED="DECLINED";
-    public  static  final  String APPOINTMENT_LOADING="LOADING";
+    public  static  final  String APPOINTMENT_PENDING="PENDING";
     public  static  final  String APPOINTMENT_APPROVED="APPROVED";
     public static  final int MAX_CAPACITY=120;
 

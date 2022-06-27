@@ -79,14 +79,14 @@ public class AppointmentController {
 
 
 
-        @PostMapping("/IsClassroomAvailableForDate")
+        @PostMapping(APPOINTMENT_AVAILABILITY)
         public ResponseEntity<Boolean> getIsClassroomAvailableForDate(@RequestBody @Valid RequestIsClassroomAvailableForDateDTO dto ){
           return  ResponseEntity.ok(appointmentService.IsClassroomAvailableAtDate(dto));
         }
 
 
 
-    @PatchMapping("/updateReservation")
+    @PatchMapping(APPOINTMENT_UPDATE)
     public void updateReservation(@RequestBody @Valid UpdateReservationDTO dto) throws ReservationExistsException {
          appointmentService.updateReservation(dto);
     }

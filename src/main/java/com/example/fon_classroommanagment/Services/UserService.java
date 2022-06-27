@@ -1,6 +1,7 @@
 package com.example.fon_classroommanagment.Services;
 
 import com.auth0.jwt.exceptions.TokenExpiredException;
+import com.example.fon_classroommanagment.Configuration.Constants;
 import com.example.fon_classroommanagment.Configuration.UserProfileDetails;
 import com.example.fon_classroommanagment.Exceptions.AppointmentsForUserException;
 import com.example.fon_classroommanagment.Exceptions.UserExistsExcetion;
@@ -110,7 +111,7 @@ private BCryptPasswordEncoder encoder;
     }
 
     public List<RequestedAppointmentsDTO> getRequestedAppointments() {
-        return appointmentRepository.getRequestedAppointmentsForUsers();
+        return appointmentRepository.getRequestedAppointmentsForUsers(Constants.APPOINTMENT_PENDING);
     }
 
     public List<EmployeeType> getAllEmpoyeeTypes(){

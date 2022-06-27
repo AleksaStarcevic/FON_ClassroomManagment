@@ -1,5 +1,6 @@
 package com.example.fon_classroommanagment.Repository;
 
+import com.example.fon_classroommanagment.Configuration.Constants;
 import com.example.fon_classroommanagment.Models.Appointment.Appointment;
 import com.example.fon_classroommanagment.Models.Appointment.AppointmentType;
 import com.example.fon_classroommanagment.Models.Classroom.Classroom;
@@ -15,6 +16,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 
 import java.util.*;
+
+import static com.example.fon_classroommanagment.Configuration.Constants.APPOINTMENT_PENDING;
 
 @Repository
 public interface AppointmentRepository extends JpaRepository<Appointment, UUID> {
@@ -63,8 +66,8 @@ public interface AppointmentRepository extends JpaRepository<Appointment, UUID> 
     @Query("select month(a.date),count(a.date) from Appointment a where a.classroom.id =:id group by month(a.date)")
     List<Double[]> reservationsByMonths(Long id);
 
-    @Query("select new com.example.fon_classroommanagment.Models.DTO.RequestedAppointmentsDTO(p.employee.image,p.employee.firstName,p.employee.lastName,count(p)) from Appointment  p order by p.employee.id")
-    List<RequestedAppointmentsDTO> getRequestedAppointmentsForUsers();
+    @Query("select new com.example.fon_classroommanagment.Models.DTO.RequestedAppointmentsDTO(p.employee.image,p.employee.firstName,p.employee.lastName,count(p)) from Appointment  p  where  p.status.name=:status order by p.employee.id ")
+    List<RequestedAppointmentsDTO> getRequestedAppointmentsForUsers(@Param("status") String status);
 
     @Query("select c from AppointmentType  c")
     List<AppointmentType> getAllAppointmentTypes();

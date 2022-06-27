@@ -19,6 +19,8 @@ public class Routes {
     public  static final String APPOINTMENT_RESERVE ="/reserve";
     public  static final String APPOINTMENT_SEARCH ="/search";
     public  static final String APPOINTMENT_DATE ="/{date}";
+    public  static final String APPOINTMENT_AVAILABILITY ="/available";
+    public  static final String APPOINTMENT_UPDATE ="";
 
 
 
