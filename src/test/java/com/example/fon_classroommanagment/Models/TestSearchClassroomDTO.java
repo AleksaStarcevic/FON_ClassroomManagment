@@ -36,7 +36,7 @@ public class TestSearchClassroomDTO extends  ModelTest<SearchClassroomDTO>{
 
     private static Stream<Arguments> generateValid(){
         return  Stream.of(
-                Arguments.of(new SearchClassroomDTO("Test"))
+//                Arguments.of(new SearchClassroomDTO("Test"))
         );
     }
 

@@ -22,19 +22,19 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-@RestController
+@RestController()
 @Validated
 public class AppointmentController {
 
     @Autowired
     private AppointmentService appointmentService;
 
-        @DeleteMapping("/DeleteReservation")
+        @DeleteMapping("/appointment")
         public void DeleteAppointment(@RequestParam("id") @Valid UUID dto){
              appointmentService.DeleteAppointment(dto.toString());
 
         }
-        @GetMapping("/getAll")
+        @GetMapping("/appointments-get")
         public ResponseEntity<List<Appointment>> getAll(){
             return ResponseEntity.ok(appointmentService.getAll());
         }
@@ -44,7 +44,7 @@ public class AppointmentController {
         return  ResponseEntity.ok("ok");
         }
 
-        @PostMapping("/confirmAppointment")
+        @PostMapping("/appointment-confirm")
         public void ConfirmAppointment(@RequestBody @Valid ConfirmAppointmentDTO dto) throws AppointmentDoesNotExistsException {
               appointmentService.ConfirmAppointment(dto);
         }
