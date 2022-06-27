@@ -2,6 +2,17 @@ package com.example.fon_classroommanagment.Configuration;
 
 public class Routes {
 
+
+    //common
+    public  static final String  COMMON_PREFIX="/common";
+    public  static final String  COMMON_ALL_EMPLOYEE_TYPES="/employee/types";
+    public  static final String  COMMON_ALL_EDUCATION_TITLES="/education/titles";
+    public  static final String  COMMON_ALL_EMPLOYEE_DEPARTMENTS="/employee/departments";
+    public  static final String  COMMON_ALL_CLASSROOM_TYPES="/classroom/types";
+    public  static final String  COMMON_ALL_APPOINTMENT_TYPES="/appointment/types";
+
+
+
     //user
     public  static final String  USER_PREFIX="/user";
     public  static final String USER_DETAILS="";
