@@ -15,6 +15,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -29,12 +30,11 @@ public class ClassroomService {
     @Autowired
     private AppointmentRepository appointmentRepository;
 
-    public List<ClassroomCardDTO> filter(FilterDTO filterDTO) {
-
-
-          List<Classroom> result =classroomRepository.filter(filterDTO.getMin_capacity(),filterDTO.getMax_capacity(),filterDTO.isAircondition(),filterDTO.isProjector());
-        return CreateClassroomPagingDTOs(result);
-    }
+//    public List<ClassroomCardDTO> filter(FilterDTO filterDTO) {
+//
+//
+//        return CreateClassroomPagingDTOs(result);
+//    }
 
     public List<ClassroomCardDTO> searchClassroom(int page,String name)  {
         //if(classrooms.isEmpty()) throw new ClassroomExistsException("Classroom with that name doesn't exist");
@@ -77,11 +77,12 @@ public class ClassroomService {
     }
 
 
-    public List<ClassroomCardDTO> getAllClassrooms(int page) {
+    public List<ClassroomCardDTO> getAllClassrooms(int page,FilterDTO filterDTO) {
 
-
-
-        Page<Classroom> all = classroomRepository.findAll(PageRequest.of(page, PAGE_SIZE));
+        Page<Classroom> all;
+        if(filterDTO.isSortByCapacity())
+            all=classroomRepository.findAllSortedCapacity(PageRequest.of(page, PAGE_SIZE),filterDTO.getMin_capacity(),filterDTO.getMax_capacity() ,filterDTO.isAircondition(),filterDTO.isProjector(),filterDTO.getTypes());
+        else all = classroomRepository.findAll(PageRequest.of(page, PAGE_SIZE),filterDTO.getMin_capacity(),filterDTO.getMax_capacity() ,filterDTO.isAircondition(),filterDTO.isProjector(),filterDTO.getTypes());
         return CreateClassroomPagingDTOs(all.getContent());
     }
     public List<GetForDateAppointmentDTO> getForDateClassroom(RequestIsClassroomAvailableForDateDTO requestAppointmetDateDTO) throws ClassroomExistsException {
@@ -124,5 +125,6 @@ return CreateClassroomChipDTOs(result);
         return resultQuery.stream().map(x->new ClassroomChipDTO(x.getId(),x.getName())).collect(Collectors.toList());
 
     }
+
 
 }

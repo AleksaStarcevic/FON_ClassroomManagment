@@ -14,6 +14,8 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import java.util.List;
 
+import static com.example.fon_classroommanagment.Configuration.Constants.MAX_CAPACITY;
+import static com.example.fon_classroommanagment.Configuration.Constants.MIN_CAPACITY;
 import static com.example.fon_classroommanagment.Configuration.Routes.*;
 
 @RestController
@@ -24,16 +26,20 @@ public class ClassroomController {
     @Autowired
     private ClassroomService service;
 
-    @GetMapping(CLASSROOM_FILTER)
-    public ResponseEntity<List<ClassroomCardDTO>> filter(@RequestBody @Valid FilterDTO filterDTO) {
+//    @PostMapping(CLASSROOM_FILTER)
+//    public ResponseEntity<List<ClassroomCardDTO>> filter(@RequestBody @Valid FilterDTO filterDTO) {
+//
+//        return ResponseEntity.ok(service.filter(filterDTO));
+//    }
 
-        return ResponseEntity.ok(service.filter(filterDTO));
-    }
+    @PostMapping(CLASSROOM_PAGING)
+    public ResponseEntity<List<ClassroomCardDTO>> getClassrooms(
+            @PathVariable("page")  @Valid @Positive(message = "Page mora biti pozitivan broj") int page,
+             @RequestBody FilterDTO filterDTO
 
-    @GetMapping(CLASSROOM_PAGING)
-    public ResponseEntity<List<ClassroomCardDTO>> getClassrooms(@PathVariable("page")  @Positive(message = "Page mora biti pozitivan broj") int page){
-
-        return  ResponseEntity.ok(service.getAllClassrooms(page-1));
+    ){
+        System.out.println(filterDTO.toString());
+        return  ResponseEntity.ok(service.getAllClassrooms(page-1,filterDTO));
 
 
     }
