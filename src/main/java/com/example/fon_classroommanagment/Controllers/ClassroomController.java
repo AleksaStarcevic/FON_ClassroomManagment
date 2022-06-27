@@ -1,7 +1,6 @@
 package com.example.fon_classroommanagment.Controllers;
 
 import com.example.fon_classroommanagment.Exceptions.ClassroomExistsException;
-import com.example.fon_classroommanagment.Models.Classroom.Classroom;
 import com.example.fon_classroommanagment.Models.DTO.*;
 import com.example.fon_classroommanagment.Services.ClassroomService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,25 +13,25 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import java.util.List;
-import java.util.stream.Collectors;
 
-import static com.example.fon_classroommanagment.Configuration.Constants.RC_TYPE_NAME;
+import static com.example.fon_classroommanagment.Configuration.Routes.*;
 
 @RestController
+@RequestMapping(CLASSROOM_PREFIX)
 @Validated
 public class ClassroomController {
 
     @Autowired
     private ClassroomService service;
 
-    @GetMapping("/filter")
+    @GetMapping(CLASSROOM_FILTER)
     public ResponseEntity<List<ClassroomCardDTO>> filter(@RequestBody @Valid FilterDTO filterDTO) {
 
         return ResponseEntity.ok(service.filter(filterDTO));
     }
 
-    @GetMapping("/getClassrooms")
-    public ResponseEntity<List<ClassroomCardDTO>> getClassrooms(@RequestParam("page")  @Positive(message = "Page mora biti pozitivan broj") int page){
+    @GetMapping(CLASSROOM_PAGING)
+    public ResponseEntity<List<ClassroomCardDTO>> getClassrooms(@PathVariable("page")  @Positive(message = "Page mora biti pozitivan broj") int page){
 
         return  ResponseEntity.ok(service.getAllClassrooms(page-1));
 
@@ -40,17 +39,17 @@ public class ClassroomController {
     }
 
 
-    @PostMapping("/searchClassroom")
-    public ResponseEntity<List<ClassroomCardDTO>> searchClassroom(@RequestBody  @Valid SearchClassroomDTO dto) {
-       return ResponseEntity.ok(service.searchClassroom(dto));
+    @GetMapping(CLASSROOM_SEARCH)
+    public ResponseEntity<List<ClassroomCardDTO>> searchClassroom(@PathVariable("page")  @Positive(message = "Page mora biti pozitivan broj") int page,@RequestParam("name") String name) {
+       return ResponseEntity.ok(service.searchClassroom(page,name));
 
 
     }
 
 
-    @GetMapping("/classroomDetails")
+    @GetMapping(CLASSROOM_DETAILS)
     public ResponseEntity<ClassroomDetailsDTO> classroomDetails(
-            @RequestParam("classroomId")
+            @RequestParam("id")
             @Positive(message = "Id ucionice more biti pozitivan")
             @NotNull(message = "Id ucionice ne sme biti prazan") Long classroomId) throws ClassroomExistsException {
         return ResponseEntity.status(HttpStatus.OK).body(service.classroomDetails(classroomId));
@@ -58,19 +57,19 @@ public class ClassroomController {
 
 
 
-    @GetMapping("/GetForDateClassroom")
+    @GetMapping(CLASSROOM_APPOITMENTS)
     public ResponseEntity<List<GetForDateAppointmentDTO>> getAppointmentsForDateClassroom(@RequestBody @Valid RequestIsClassroomAvailableForDateDTO requestAppointmetDateDTO) throws ClassroomExistsException {
 
         return  ResponseEntity.ok(service.getForDateClassroom(requestAppointmetDateDTO));
     }
 
 
-    @GetMapping("getClassroomsChip")
+    @GetMapping(CLASSROOM_PARTIAL_INFO)
     public ResponseEntity<List<ClassroomChipDTO>> getClassroomsAsChip(@RequestParam("name") String name){
         return ResponseEntity.ok(service.getClassroomsAsChips(name));
     }
-    @GetMapping("getClassroomsChipAll")
-    public ResponseEntity<List<ClassroomChipDTO>> getClassroomsAsChip( @RequestParam("page") @Positive(message = "Page mora biti pozitivan broj")  int page ){
+    @GetMapping(CLASSROOM_PAGING_PARTIAL_INFO)
+    public ResponseEntity<List<ClassroomChipDTO>> getClassroomsAsChip( @PathVariable("page") @Positive(message = "Page mora biti pozitivan broj")  int page ){
         return ResponseEntity.ok(service.getAllClassroomsAsChips(page));
     }
 

@@ -2,6 +2,16 @@ package com.example.fon_classroommanagment.Configuration;
 
 public class Routes {
 
+    //classroom
+    public  static final String  CLASSROOM_PREFIX="/classroom";
+    public  static final String  CLASSROOM_FILTER="/filter";
+    public  static final String  CLASSROOM_PAGING="/{page}";
+    public  static final String  CLASSROOM_SEARCH="/{page}/search";
+    public  static final String  CLASSROOM_DETAILS="";
+    public  static final String  CLASSROOM_APPOITMENTS="/appointments";
+    public  static final String CLASSROOM_PAGING_PARTIAL_INFO ="/main-info/{page}";
+    public  static final String CLASSROOM_PARTIAL_INFO ="/main-info";
+
 
     //common
     public  static final String  COMMON_PREFIX="/common";

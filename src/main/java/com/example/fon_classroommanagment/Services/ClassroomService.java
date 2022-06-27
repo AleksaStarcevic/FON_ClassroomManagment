@@ -36,9 +36,9 @@ public class ClassroomService {
         return CreateClassroomPagingDTOs(result);
     }
 
-    public List<ClassroomCardDTO> searchClassroom(SearchClassroomDTO dto)  {
+    public List<ClassroomCardDTO> searchClassroom(int page,String name)  {
         //if(classrooms.isEmpty()) throw new ClassroomExistsException("Classroom with that name doesn't exist");
-       List<Classroom> result= classroomRepository.findByNameContaining("%"+dto.getName()+"%",PageRequest.of(dto.getPage()-1, PAGE_SIZE)).getContent();
+       List<Classroom> result= classroomRepository.findByNameContaining("%"+name+"%",PageRequest.of(page-1, PAGE_SIZE)).getContent();
         return CreateClassroomPagingDTOs(result);
 
 
