@@ -23,8 +23,6 @@ public class UserController {
 
     @GetMapping(USER_DETAILS)
     public ResponseEntity<UserDetailsDTO> getUserDetails(Authentication authentication)throws  TokenExpiredException{
-
-
         return  ResponseEntity.ok(  userService.getUserDetails(authentication.getName()));
     }
 
@@ -35,15 +33,12 @@ public class UserController {
 
     @PostMapping(PASSWORD_RESET)
     public void ChangePassword(@RequestBody @Valid ChangePasswordDTO password,Authentication authentication) throws TokenExpiredException {
-
         userService.ChangePassword(password,authentication.getName());
-
     }
 
     @PostMapping(EMAIL_RESET)
     public void changeEmail(@RequestBody @Valid ChangeEmailDTO dto, Authentication authentication) throws TokenExpiredException {
         userService.changeEmail(authentication.getName(),dto);
-
     }
 
 

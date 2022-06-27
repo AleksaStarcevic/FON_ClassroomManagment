@@ -9,6 +9,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -46,15 +47,14 @@ public class AppointmentController {
               appointmentService.ConfirmAppointment(dto);
         }
 
-    @PostMapping(APPOINTMENT_CONFIRM_ALL)
-    public void ConfirmAppointment(@RequestBody List<ConfirmAppointmentDTO> dto) throws AppointmentDoesNotExistsException {
-        appointmentService.ConfirmAllAppointments(dto);
-    }
+        @PostMapping(APPOINTMENT_CONFIRM_ALL)
+        public void ConfirmAppointment(@RequestBody List<ConfirmAppointmentDTO> dto) throws AppointmentDoesNotExistsException {
+            appointmentService.ConfirmAllAppointments(dto);
+        }
 
-    @PostMapping(APPOINTMENT_RESERVE)
-        public void Reserve(@RequestBody  @Valid  List<ReserveDTO> dto) throws ReservationExistsException {
-
-        appointmentService.ReserveAppointment(dto);
+        @PostMapping(APPOINTMENT_RESERVE)
+        public void Reserve(@RequestBody  @Valid  List<ReserveDTO> dto, Authentication authentication) throws ReservationExistsException {
+        appointmentService.ReserveAppointment(dto,authentication.getAuthorities().toArray()[0].toString());
 
         }
 
@@ -63,35 +63,24 @@ public class AppointmentController {
             return ResponseEntity.status(HttpStatus.OK).body(appointmentService.searchReservation(dto));
         }
 
-
         @PostMapping(APPOINTMENT_DATE)
         public ResponseEntity<List<GetForDateAppointmentDTO>> getAppointmentsForDate(@PathParam("date") @Valid @JsonFormat(shape=JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd") Date date){
 
             return  ResponseEntity.ok(appointmentService.getForDate(date));
         }
-    @PostMapping(APPOINTMENT_CLASSROOM)
-    public ResponseEntity<List<GetForDateAppointmentDTO>> getAppointmentsForDateAndClassroom(@RequestBody @Valid RequestAppointmetDaetForClassroomDTO requestAppointmetDateClassroomDTO){
-        return  ResponseEntity.ok(appointmentService.getForDateAndClassroom(requestAppointmetDateClassroomDTO));
-    }
-
-
-
-
-
+        @PostMapping(APPOINTMENT_CLASSROOM)
+        public ResponseEntity<List<GetForDateAppointmentDTO>> getAppointmentsForDateAndClassroom(@RequestBody @Valid RequestAppointmetDaetForClassroomDTO requestAppointmetDateClassroomDTO){
+            return  ResponseEntity.ok(appointmentService.getForDateAndClassroom(requestAppointmetDateClassroomDTO));
+        }
 
         @PostMapping(APPOINTMENT_AVAILABILITY)
         public ResponseEntity<Boolean> getIsClassroomAvailableForDate(@RequestBody @Valid RequestIsClassroomAvailableForDateDTO dto ){
           return  ResponseEntity.ok(appointmentService.IsClassroomAvailableAtDate(dto));
         }
 
-
-
-    @PatchMapping(APPOINTMENT_UPDATE)
-    public void updateReservation(@RequestBody @Valid UpdateReservationDTO dto) throws ReservationExistsException {
-         appointmentService.updateReservation(dto);
-    }
-
-
-
+        @PatchMapping(APPOINTMENT_UPDATE)
+        public void updateReservation(@RequestBody @Valid UpdateReservationDTO dto) throws ReservationExistsException {
+             appointmentService.updateReservation(dto);
+        }
 
 }

@@ -15,14 +15,13 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.xml.crypto.Data;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import static com.example.fon_classroommanagment.Configuration.Constants.APPOINTMENT_DECLINED;
+import static com.example.fon_classroommanagment.Configuration.Constants.*;
 
 @Service
 public class AppointmentService {
@@ -44,11 +43,16 @@ public class AppointmentService {
     }
 
     @Transactional(rollbackFor=ReservationExistsException.class)
-    public void ReserveAppointment(List<ReserveDTO> dtoList) throws ReservationExistsException {
+    public void ReserveAppointment(List<ReserveDTO> dtoList, String role) throws ReservationExistsException {
 
         for (ReserveDTO dto:dtoList) {
             if (AvailableRoom(dto.getClassroomId(), dto.getDate(), dto.getStart_timeInHours(), dto.getEnd_timeInHours())) {
-                Appointment appointment = new Appointment(UUID.randomUUID(), userRepository.findByEmail(dto.getEmail()).getEmployee(), new Classroom(dto.getClassroomId()), dto.getName(), dto.getDate(), dto.getDecription(), dto.getReason(), dto.getNumber_of_attendies(), dto.getStart_timeInHours(), dto.getEnd_timeInHours(), new AppointmentStatus((long) dto.getStatus()), new AppointmentType((long) dto.getType()));
+
+
+                if(role.equals(ADMIN_NAME_TYPE_ROLE))
+                     dto.setStatus(STATUS_APPROVED);
+
+                    Appointment appointment = new Appointment(UUID.randomUUID(), userRepository.findByEmail(dto.getEmail()).getEmployee(), new Classroom(dto.getClassroomId()), dto.getName(), dto.getDate(), dto.getDecription(), dto.getReason(), dto.getNumber_of_attendies(), dto.getStart_timeInHours(), dto.getEnd_timeInHours(), new AppointmentStatus((long) dto.getStatus()), new AppointmentType((long) dto.getType()));
                 appointmentRepository.save(appointment);
             } else {
                 throw new ReservationExistsException("Rezervacija "+dto.getName()+" datuma: "+dto.getDate()+" ,se ne moze rezervisati,pogledajte da li se dobro uneli podatke,ili je neko vec rezervisao ucionicu pre vas");
