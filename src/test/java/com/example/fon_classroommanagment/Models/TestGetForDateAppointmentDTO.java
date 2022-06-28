@@ -1,8 +1,6 @@
 package com.example.fon_classroommanagment.Models;
 
 import com.example.fon_classroommanagment.FonClassroomManagmentApplication;
-import com.example.fon_classroommanagment.Models.Appointment.AppointmentStatus;
-import com.example.fon_classroommanagment.Models.DTO.ConfirmAppointmentDTO;
 import com.example.fon_classroommanagment.Models.DTO.GetForDateAppointmentDTO;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -12,7 +10,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
 
-import java.util.UUID;
 import java.util.stream.Stream;
 
 @SpringBootTest(

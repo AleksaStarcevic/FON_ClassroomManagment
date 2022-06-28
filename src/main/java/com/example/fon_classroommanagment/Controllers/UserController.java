@@ -33,7 +33,6 @@ public class UserController {
 
     @GetMapping(USER_APPOINTMENTS_PENDING)
     public ResponseEntity<List<AppointmentRequestedUserDTO>> getAppointmentsForUser(@RequestParam("id") Long id){
-        System.out.println(id);
         return  ResponseEntity.ok(userService.getAppointmentsPendingForUser(id));
     }
     @PostMapping(PASSWORD_RESET)
@@ -49,8 +48,6 @@ public class UserController {
 
     @GetMapping(USER_REQUESTED_APPOINTMENTS)
     public ResponseEntity<List<RequestedAppointmentsDTO>> getRequestedAppointments(){
-
-
         return ResponseEntity.ok(userService.getRequestedAppointments());
     }
 

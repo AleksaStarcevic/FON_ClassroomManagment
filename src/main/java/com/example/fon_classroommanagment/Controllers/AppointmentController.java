@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.websocket.server.PathParam;
-import java.io.Console;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -44,12 +43,16 @@ public class AppointmentController {
 
 
         @PostMapping(APPOINTMENT_CONFIRM)
-        public void ConfirmAppointment(@RequestBody @Valid ConfirmAppointmentDTO dto) throws AppointmentDoesNotExistsException {
-              appointmentService.ConfirmAppointment(dto);
+        public void ConfirmAppointment(@RequestParam("id") UUID appointmentId) throws AppointmentDoesNotExistsException {
+              appointmentService.ConfirmAppointment(appointmentId);
+        }
+        @PostMapping(APPOINTMENT_DECLINE)
+        public void DeclineAppointment(@RequestParam("id") UUID appointmentId) throws AppointmentDoesNotExistsException {
+              appointmentService.DeclineAppointment(appointmentId);
         }
 
         @PostMapping(APPOINTMENT_CONFIRM_ALL)
-        public void ConfirmAppointment(@RequestBody List<ConfirmAppointmentDTO> dto) throws AppointmentDoesNotExistsException {
+        public void ConfirmAppointment(@RequestBody List<ChangeStatusAppointmentDTO> dto) throws AppointmentDoesNotExistsException {
             appointmentService.ConfirmAllAppointments(dto);
         }
 

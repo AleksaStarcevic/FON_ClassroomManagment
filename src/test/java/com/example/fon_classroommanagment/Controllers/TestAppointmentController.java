@@ -1,16 +1,13 @@
 package com.example.fon_classroommanagment.Controllers;
 import static com.example.fon_classroommanagment.Configuration.Constants.*;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.*;
+
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
-import com.example.fon_classroommanagment.Configuration.UserProfileDetails;
 import com.example.fon_classroommanagment.Filters.UserFilter;
 import com.example.fon_classroommanagment.FonClassroomManagmentApplication;
-import com.example.fon_classroommanagment.Models.DTO.ConfirmAppointmentDTO;
+import com.example.fon_classroommanagment.Models.DTO.ChangeStatusAppointmentDTO;
 import com.example.fon_classroommanagment.Models.DTO.DeleteReservationDTO;
 import com.example.fon_classroommanagment.Models.DTO.ReserveDTO;
-import com.example.fon_classroommanagment.Models.User.UserProfile;
-import com.example.fon_classroommanagment.Models.User.UserRole;
 import com.example.fon_classroommanagment.Services.AppointmentService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -23,20 +20,13 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.lang.reflect.Array;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static org.springframework.security.config.web.server.SecurityWebFiltersOrder.AUTHENTICATION;
-import static org.springframework.security.config.web.server.SecurityWebFiltersOrder.AUTHORIZATION;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.jwt;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -86,7 +76,7 @@ private UserFilter userFilter;
 
     @Test
     public void Test_ConfirmAllAppointments_Exists_Valid() throws Exception {
-        List<ConfirmAppointmentDTO> list=Arrays.asList(getValidConfirmAppointmentDTO(),getValidConfirmAppointmentDTO());
+        List<ChangeStatusAppointmentDTO> list=Arrays.asList(getValidConfirmAppointmentDTO(),getValidConfirmAppointmentDTO());
         String json=ConvertObjectToJson(list);
         String token=CreateJWTToken("USER");
         mockMvc.perform(post("/confirmAllAppointment").header("Authorization","Bearer "+token)
@@ -165,11 +155,11 @@ private UserFilter userFilter;
         return objectMapper.writeValueAsString(dto);
     }
 
-    private ConfirmAppointmentDTO getValidConfirmAppointmentDTO(){
-        return  new ConfirmAppointmentDTO(UUID.randomUUID());
+    private ChangeStatusAppointmentDTO getValidConfirmAppointmentDTO(){
+        return  new ChangeStatusAppointmentDTO(UUID.randomUUID());
     }
 
-    private ConfirmAppointmentDTO getInvalidConfirmAppointmentDTO() {
-        return new ConfirmAppointmentDTO();
+    private ChangeStatusAppointmentDTO getInvalidConfirmAppointmentDTO() {
+        return new ChangeStatusAppointmentDTO();
     }
 }
