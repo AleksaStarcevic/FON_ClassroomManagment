@@ -1,24 +1,17 @@
 package com.example.fon_classroommanagment.Models.DTO;
 
 import com.example.fon_classroommanagment.Anotations.CheckValues;
-import com.example.fon_classroommanagment.Models.Appointment.Appointment;
-import com.example.fon_classroommanagment.Models.Appointment.AppointmentStatus;
-import com.example.fon_classroommanagment.Models.Appointment.AppointmentType;
-import com.example.fon_classroommanagment.Models.Classroom.Classroom;
-import com.example.fon_classroommanagment.Models.Emplayee.Employee;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.Length;
 
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.util.Date;
-import java.util.UUID;
 
 import static com.example.fon_classroommanagment.Configuration.Constants.*;
 
@@ -85,7 +78,8 @@ public class ReserveDTO {
   @JsonIgnore
     @Min(value = 3)
     @Max(value = 3)
-    private int status=STATUS_CEKANJA;
+    @NotNull()
+    private long status= STATUS_PENDING;
 
 
     @Positive(message = "Type mora biti pozitivan broj")

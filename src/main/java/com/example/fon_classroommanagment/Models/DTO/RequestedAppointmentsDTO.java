@@ -11,6 +11,8 @@ import javax.validation.constraints.Positive;
 @AllArgsConstructor
 public class RequestedAppointmentsDTO {
 
+    private Long id;
+    private  String type;
     private  byte[] image;
 
     @NotNull(message = "Ime ne sme biti prazno")

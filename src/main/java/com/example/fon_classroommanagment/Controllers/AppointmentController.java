@@ -1,95 +1,86 @@
 package com.example.fon_classroommanagment.Controllers;
 
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.impl.JWTParser;
 import com.example.fon_classroommanagment.Exceptions.AppointmentDoesNotExistsException;
 import com.example.fon_classroommanagment.Exceptions.ReservationExistsException;
 import com.example.fon_classroommanagment.Models.Appointment.Appointment;
 import com.example.fon_classroommanagment.Models.DTO.*;
 import com.example.fon_classroommanagment.Services.AppointmentService;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.security.oauth2.resource.OAuth2ResourceServerProperties;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
-import javax.persistence.EntityNotFoundException;
-import javax.validation.ConstraintViolationException;
 import javax.validation.Valid;
+import javax.websocket.server.PathParam;
+import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.UUID;
 
-@RestController
+import static com.example.fon_classroommanagment.Configuration.Routes.*;
+
+@RestController()
+@RequestMapping(APPOINTMENT_PREFIX)
 @Validated
 public class AppointmentController {
 
     @Autowired
     private AppointmentService appointmentService;
 
-        @DeleteMapping("/DeleteReservation")
-        public void DeleteAppointment(@RequestBody @Valid DeleteReservationDTO dto){
-             appointmentService.DeleteAppointment(dto.getId().toString());
+        @DeleteMapping(APPOINTMENT_DELETE)
+        public void DeleteAppointment(@RequestParam("id") @Valid UUID dto){
+             appointmentService.DeleteAppointment(dto.toString());
 
         }
-        @GetMapping("/getAll")
+
+        @GetMapping(APPOINTMENTS)
         public ResponseEntity<List<Appointment>> getAll(){
             return ResponseEntity.ok(appointmentService.getAll());
         }
 
-        @GetMapping("/test")
-        public ResponseEntity<String> test(){
-        return  ResponseEntity.ok("ok");
-        }
 
-        @PostMapping("/confirmAppointment")
+
+        @PostMapping(APPOINTMENT_CONFIRM)
         public void ConfirmAppointment(@RequestBody @Valid ConfirmAppointmentDTO dto) throws AppointmentDoesNotExistsException {
               appointmentService.ConfirmAppointment(dto);
         }
 
-    @PostMapping("/confirmAllAppointment")
-    public void ConfirmAppointment(@RequestBody List<ConfirmAppointmentDTO> dto) throws AppointmentDoesNotExistsException {
-        appointmentService.ConfirmAllAppointments(dto);
-    }
+        @PostMapping(APPOINTMENT_CONFIRM_ALL)
+        public void ConfirmAppointment(@RequestBody List<ConfirmAppointmentDTO> dto) throws AppointmentDoesNotExistsException {
+            appointmentService.ConfirmAllAppointments(dto);
+        }
 
-    @PostMapping("/reserve")
-        public void Reserve(@RequestBody  @Valid  List<ReserveDTO> dto) throws ReservationExistsException {
-
-        appointmentService.ReserveAppointment(dto);
+        @PostMapping(APPOINTMENT_RESERVE)
+        public void Reserve(@RequestBody  @Valid  List<ReserveDTO> dto, Authentication authentication) throws ReservationExistsException {
+        appointmentService.ReserveAppointment(dto,authentication.getAuthorities().toArray()[0].toString());
 
         }
 
-        @GetMapping("/searchReservation")
+        @GetMapping(APPOINTMENT_SEARCH)
         public ResponseEntity<List<Appointment>> searchReservation(@RequestBody  @Valid SearchReservationDTO dto) throws ReservationExistsException {
             return ResponseEntity.status(HttpStatus.OK).body(appointmentService.searchReservation(dto));
         }
 
+        @PostMapping(APPOINTMENT_DATE)
+        public ResponseEntity<List<GetForDateAppointmentDTO>> getAppointmentsForDate(@PathParam("date") @Valid @JsonFormat(shape=JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd") Date date){
 
-        @PostMapping("/GetForDate")
-        public ResponseEntity<List<GetForDateAppointmentDTO>> getAppointmentsForDate(@RequestBody @Valid RequestAppointmetDateDTO requestAppointmetDateDTO){
-
-            return  ResponseEntity.ok(appointmentService.getForDate(requestAppointmetDateDTO));
+            return  ResponseEntity.ok(appointmentService.getForDate(date));
+        }
+        @PostMapping(APPOINTMENT_CLASSROOM)
+        public ResponseEntity<List<GetForDateAppointmentDTO>> getAppointmentsForDateAndClassroom(@RequestBody @Valid RequestAppointmetDaetForClassroomDTO requestAppointmetDateClassroomDTO){
+            return  ResponseEntity.ok(appointmentService.getForDateAndClassroom(requestAppointmetDateClassroomDTO));
         }
 
-
-
-
-
-
-        @GetMapping("/IsClassroomAvailableForDate")
+        @PostMapping(APPOINTMENT_AVAILABILITY)
         public ResponseEntity<Boolean> getIsClassroomAvailableForDate(@RequestBody @Valid RequestIsClassroomAvailableForDateDTO dto ){
           return  ResponseEntity.ok(appointmentService.IsClassroomAvailableAtDate(dto));
         }
 
-
-
-    @PatchMapping("/updateReservation")
-    public void updateReservation(@RequestBody @Valid UpdateReservationDTO dto) throws ReservationExistsException {
-         appointmentService.updateReservation(dto);
-    }
-
-
-
+        @PatchMapping(APPOINTMENT_UPDATE)
+        public void updateReservation(@RequestBody @Valid UpdateReservationDTO dto) throws ReservationExistsException {
+             appointmentService.updateReservation(dto);
+        }
 
 }

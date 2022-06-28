@@ -1,6 +1,7 @@
 package com.example.fon_classroommanagment.Services;
 
 import com.auth0.jwt.exceptions.TokenExpiredException;
+import com.example.fon_classroommanagment.Configuration.Constants;
 import com.example.fon_classroommanagment.Configuration.UserProfileDetails;
 import com.example.fon_classroommanagment.Exceptions.AppointmentsForUserException;
 import com.example.fon_classroommanagment.Exceptions.UserExistsExcetion;
@@ -21,6 +22,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+
+import static com.example.fon_classroommanagment.Configuration.Constants.ADMIN_NAME_TYPE_ROLE;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -89,13 +92,15 @@ private BCryptPasswordEncoder encoder;
 
         List<Appointment> appointments = appointmentRepository.findByEmployeeId(employee.getId());
 
-        if (appointments.isEmpty()) throw new AppointmentsForUserException("No reservations for this user");
+       // if (appointments.isEmpty()) throw new AppointmentsForUserException("No reservations for this user");
 
         List<AppointmentsForUserDTO> appointmentsForUserDTOS = new ArrayList<>();
         for (Appointment appointment : appointments) {
             appointmentsForUserDTOS.add(new AppointmentsForUserDTO(
-                    appointment.getName(),
+                    appointment.getId(),
                     appointment.getClassroom().getName(),
+                    appointment.getName()
+                  ,
                     appointment.getDate(),
                     appointment.getStart_timeInHours(),
                     appointment.getEnd_timeInHours()));
@@ -106,7 +111,7 @@ private BCryptPasswordEncoder encoder;
     }
 
     public List<RequestedAppointmentsDTO> getRequestedAppointments() {
-        return appointmentRepository.getRequestedAppointmentsForUsers();
+        return appointmentRepository.getRequestedAppointmentsForUsers(Constants.APPOINTMENT_PENDING);
     }
 
     public List<EmployeeType> getAllEmpoyeeTypes(){
@@ -117,5 +122,10 @@ private BCryptPasswordEncoder encoder;
     }
     public List<EmployeeDepartment> getAllEmployeeDepartments(){
         return userRepository.getAllEmployeeDepartments();
+    }
+
+    public Boolean isUserAdmin(String name) {
+
+        return userRepository.findByEmail(name).getRole().getName().equals(ADMIN_NAME_TYPE_ROLE);
     }
 }

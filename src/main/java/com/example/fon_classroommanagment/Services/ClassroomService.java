@@ -15,6 +15,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -29,16 +30,15 @@ public class ClassroomService {
     @Autowired
     private AppointmentRepository appointmentRepository;
 
-    public List<ClassroomCardDTO> filter(FilterDTO filterDTO) {
+//    public List<ClassroomCardDTO> filter(FilterDTO filterDTO) {
+//
+//
+//        return CreateClassroomPagingDTOs(result);
+//    }
 
-
-          List<Classroom> result =classroomRepository.filter(filterDTO.getMin_capacity(),filterDTO.getMax_capacity(),filterDTO.isAircondition(),filterDTO.isProjector());
-        return CreateClassroomPagingDTOs(result);
-    }
-
-    public List<ClassroomCardDTO> searchClassroom(SearchClassroomDTO dto)  {
+    public List<ClassroomCardDTO> searchClassroom(int page,String name)  {
         //if(classrooms.isEmpty()) throw new ClassroomExistsException("Classroom with that name doesn't exist");
-       List<Classroom> result= classroomRepository.findByNameContaining("%"+dto.getName()+"%",PageRequest.of(dto.getPage()-1, PAGE_SIZE)).getContent();
+       List<Classroom> result= classroomRepository.findByNameContaining("%"+name+"%",PageRequest.of(page-1, PAGE_SIZE)).getContent();
         return CreateClassroomPagingDTOs(result);
 
 
@@ -49,11 +49,11 @@ public class ClassroomService {
 
     }
 
-    public ClassroomDetailsDTO classroomDetails(RequestClassroomDetailsDTO dto) throws ClassroomExistsException {
-        Optional<Classroom> optional = classroomRepository.findById(dto.getId());
+    public ClassroomDetailsDTO classroomDetails(Long classroomId) throws ClassroomExistsException {
+        Optional<Classroom> optional = classroomRepository.findById(classroomId);
         if (optional.isEmpty()) throw new ClassroomExistsException("Classroom with given id doesn't exist");
         Classroom classroom = optional.get();
-        List<Double[]> monthsPercentage = appointmentRepository.reservationsByMonths(dto.getId());
+        List<Double[]> monthsPercentage = appointmentRepository.reservationsByMonths(classroomId);
 
         for (Double[] month : monthsPercentage) {
             for (int i = 1; i < month.length; i++) {
@@ -62,7 +62,7 @@ public class ClassroomService {
             }
         }
 
-        ClassroomDetailsDTO result = new ClassroomDetailsDTO(classroom.getName(),
+        return new  ClassroomDetailsDTO(classroom.getName(),
                 classroom.getNumber_of_seats(),
                 classroom.getNumber_of_computers(),
                 classroom.isAircondition(),
@@ -73,15 +73,16 @@ public class ClassroomService {
                 classroom.getBr_tabli(), monthsPercentage);
 
 
-        return result;
+
     }
 
 
-    public List<ClassroomCardDTO> getAllClassrooms(int page) {
+    public List<ClassroomCardDTO> getAllClassrooms(int page,FilterDTO filterDTO) {
 
-
-
-        Page<Classroom> all = classroomRepository.findAll(PageRequest.of(page, PAGE_SIZE));
+        Page<Classroom> all;
+        if(filterDTO.isSortByCapacity())
+            all=classroomRepository.findAllSortedCapacity(PageRequest.of(page, PAGE_SIZE),filterDTO.getMin_capacity(),filterDTO.getMax_capacity() ,filterDTO.isAircondition(),filterDTO.isProjector(),filterDTO.getTypes());
+        else all = classroomRepository.findAll(PageRequest.of(page, PAGE_SIZE),filterDTO.getMin_capacity(),filterDTO.getMax_capacity() ,filterDTO.isAircondition(),filterDTO.isProjector(),filterDTO.getTypes());
         return CreateClassroomPagingDTOs(all.getContent());
     }
     public List<GetForDateAppointmentDTO> getForDateClassroom(RequestIsClassroomAvailableForDateDTO requestAppointmetDateDTO) throws ClassroomExistsException {
@@ -114,8 +115,16 @@ public class ClassroomService {
       List<Classroom> result= classroomRepository.findByNameChips("%"+name+"%", Pageable.ofSize(CHIP_SEARCH_ELEMENTS)).getContent();
 return CreateClassroomChipDTOs(result);
     }
+    public List<ClassroomChipDTO> getAllClassroomsAsChips(int page) {
+
+        Page<ClassroomChipDTO> all = classroomRepository.findAll(PageRequest.of(page-1, PAGE_SIZE)).map(x-> new ClassroomChipDTO(x.getId(),x.getName()));
+        return all.getContent();
+    }
+
     private   List<ClassroomChipDTO> CreateClassroomChipDTOs(List<Classroom> resultQuery ){
         return resultQuery.stream().map(x->new ClassroomChipDTO(x.getId(),x.getName())).collect(Collectors.toList());
 
     }
+
+
 }

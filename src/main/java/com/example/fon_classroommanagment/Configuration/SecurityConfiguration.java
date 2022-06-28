@@ -15,6 +15,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import javax.xml.crypto.Data;
 
+import static com.example.fon_classroommanagment.Configuration.Routes.*;
+
 @Configuration
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 @Autowired
@@ -25,8 +27,18 @@ private BCryptPasswordEncoder encoder;
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
-        http.authorizeRequests().mvcMatchers("/allClassroomTypes","/allEmployeeTypes","/allEducationTitle","/allEmployeeDepartment","/test","/register","/registerConfirmed/{token}").permitAll().and()
-                .authorizeRequests().mvcMatchers("/confirmAppointment","/requestedAppointments").hasAuthority("ADMIN").and()
+        http.authorizeRequests()
+                .mvcMatchers(REGISTER_CONFIRM,
+                        REGISTER,
+                        COMMON_PREFIX+COMMON_ALL_CLASSROOM_TYPES,
+                        COMMON_PREFIX+COMMON_ALL_EMPLOYEE_TYPES,
+                        COMMON_PREFIX+COMMON_ALL_EDUCATION_TITLES,
+                        COMMON_PREFIX+COMMON_ALL_EMPLOYEE_DEPARTMENTS,
+                        LOGIN,
+                        LOGOUT).permitAll()
+               // .mvcMatchers().permitAll()
+                .and()
+                .authorizeRequests().mvcMatchers(APPOINTMENT_PREFIX+APPOINTMENT_CONFIRM,USER_PREFIX+USER_REQUESTED_APPOINTMENTS).hasAuthority("ADMIN").and()
                 .authorizeRequests().anyRequest().authenticated().and()
                 .formLogin().and().httpBasic()
                 .and().addFilter(new UserFilter(authenticationManager()))

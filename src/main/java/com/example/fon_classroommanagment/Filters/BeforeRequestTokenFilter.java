@@ -21,13 +21,21 @@ import java.util.List;
 
 import static com.example.fon_classroommanagment.Configuration.Constants.BEARER_STRING;
 import static com.example.fon_classroommanagment.Configuration.Constants.SECRET;
+import static com.example.fon_classroommanagment.Configuration.Routes.*;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
 public class BeforeRequestTokenFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-    List<String> routesAllowed= Arrays.asList("/test","/allClassroomTypes","/allEmployeeTypes","/allEducationTitle","/allEmployeeDepartment","/login","/register","/logout");
-    List<String> beginsWith= List.of("/registerConfirmed/");
+    List<String> routesAllowed= Arrays.asList(
+            COMMON_PREFIX+COMMON_ALL_CLASSROOM_TYPES,
+            COMMON_PREFIX+COMMON_ALL_EMPLOYEE_TYPES,
+            COMMON_PREFIX+COMMON_ALL_EDUCATION_TITLES,
+            COMMON_PREFIX+COMMON_ALL_EMPLOYEE_DEPARTMENTS,
+            LOGIN,
+            REGISTER,
+            LOGOUT);
+    List<String> beginsWith= List.of(REGISTER+"/");
         if(routesAllowed.contains(request.getServletPath()) || request.getServletPath().startsWith(beginsWith.get(0))) filterChain.doFilter(request,response);
         else{
             String authHeader=request.getHeader(AUTHORIZATION);
@@ -44,7 +52,7 @@ public class BeforeRequestTokenFilter extends OncePerRequestFilter {
                 }
             }else{
 
-                TokenInvalid(response, "Not logged in", HttpServletResponse.SC_UNAUTHORIZED);
+                TokenInvalid(response, "Not logged ino", HttpServletResponse.SC_UNAUTHORIZED);
             }
         }
     }

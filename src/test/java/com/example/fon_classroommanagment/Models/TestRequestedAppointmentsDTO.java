@@ -40,14 +40,13 @@ public class TestRequestedAppointmentsDTO extends  ModelTest<RequestedAppointmen
 
     private static Stream<Arguments> generateValid(){
         return  Stream.of(
-                Arguments.of(new RequestedAppointmentsDTO(new byte[100],"test","test",23L))
-        );
+                Arguments.of(new RequestedAppointmentsDTO(13L,"cest",new byte[100],"test","test",23L)));
     }
 
     private static Stream<Arguments> generateInvalid(){
         return  Stream.of(
-                Arguments.of(new RequestedAppointmentsDTO(null,null,null,-1L))
-,                Arguments.of(new RequestedAppointmentsDTO(null,"","",-1L))
+                Arguments.of(new RequestedAppointmentsDTO(-1L,null,null,null,null,-1L))
+,                Arguments.of(new RequestedAppointmentsDTO(-1L,null,null,"","",-1L))
 
         );
     }

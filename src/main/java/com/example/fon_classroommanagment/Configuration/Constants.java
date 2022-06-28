@@ -41,18 +41,21 @@ public class Constants {
 
     public static  final int MIN_CAPACITY=1;
     public  static  final  String APPOINTMENT_DECLINED="DECLINED";
-    public  static  final  String APPOINTMENT_LOADING="LOADING";
+    public  static  final  String APPOINTMENT_PENDING="PENDING";
     public  static  final  String APPOINTMENT_APPROVED="APPROVED";
     public static  final int MAX_CAPACITY=120;
 
     public static  final int PAGE_SIZE=10;
     public static  final String RC_TYPE_NAME="RC";
     //stavi da je 1 kasnije jer je meni u bazi 3,a cekanje treba da bude 1. kao
-    public static  final int STATUS_CEKANJA=3;
+    public static  final long STATUS_PENDING =3L;
+    public static  final long STATUS_APPROVED=1L;
     public static  final int MAX_VREME_ZAKAZIVANJA=20;
     public static  final int MIN_VREME_ZAKAZIVANJA=8;
     public static  final String BEARER_STRING="Bearer " ;
 
     public static final int CHIP_SEARCH_ELEMENTS=3;
+
+public static final String ADMIN_NAME_TYPE_ROLE="ADMIN";
 
 }
