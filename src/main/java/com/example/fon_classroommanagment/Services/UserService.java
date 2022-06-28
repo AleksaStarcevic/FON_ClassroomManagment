@@ -92,7 +92,7 @@ private BCryptPasswordEncoder encoder;
 
         List<Appointment> appointments = appointmentRepository.findByEmployeeId(employee.getId());
 
-        if (appointments.isEmpty()) throw new AppointmentsForUserException("No reservations for this user");
+       // if (appointments.isEmpty()) throw new AppointmentsForUserException("No reservations for this user");
 
         List<AppointmentsForUserDTO> appointmentsForUserDTOS = new ArrayList<>();
         for (Appointment appointment : appointments) {
