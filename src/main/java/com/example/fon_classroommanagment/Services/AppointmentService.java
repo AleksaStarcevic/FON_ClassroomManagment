@@ -146,9 +146,9 @@ public class AppointmentService {
 
     }
 
-    public void ConfirmAllAppointments(List<ChangeStatusAppointmentDTO> dto) throws AppointmentDoesNotExistsException {
-        for (ChangeStatusAppointmentDTO appointmentDTO: dto) {
-            ConfirmAppointment(appointmentDTO.getId());
+    public void ConfirmAllAppointments(List<UUID> dto) throws AppointmentDoesNotExistsException {
+        for (UUID appointmentDTO: dto) {
+            ConfirmAppointment(appointmentDTO);
 
         }
     }

@@ -18,6 +18,7 @@ import javax.websocket.server.PathParam;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import static com.example.fon_classroommanagment.Configuration.Routes.*;
 
@@ -52,8 +53,8 @@ public class AppointmentController {
         }
 
         @PostMapping(APPOINTMENT_CONFIRM_ALL)
-        public void ConfirmAppointment(@RequestBody List<ChangeStatusAppointmentDTO> dto) throws AppointmentDoesNotExistsException {
-            appointmentService.ConfirmAllAppointments(dto);
+        public void ConfirmAppointment(@RequestBody List<String> dto) throws AppointmentDoesNotExistsException {
+            appointmentService.ConfirmAllAppointments(dto.stream().map(UUID::fromString).collect(Collectors.toList()));
         }
 
         @PostMapping(APPOINTMENT_RESERVE)
