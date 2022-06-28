@@ -31,6 +31,11 @@ public class UserController {
         return  ResponseEntity.ok(  userService.getAppointmentsForUser(authentication.getName()));
     }
 
+    @GetMapping(USER_APPOINTMENTS_PENDING)
+    public ResponseEntity<List<AppointmentRequestedUserDTO>> getAppointmentsForUser(@RequestParam("id") Long id){
+        System.out.println(id);
+        return  ResponseEntity.ok(userService.getAppointmentsPendingForUser(id));
+    }
     @PostMapping(PASSWORD_RESET)
     public void ChangePassword(@RequestBody @Valid ChangePasswordDTO password,Authentication authentication) throws TokenExpiredException {
         userService.ChangePassword(password,authentication.getName());

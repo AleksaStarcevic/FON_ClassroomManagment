@@ -14,6 +14,8 @@ public class Routes {
 
     //appointment
     public  static final String APPOINTMENT_PREFIX ="/appointment";
+
+
     public  static final String APPOINTMENT_DELETE ="";
     public  static final String APPOINTMENT_CLASSROOM ="/appointments";
     public  static final String APPOINTMENTS ="";
@@ -51,6 +53,7 @@ public class Routes {
     public  static final String  USER_PREFIX="/user";
     public  static final String USER_DETAILS="";
     public  static final String USER_APPOINTMENTS="/appointments";
+    public  static final String USER_APPOINTMENTS_PENDING ="/appointments/pending";
     public  static final String USER_REQUESTED_APPOINTMENTS="/appointments-requested";
 
     public  static final String PASSWORD_RESET="/password/reset";

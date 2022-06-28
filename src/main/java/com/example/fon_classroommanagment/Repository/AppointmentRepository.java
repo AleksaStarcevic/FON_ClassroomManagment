@@ -2,11 +2,14 @@ package com.example.fon_classroommanagment.Repository;
 
 import com.example.fon_classroommanagment.Configuration.Constants;
 import com.example.fon_classroommanagment.Models.Appointment.Appointment;
+import com.example.fon_classroommanagment.Models.Appointment.AppointmentStatus;
 import com.example.fon_classroommanagment.Models.Appointment.AppointmentType;
 import com.example.fon_classroommanagment.Models.Classroom.Classroom;
+import com.example.fon_classroommanagment.Models.DTO.AppointmentRequestedUserDTO;
 import com.example.fon_classroommanagment.Models.DTO.GetForDateAppointmentDTO;
 import com.example.fon_classroommanagment.Models.DTO.RequestAppointmetDaetForClassroomDTO;
 import com.example.fon_classroommanagment.Models.DTO.RequestedAppointmentsDTO;
+import com.example.fon_classroommanagment.Models.Emplayee.Employee;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -75,4 +78,7 @@ public interface AppointmentRepository extends JpaRepository<Appointment, UUID> 
 
     @Query("select t from Appointment  t where t.date =:date and t.classroom.id=:classroomId")
     List<Appointment> findByDateAndClassroom(@Param("date") Date date,@Param("classroomId") Long classroomId);
+
+    @Query("select  new com.example.fon_classroommanagment.Models.DTO.AppointmentRequestedUserDTO(p.classroom.name,p.name,p.date,p.Start_timeInHours,p.End_timeInHours) from Appointment  p where p.employee.id=:emlopyeeId and p.status.id=:status")
+    List<AppointmentRequestedUserDTO> findByeAndEmployeeIdAndStatus(@Param("emlopyeeId") Long emlopyeeId,@Param("status")Long status);
 }

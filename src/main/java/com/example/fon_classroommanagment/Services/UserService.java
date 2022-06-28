@@ -24,6 +24,7 @@ import org.springframework.stereotype.Service;
 import java.util.*;
 
 import static com.example.fon_classroommanagment.Configuration.Constants.ADMIN_NAME_TYPE_ROLE;
+import static com.example.fon_classroommanagment.Configuration.Constants.STATUS_PENDING;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -128,4 +129,9 @@ private BCryptPasswordEncoder encoder;
 
         return userRepository.findByEmail(name).getRole().getName().equals(ADMIN_NAME_TYPE_ROLE);
     }
+
+    public List<AppointmentRequestedUserDTO> getAppointmentsPendingForUser(Long id) {
+        return appointmentRepository.findByeAndEmployeeIdAndStatus(id,STATUS_PENDING);
+    }
+
 }
