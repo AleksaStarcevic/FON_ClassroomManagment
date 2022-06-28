@@ -7,6 +7,9 @@ public class Routes {
     public  static final String REGISTER ="/register";
     public  static final String REGISTER_CONFIRM ="/register/{token}";
 
+    public static  final String LOGIN="/login";
+    public static  final String LOGOUT="/logout";
+
 
 
     //appointment

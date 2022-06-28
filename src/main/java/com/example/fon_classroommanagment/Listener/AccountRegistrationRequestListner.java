@@ -15,6 +15,8 @@ import java.util.HashMap;
 
 import static com.example.fon_classroommanagment.Configuration.Constants.EMAIL_HOST_SENDER;
 import static com.example.fon_classroommanagment.Configuration.Constants.EMAIL_REGISTRATION_REQUEST_TEMPLATE;
+import static com.example.fon_classroommanagment.Configuration.Routes.REGISTER;
+import static com.example.fon_classroommanagment.Configuration.Routes.REGISTER_CONFIRM;
 
 @Component
 public class AccountRegistrationRequestListner implements ApplicationListener<AccountRegistrationRequestEvent> {
@@ -28,7 +30,7 @@ public class AccountRegistrationRequestListner implements ApplicationListener<Ac
                 new HashMap<>()
                 {{
                     put("name", dto.getFirstName());
-                    put("path","/registerConfirmed/"+dto.getToken());
+                    put("path",REGISTER+"/"+dto.getToken());
 
                 }});
         try {

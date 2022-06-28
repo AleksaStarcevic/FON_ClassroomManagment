@@ -1,6 +1,7 @@
 package com.example.fon_classroommanagment.Models;
 
 import com.example.fon_classroommanagment.FonClassroomManagmentApplication;
+import com.example.fon_classroommanagment.Models.Classroom.ClassroomType;
 import com.example.fon_classroommanagment.Models.DTO.AccountDTO;
 import com.example.fon_classroommanagment.Models.DTO.FilterDTO;
 import org.junit.jupiter.api.Assertions;
@@ -13,6 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
+import java.util.LinkedList;
 import java.util.stream.Stream;
 
 @SpringBootTest(
@@ -31,11 +33,11 @@ public class TestFilterDTO extends  ModelTest<FilterDTO> {
 
     private static Stream<Arguments> generateValid(){
         return  Stream.of(
-                Arguments.of(new FilterDTO(10,20,1L,true,true,true
+                Arguments.of(new FilterDTO(10,20, new LinkedList<>(),true,true,true
                       )),
                 Arguments.of(
                         new FilterDTO(
-                             20,20,1L,false,false,false))
+                             20,20,new LinkedList<>(),false,false,false))
 
 
         );
@@ -44,13 +46,13 @@ public class TestFilterDTO extends  ModelTest<FilterDTO> {
 
     private static Stream<Arguments> generateInvalid(){
         return  Stream.of(
-                Arguments.of(new FilterDTO(-2,-2,-1L,true,true,true
+                Arguments.of(new FilterDTO(-2,-2,null,true,true,true
                 )),
                 Arguments.of(
                         new FilterDTO(
-                                -1,-2,-1L,false,true,true)),
+                                -1,-2,null,false,true,true)),
                 Arguments.of(new FilterDTO(
-                                -1,-1,-5L,false,false,false))
+                                -1,-1,null,false,false,false))
 
 
 
