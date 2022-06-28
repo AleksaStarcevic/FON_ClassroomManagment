@@ -1,6 +1,7 @@
 package com.example.fon_classroommanagment.Models.DTO;
 
 import com.example.fon_classroommanagment.Models.Appointment.Appointment;
+import com.example.fon_classroommanagment.Models.Appointment.AppointmentStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,6 +16,7 @@ import java.util.UUID;
 public class AppointmentsForUserDTO {
 
    private UUID id;
+   private Long state;
    private String classroomName;
    private String appointmentName;
    private Date date;

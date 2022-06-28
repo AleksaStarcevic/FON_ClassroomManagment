@@ -100,6 +100,7 @@ private BCryptPasswordEncoder encoder;
         for (Appointment appointment : appointments) {
             appointmentsForUserDTOS.add(new AppointmentsForUserDTO(
                     appointment.getId(),
+                    appointment.getStatus().getId(),
                     appointment.getClassroom().getName(),
                     appointment.getName()
                   ,
