@@ -158,7 +158,7 @@ public class AppointmentService {
 
         if (appointment.isPresent()) {
             appointment.get().setStatus(status);
-            publisher.publishEvent(new EmailApprovedAppointnemnt(appointment.get()));
+           // publisher.publishEvent(new EmailApprovedAppointnemnt(appointment.get()));
 
             appointmentRepository.save(appointment.get());
 

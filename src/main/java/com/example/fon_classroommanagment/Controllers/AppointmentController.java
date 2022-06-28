@@ -43,12 +43,12 @@ public class AppointmentController {
 
 
         @PostMapping(APPOINTMENT_CONFIRM)
-        public void ConfirmAppointment(@RequestParam("id") UUID appointmentId) throws AppointmentDoesNotExistsException {
-              appointmentService.ConfirmAppointment(appointmentId);
+        public void ConfirmAppointment(@RequestParam("id") String appointmentId) throws AppointmentDoesNotExistsException {
+              appointmentService.ConfirmAppointment(UUID.fromString(appointmentId));
         }
         @PostMapping(APPOINTMENT_DECLINE)
-        public void DeclineAppointment(@RequestParam("id") UUID appointmentId) throws AppointmentDoesNotExistsException {
-              appointmentService.DeclineAppointment(appointmentId);
+        public void DeclineAppointment(@RequestParam("id") String appointmentId) throws AppointmentDoesNotExistsException {
+              appointmentService.DeclineAppointment(UUID.fromString(appointmentId));
         }
 
         @PostMapping(APPOINTMENT_CONFIRM_ALL)
