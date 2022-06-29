@@ -21,24 +21,18 @@ public class Account {
     @Id
     private String email;
     private String firstName;
-
     private String lastName;
-
-    @ManyToOne( optional = false)
-    private  EmployeeDepartment department;
-
-    @ManyToOne( optional = false)
-    private  EducationTitle title;
+  //  private byte[] image;
+    private String token;
 
 
-    @ManyToOne( optional = false)
-    private  EmployeeType type;
+
 
 
     private String password;
 
-    private byte[] image;
-
-
-
+    public Account(String email, String password) {
+        this.email = email;
+        this.password = password;
+    }
 }

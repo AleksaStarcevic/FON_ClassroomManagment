@@ -52,17 +52,17 @@ public class AccountDTO {
 
     private String token;
 
-    public Account CreateAccount() {
-       return  new Account(getEmail(),
-                getFirstName(),
-                getLastName(),
-                getDepartment(),
-                getTitle(),
-                getType(),
-              getPassword(),
-               getImage()
-        );
-    }
+//    public Account CreateAccount() {
+//       return  new Account(getEmail(),
+//                getFirstName(),
+//                getLastName(),
+//                getDepartment(),
+//                getTitle(),
+//                getType(),
+//              getPassword(),
+//               getImage()
+//        );
+//    }
 
     public AccountDTO( String firstName, String lastName, EmployeeDepartment department, EducationTitle title, EmployeeType type, String email, String password,byte[] image) {
 
