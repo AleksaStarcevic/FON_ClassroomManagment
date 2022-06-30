@@ -69,8 +69,8 @@ public interface AppointmentRepository extends JpaRepository<Appointment, UUID> 
     @Query("select month(a.date),count(a.date) from Appointment a where a.classroom.id =:id group by month(a.date)")
     List<Double[]> reservationsByMonths(Long id);
 
-    @Query("select new com.example.fon_classroommanagment.Models.DTO.RequestedAppointmentsDTO(p.employee.id,p.employee.type.name,p.employee.image,p.employee.firstName,p.employee.lastName,count(p)) from Appointment  p  where  p.status.name=:status order by p.employee.id ")
-    List<RequestedAppointmentsDTO> getRequestedAppointmentsForUsers(@Param("status") String status);
+    @Query("select new com.example.fon_classroommanagment.Models.DTO.RequestedAppointmentsDTO(p.employee.id,p.employee.type.name,p.employee.image,p.employee.firstName,p.employee.lastName,count(p)) from Appointment  p  where  p.status.id=:status order by p.employee.id ")
+    List<RequestedAppointmentsDTO> getRequestedAppointmentsForUsers(@Param("status") Long status);
 
     @Query("select c from AppointmentType  c")
     List<AppointmentType> getAllAppointmentTypes();
@@ -79,6 +79,6 @@ public interface AppointmentRepository extends JpaRepository<Appointment, UUID> 
     @Query("select t from Appointment  t where t.date =:date and t.classroom.id=:classroomId")
     List<Appointment> findByDateAndClassroom(@Param("date") Date date,@Param("classroomId") Long classroomId);
 
-    @Query("select  new com.example.fon_classroommanagment.Models.DTO.AppointmentRequestedUserDTO(p.classroom.name,p.name,p.date,p.Start_timeInHours,p.End_timeInHours) from Appointment  p where p.employee.id=:emlopyeeId and p.status.id=:status")
+    @Query("select  new com.example.fon_classroommanagment.Models.DTO.AppointmentRequestedUserDTO(p.id,p.classroom.name,p.name,p.date,p.Start_timeInHours,p.End_timeInHours) from Appointment  p where p.employee.id=:emlopyeeId and p.status.id=:status")
     List<AppointmentRequestedUserDTO> findByeAndEmployeeIdAndStatus(@Param("emlopyeeId") Long emlopyeeId,@Param("status")Long status);
 }

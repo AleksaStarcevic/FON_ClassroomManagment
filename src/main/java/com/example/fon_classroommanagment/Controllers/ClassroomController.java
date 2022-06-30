@@ -38,7 +38,6 @@ public class ClassroomController {
              @RequestBody FilterDTO filterDTO
 
     ){
-        System.out.println(filterDTO.toString());
         return  ResponseEntity.ok(service.getAllClassrooms(page-1,filterDTO));
 
 

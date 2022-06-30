@@ -3,7 +3,6 @@ package com.example.fon_classroommanagment.Services;
 import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.example.fon_classroommanagment.Exceptions.TokenNotFaundException;
 import com.example.fon_classroommanagment.Exceptions.UserExistsExcetion;
-import com.example.fon_classroommanagment.Models.DTO.AccountDTO;
 import com.example.fon_classroommanagment.Models.Emplayee.Employee;
 import com.example.fon_classroommanagment.Models.User.Account;
 import com.example.fon_classroommanagment.Models.User.UserProfile;
@@ -11,13 +10,10 @@ import com.example.fon_classroommanagment.Models.User.UserRole;
 import com.example.fon_classroommanagment.Models.User.ValidationToken;
 import com.example.fon_classroommanagment.Repository.AccountRepository;
 import com.example.fon_classroommanagment.Repository.TokenValidationAccountRepository;
-import com.example.fon_classroommanagment.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Calendar;
-import java.util.Date;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -36,21 +32,25 @@ public class AccountService {
     private UserService userService;
 
     @Autowired
+    private EmployeeService employeeService;
+
+    @Autowired
     private BCryptPasswordEncoder encoder;
 
-    public ValidationToken  createValidationToken(Account account) throws  UserExistsExcetion{
+    public ValidationToken  createValidationToken(Account dto) throws  UserExistsExcetion{
         String token=UUID.randomUUID().toString();
-        if(userService.findByEmail(account.getEmail())!=null) throw new UserExistsExcetion("user vec postoji");
+        if(employeeService.findByEmail(dto.getEmail())==null) throw new UserExistsExcetion("user ne postoji");
+        if(userService.findByEmail(dto.getEmail())!=null) throw new UserExistsExcetion("user  je vec registrovan");
 
-        EncodePassword(account);
+        EncodePassword(dto);
         ValidationToken validationToken;
 
-        ValidationToken existing = tokenValidationAccountRepository.findByAccount(account);
+        ValidationToken existing = tokenValidationAccountRepository.findByRegisterDTO(dto);
         if(existing!=null){
-            validationToken=new ValidationToken(existing.getToken(),account);
+            validationToken=new ValidationToken(existing.getToken(),dto);
         }
         else{
-             validationToken=new ValidationToken(token,account);
+             validationToken=new ValidationToken(token,dto);
         }
         SaveToken(validationToken);
         return  validationToken;
@@ -74,13 +74,13 @@ public class AccountService {
         ValidationToken validationToken=Opt_validationToken.get();
 
         if(validationToken.isExpired()) {
-            accountRepository.deleteById(validationToken.getAccount().getEmail());
+            accountRepository.deleteById(validationToken.getRegisterDTO().getEmail());
             throw  new TokenExpiredException(TOKEN_REGISTRATION_EXPIRED_MESSAGE);
         }
-        Account account=accountRepository.findByEmail(validationToken.getAccount().getEmail());
+        Account account=accountRepository.findByEmail(validationToken.getRegisterDTO().getEmail());
 
         UserRole simpleUserRole=new UserRole(1L,"USER");
-        Employee employee=new Employee(account.getFirstName(),account.getLastName(),account.getDepartment(),account.getTitle(),account.getType(),account.getEmail(),account.getImage());
+        Employee employee=employeeService.findByEmail(account.getEmail());
         UserProfile user=new UserProfile(UUID.randomUUID(),account.getEmail(),account.getPassword(),simpleUserRole,employee);
 
         tokenValidationAccountRepository.delete(validationToken);

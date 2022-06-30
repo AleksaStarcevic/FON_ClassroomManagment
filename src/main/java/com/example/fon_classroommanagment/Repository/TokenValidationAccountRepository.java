@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface TokenValidationAccountRepository extends JpaRepository<ValidationToken,String > {
-    ValidationToken findByAccount(Account account);
+    ValidationToken findByRegisterDTO(Account account);
 }

@@ -71,29 +71,7 @@ public class AppointmentService {
         return o.isEmpty();
     }
 
-    public void ConfirmAppointment(ConfirmAppointmentDTO dto) throws AppointmentDoesNotExistsException {
-        Optional<Appointment> appointment = FindById(dto.getId());
 
-        if (appointment.isPresent()) {
-
-            appointment.get().setStatus(dto.getStatus());
-            publisher.publishEvent(new EmailApprovedAppointnemnt(appointment.get()));
-
-            if (dto.getStatus().getName().equals(APPOINTMENT_DECLINED)) {
-
-                appointmentRepository.deleteById(dto.getId());
-            } else {
-
-
-                appointmentRepository.save(appointment.get());
-            }
-
-        }else{
-         throw  new AppointmentDoesNotExistsException("Termin ne postoji");
-        }
-
-
-    }
 
     public List<Appointment> searchReservation(SearchReservationDTO dto) throws ReservationExistsException {
         List<Appointment> appointments = appointmentRepository.searchReservationsByClassroomAndDate(dto.getClassroomId(),dto.getDate());
@@ -113,12 +91,7 @@ public class AppointmentService {
 
 
     }
-    public void ConfirmAllAppointments(List<ConfirmAppointmentDTO> dto) throws AppointmentDoesNotExistsException {
-        for (ConfirmAppointmentDTO appointmentDTO: dto) {
-            ConfirmAppointment(appointmentDTO);
 
-        }
-    }
 
     public void updateReservation(UpdateReservationDTO dto) throws ReservationExistsException {
         if (AppointmentConflict(dto)) {
@@ -159,6 +132,40 @@ public class AppointmentService {
         List<Appointment> byDateAndClassroom = appointmentRepository.findByDateAndClassroom(requestAppointmetDateClassroomDTO.getDate(), requestAppointmetDateClassroomDTO.getClassroomId());
         return getForDateAppointmentDTOS((byDateAndClassroom));
 
+    }
+
+
+    public void DeclineAppointment(UUID appointmentId) throws AppointmentDoesNotExistsException {
+        //da li da ostane u bazi kao declined ili da se obrise?
+        ChangeAppointment(new AppointmentStatus(STATUS_DECLINED),appointmentId);
+    }
+
+    public void ConfirmAppointment(UUID appointmentId) throws AppointmentDoesNotExistsException {
+
+        ChangeAppointment(new AppointmentStatus(STATUS_APPROVED),appointmentId);
+
+    }
+
+    public void ConfirmAllAppointments(List<UUID> dto) throws AppointmentDoesNotExistsException {
+        for (UUID appointmentDTO: dto) {
+            ConfirmAppointment(appointmentDTO);
+
+        }
+    }
+
+    private void ChangeAppointment(AppointmentStatus status,UUID appointmentId) throws AppointmentDoesNotExistsException {
+        Optional<Appointment> appointment = FindById(appointmentId);
+
+        if (appointment.isPresent()) {
+            appointment.get().setStatus(status);
+           // publisher.publishEvent(new EmailApprovedAppointnemnt(appointment.get()));
+
+            appointmentRepository.save(appointment.get());
+
+
+        }else{
+            throw  new AppointmentDoesNotExistsException("Termin ne postoji");
+        }
     }
 
 

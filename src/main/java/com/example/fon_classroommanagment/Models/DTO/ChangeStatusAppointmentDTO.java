@@ -11,13 +11,13 @@ import java.util.UUID;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ConfirmAppointmentDTO {
+public class ChangeStatusAppointmentDTO {
     @NotNull(message = "Id ne sme biti prazan")
     private UUID id;
     @NotNull(message = "Status ne sme biti prazan")
     private AppointmentStatus status;
 
-    public ConfirmAppointmentDTO(UUID id){
+    public ChangeStatusAppointmentDTO(UUID id){
         this.id=id;
     }
 }

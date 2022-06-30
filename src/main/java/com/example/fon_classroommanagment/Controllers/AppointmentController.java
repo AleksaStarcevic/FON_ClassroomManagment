@@ -15,10 +15,10 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.websocket.server.PathParam;
-import java.io.Console;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import static com.example.fon_classroommanagment.Configuration.Routes.*;
 
@@ -44,13 +44,17 @@ public class AppointmentController {
 
 
         @PostMapping(APPOINTMENT_CONFIRM)
-        public void ConfirmAppointment(@RequestBody @Valid ConfirmAppointmentDTO dto) throws AppointmentDoesNotExistsException {
-              appointmentService.ConfirmAppointment(dto);
+        public void ConfirmAppointment(@RequestParam("id") String appointmentId) throws AppointmentDoesNotExistsException {
+              appointmentService.ConfirmAppointment(UUID.fromString(appointmentId));
+        }
+        @PostMapping(APPOINTMENT_DECLINE)
+        public void DeclineAppointment(@RequestParam("id") String appointmentId) throws AppointmentDoesNotExistsException {
+              appointmentService.DeclineAppointment(UUID.fromString(appointmentId));
         }
 
         @PostMapping(APPOINTMENT_CONFIRM_ALL)
-        public void ConfirmAppointment(@RequestBody List<ConfirmAppointmentDTO> dto) throws AppointmentDoesNotExistsException {
-            appointmentService.ConfirmAllAppointments(dto);
+        public void ConfirmAppointment(@RequestBody List<String> dto) throws AppointmentDoesNotExistsException {
+            appointmentService.ConfirmAllAppointments(dto.stream().map(UUID::fromString).collect(Collectors.toList()));
         }
 
         @PostMapping(APPOINTMENT_RESERVE)

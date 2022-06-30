@@ -21,6 +21,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.validation.constraints.Null;
 import java.util.*;
 
 import static com.example.fon_classroommanagment.Configuration.Constants.ADMIN_NAME_TYPE_ROLE;
@@ -99,6 +100,7 @@ private BCryptPasswordEncoder encoder;
         for (Appointment appointment : appointments) {
             appointmentsForUserDTOS.add(new AppointmentsForUserDTO(
                     appointment.getId(),
+                    appointment.getStatus().getId(),
                     appointment.getClassroom().getName(),
                     appointment.getName()
                   ,
@@ -112,7 +114,10 @@ private BCryptPasswordEncoder encoder;
     }
 
     public List<RequestedAppointmentsDTO> getRequestedAppointments() {
-        return appointmentRepository.getRequestedAppointmentsForUsers(Constants.APPOINTMENT_PENDING);
+        List<RequestedAppointmentsDTO> requestedAppointmentsForUsers = appointmentRepository.getRequestedAppointmentsForUsers(STATUS_PENDING);
+
+        if(requestedAppointmentsForUsers.size()==1 && requestedAppointmentsForUsers.get(0).getId()== null) return  List.of();
+        return  requestedAppointmentsForUsers;
     }
 
     public List<EmployeeType> getAllEmpoyeeTypes(){

@@ -25,7 +25,7 @@ public class AccountRegistrationRequestListner implements ApplicationListener<Ac
   private EmailSender mailSender;
     @Override
     public void onApplicationEvent(AccountRegistrationRequestEvent event) {
-        AccountDTO dto=event.getDto();
+        Account dto=event.getDto();
         Email email=new Email(dto.getEmail(),EMAIL_HOST_SENDER,"test1",EMAIL_REGISTRATION_REQUEST_TEMPLATE,"Registration",
                 new HashMap<>()
                 {{

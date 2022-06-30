@@ -38,7 +38,7 @@ private BCryptPasswordEncoder encoder;
                         LOGOUT).permitAll()
                // .mvcMatchers().permitAll()
                 .and()
-                .authorizeRequests().mvcMatchers(APPOINTMENT_PREFIX+APPOINTMENT_CONFIRM,USER_PREFIX+USER_REQUESTED_APPOINTMENTS).hasAuthority("ADMIN").and()
+                .authorizeRequests().mvcMatchers(APPOINTMENT_PREFIX+APPOINTMENT_DECLINE,APPOINTMENT_PREFIX+APPOINTMENT_CONFIRM,APPOINTMENT_PREFIX+APPOINTMENT_CONFIRM_ALL,USER_PREFIX+USER_REQUESTED_APPOINTMENTS).hasAuthority("ADMIN").and()
                 .authorizeRequests().anyRequest().authenticated().and()
                 .formLogin().and().httpBasic()
                 .and().addFilter(new UserFilter(authenticationManager()))

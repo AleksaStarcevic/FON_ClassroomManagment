@@ -20,6 +20,8 @@ public class Routes {
     public  static final String APPOINTMENT_CLASSROOM ="/appointments";
     public  static final String APPOINTMENTS ="";
     public  static final String APPOINTMENT_CONFIRM ="/confirm";
+    public  static final String APPOINTMENT_DECLINE ="/decline";
+
     public  static final String APPOINTMENT_CONFIRM_ALL ="/confirm/all";
     public  static final String APPOINTMENT_RESERVE ="/reserve";
     public  static final String APPOINTMENT_SEARCH ="/search";
