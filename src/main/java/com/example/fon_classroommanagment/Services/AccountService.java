@@ -1,6 +1,7 @@
 package com.example.fon_classroommanagment.Services;
 
 import com.auth0.jwt.exceptions.TokenExpiredException;
+import com.example.fon_classroommanagment.Configuration.ExceptionMessages;
 import com.example.fon_classroommanagment.Exceptions.TokenNotFaundException;
 import com.example.fon_classroommanagment.Exceptions.UserExistsExcetion;
 import com.example.fon_classroommanagment.Models.Emplayee.Employee;
@@ -17,8 +18,7 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 import java.util.UUID;
 
-import static com.example.fon_classroommanagment.Configuration.Constants.TOKEN_REGISTRATION_EXPIRED_MESSAGE;
-import static com.example.fon_classroommanagment.Configuration.Constants.TOKEN_REGISTRATION_NOT_FAUND_MESSAGE;
+
 
 @Service
 public class AccountService {
@@ -69,13 +69,13 @@ public class AccountService {
     public void ConfirmAccount(String token) throws TokenNotFaundException,TokenExpiredException {
         Optional<ValidationToken> Opt_validationToken=tokenValidationAccountRepository.findById(token);
 
-        if(Opt_validationToken.isEmpty()) throw new TokenNotFaundException(TOKEN_REGISTRATION_NOT_FAUND_MESSAGE);
+        if(Opt_validationToken.isEmpty()) throw new TokenNotFaundException(ExceptionMessages.TOKEN_REGISTRATION_NOT_FOUND_MESSAGE);
 
         ValidationToken validationToken=Opt_validationToken.get();
 
         if(validationToken.isExpired()) {
             accountRepository.deleteById(validationToken.getRegisterDTO().getEmail());
-            throw  new TokenExpiredException(TOKEN_REGISTRATION_EXPIRED_MESSAGE);
+            throw  new TokenExpiredException(ExceptionMessages.TOKEN_REGISTRATION_EXPIRED_MESSAGE);
         }
         Account account=accountRepository.findByEmail(validationToken.getRegisterDTO().getEmail());
 

@@ -2,8 +2,7 @@ package com.example.fon_classroommanagment.Configuration;
 
 public class Constants {
     public static  final String SECRET="FON_CLASSROOMS";
-    public static  final String TOKEN_REGISTRATION_EXPIRED_MESSAGE="Please resend the request for registration,token has expired!";
-    public static  final String TOKEN_REGISTRATION_NOT_FAUND_MESSAGE="Please try to register with valid account";
+
 
 
     public static  final int VALIDATION_TOKEN_EXPIRATION=100000*60;

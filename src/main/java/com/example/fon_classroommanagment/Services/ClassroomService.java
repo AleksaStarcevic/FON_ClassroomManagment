@@ -1,6 +1,7 @@
 package com.example.fon_classroommanagment.Services;
 
 
+import com.example.fon_classroommanagment.Configuration.ExceptionMessages;
 import com.example.fon_classroommanagment.Exceptions.ClassroomExistsException;
 import com.example.fon_classroommanagment.Models.Appointment.Appointment;
 import com.example.fon_classroommanagment.Models.Appointment.AppointmentType;
@@ -51,7 +52,7 @@ public class ClassroomService {
 
     public ClassroomDetailsDTO classroomDetails(Long classroomId) throws ClassroomExistsException {
         Optional<Classroom> optional = classroomRepository.findById(classroomId);
-        if (optional.isEmpty()) throw new ClassroomExistsException("Classroom with given id doesn't exist");
+        if (optional.isEmpty()) throw new ClassroomExistsException(ExceptionMessages.CLASSROOM_EXISTS);
         Classroom classroom = optional.get();
         List<Double[]> monthsPercentage = appointmentRepository.reservationsByMonths(classroomId);
 
@@ -95,7 +96,7 @@ public class ClassroomService {
       return getForDateAppointmentDTOS(appointmentRepository.findByDateAndClassroom(requestAppointmetDateDTO.getDate(), classroom));
 
     }
-        throw new ClassroomExistsException("Ucionica ne postoji");
+        throw new ClassroomExistsException(ExceptionMessages.CLASSROOM_EXISTS);
     }
     private List<GetForDateAppointmentDTO> getForDateAppointmentDTOS(   List<Appointment> appointments){
         return appointments.stream().map(x->new GetForDateAppointmentDTO(x.getStart_timeInHours(),x.getEnd_timeInHours(),x.getType().getName(),x.getClassroom().getName(),x.getDecription())).collect(Collectors.toList());
