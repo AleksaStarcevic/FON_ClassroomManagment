@@ -1,5 +1,6 @@
 package com.example.fon_classroommanagment.Services;
 
+import com.example.fon_classroommanagment.Configuration.ExceptionMessages;
 import com.example.fon_classroommanagment.Events.EmailApprovedAppointnemnt;
 import com.example.fon_classroommanagment.Exceptions.AppointmentDoesNotExistsException;
 import com.example.fon_classroommanagment.Exceptions.ReservationExistsException;
@@ -55,7 +56,7 @@ public class AppointmentService {
                     Appointment appointment = new Appointment(UUID.randomUUID(), userRepository.findByEmail(dto.getEmail()).getEmployee(), new Classroom(dto.getClassroomId()), dto.getName(), dto.getDate(), dto.getDecription(), dto.getReason(), dto.getNumber_of_attendies(), dto.getStart_timeInHours(), dto.getEnd_timeInHours(), new AppointmentStatus((long) dto.getStatus()), new AppointmentType((long) dto.getType()));
                 appointmentRepository.save(appointment);
             } else {
-                throw new ReservationExistsException("Rezervacija "+dto.getName()+" datuma: "+dto.getDate()+" ,se ne moze rezervisati,pogledajte da li se dobro uneli podatke,ili je neko vec rezervisao ucionicu pre vas");
+                throw new ReservationExistsException(ExceptionMessages.APPOINTMENT_RESERVED);
             }
 
         }
@@ -75,7 +76,7 @@ public class AppointmentService {
 
     public List<Appointment> searchReservation(SearchReservationDTO dto) throws ReservationExistsException {
         List<Appointment> appointments = appointmentRepository.searchReservationsByClassroomAndDate(dto.getClassroomId(),dto.getDate());
-        if(appointments.isEmpty()) throw new ReservationExistsException("No reservations in given classroom at given date");
+        if(appointments.isEmpty()) throw new ReservationExistsException(ExceptionMessages.APPOINTMENT_NOT_FOUND);
       return appointmentRepository.searchReservationsByClassroomAndDate(dto.getClassroomId(),dto.getDate());
     }
 
@@ -105,7 +106,7 @@ public class AppointmentService {
                     dto.getEnd_timeInHours(),
                     dto.getType());
         } else {
-            throw new ReservationExistsException("Rezervacija je zauzeta,pokusajte drugo vreme");
+            throw new ReservationExistsException(ExceptionMessages.APPOINTMENT_RESERVED);
         }
 
 
@@ -164,7 +165,7 @@ public class AppointmentService {
 
 
         }else{
-            throw  new AppointmentDoesNotExistsException("Termin ne postoji");
+            throw  new AppointmentDoesNotExistsException(ExceptionMessages.APPOINTMENT_EXIST);
         }
     }
 

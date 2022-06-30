@@ -39,8 +39,8 @@ public class AccountService {
 
     public ValidationToken  createValidationToken(Account dto) throws  UserExistsExcetion{
         String token=UUID.randomUUID().toString();
-        if(employeeService.findByEmail(dto.getEmail())==null) throw new UserExistsExcetion("user ne postoji");
-        if(userService.findByEmail(dto.getEmail())!=null) throw new UserExistsExcetion("user  je vec registrovan");
+        if(employeeService.findByEmail(dto.getEmail())==null) throw new UserExistsExcetion(ExceptionMessages.USER_EXISTS);
+        if(userService.findByEmail(dto.getEmail())!=null) throw new UserExistsExcetion(ExceptionMessages.USER_REGISTERED);
 
         EncodePassword(dto);
         ValidationToken validationToken;
