@@ -2,6 +2,7 @@ package com.example.fon_classroommanagment.Services;
 
 import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.example.fon_classroommanagment.Configuration.Constants;
+import com.example.fon_classroommanagment.Configuration.ExceptionMessages;
 import com.example.fon_classroommanagment.Configuration.UserProfileDetails;
 import com.example.fon_classroommanagment.Exceptions.AppointmentsForUserException;
 import com.example.fon_classroommanagment.Exceptions.UserExistsExcetion;
@@ -43,7 +44,7 @@ private BCryptPasswordEncoder encoder;
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         UserProfile user=findByEmail(username);
 
-        if(user==null) throw  new UsernameNotFoundException("Please register,user does not exit");
+        if(user==null) throw  new UsernameNotFoundException(ExceptionMessages.USERNAME_NOT_FOUND);
         return new UserProfileDetails(user);
     }
 
@@ -60,25 +61,25 @@ private BCryptPasswordEncoder encoder;
 
     public UserProfile findById(UUID id) throws UserExistsExcetion {
         Optional<UserProfile> profile = userRepository.findById(id);
-        if(profile.isEmpty()) throw new  UserExistsExcetion("User does not exists");
+        if(profile.isEmpty()) throw new  UserExistsExcetion(ExceptionMessages.USER_EXISTS);
         return profile.get();
     }
 
     public void ChangePassword(ChangePasswordDTO password,String email) throws TokenExpiredException {
         UserProfile userProfile=findByEmail(email);
-        if(userProfile==null) throw new TokenExpiredException("Please login again,there is no user with given email");
+        if(userProfile==null) throw new TokenExpiredException(ExceptionMessages.TOKEN_EXPIRED);
         userRepository.updatePhone(userProfile.getId(),encoder.encode(password.getPassword()));
     }
 
     public void changeEmail(String email,ChangeEmailDTO dto) throws  TokenExpiredException {
         UserProfile userProfile=findByEmail(email);
-        if(userProfile==null) throw new TokenExpiredException("Please login again,there is no user with given email");
+        if(userProfile==null) throw new TokenExpiredException(ExceptionMessages.TOKEN_EXPIRED);
         userRepository.changeEmail(userProfile.getId(),dto.getEmail());
     }
 
     public UserDetailsDTO getUserDetails(String email) throws  TokenExpiredException{
         UserProfile user=userRepository.findByEmail(email);
-        if(user==null) throw new TokenExpiredException("Please login again,there is no user with given email");
+        if(user==null) throw new TokenExpiredException(ExceptionMessages.TOKEN_EXPIRED);
         Employee employee=user.getEmployee();
         return  new UserDetailsDTO(employee.getFirstName(),employee.getLastName(),employee.getType().getName(),employee.getImage());
 
@@ -88,7 +89,7 @@ private BCryptPasswordEncoder encoder;
     public List<AppointmentsForUserDTO> getAppointmentsForUser(String email) throws AppointmentsForUserException {
 
         UserProfile user = userRepository.findByEmail(email);
-        if(user==null) throw new TokenExpiredException("Please login again,there is no user with given email");
+        if(user==null) throw new TokenExpiredException(ExceptionMessages.TOKEN_EXPIRED);
 
         Employee employee = user.getEmployee();
 
