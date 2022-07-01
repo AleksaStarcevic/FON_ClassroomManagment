@@ -59,5 +59,10 @@ public class Constants {
     public static final int CHIP_SEARCH_ELEMENTS=3;
 
 public static final String ADMIN_NAME_TYPE_ROLE="ADMIN";
+public static final Long ADMIN_ID_ROLE=1L;
+public static final String USER_NAME_TYPE_ROLE="USER";
+public static final Long USER_ID_ROLE=2L;
+
+
 
 }

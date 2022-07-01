@@ -18,6 +18,8 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 import java.util.UUID;
 
+import static com.example.fon_classroommanagment.Configuration.Constants.USER_ID_ROLE;
+import static com.example.fon_classroommanagment.Configuration.Constants.USER_NAME_TYPE_ROLE;
 
 
 @Service
@@ -79,7 +81,7 @@ public class AccountService {
         }
         Account account=accountRepository.findByEmail(validationToken.getRegisterDTO().getEmail());
 
-        UserRole simpleUserRole=new UserRole(1L,"USER");
+        UserRole simpleUserRole=new UserRole(USER_ID_ROLE,USER_NAME_TYPE_ROLE);
         Employee employee=employeeService.findByEmail(account.getEmail());
         UserProfile user=new UserProfile(UUID.randomUUID(),account.getEmail(),account.getPassword(),simpleUserRole,employee);
 
