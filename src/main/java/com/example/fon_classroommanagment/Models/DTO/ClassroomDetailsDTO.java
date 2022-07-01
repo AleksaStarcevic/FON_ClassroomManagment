@@ -3,12 +3,13 @@ package com.example.fon_classroommanagment.Models.DTO;
 import com.example.fon_classroommanagment.Models.Classroom.ClassroomType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import org.springframework.data.util.Pair;
 
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
-import java.util.List;
+import java.util.HashMap;
 
 @Data
 @AllArgsConstructor
@@ -42,7 +43,7 @@ public class ClassroomDetailsDTO {
     private int br_tabli;
 
     @NotNull(message = "Lista ne sme biti null")
-   private List<Double[]> months_percentage;
+   private HashMap<Pair<String,Integer>,Double> monthPercntage;
 
 
 }

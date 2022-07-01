@@ -14,11 +14,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Service;
 
 import javax.validation.Valid;
-import java.util.List;
-import java.util.Optional;
+import java.security.KeyPair;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static com.example.fon_classroommanagment.Configuration.Constants.*;
@@ -54,14 +55,38 @@ public class ClassroomService {
         Optional<Classroom> optional = classroomRepository.findById(classroomId);
         if (optional.isEmpty()) throw new ClassroomExistsException(ExceptionMessages.CLASSROOM_EXISTS);
         Classroom classroom = optional.get();
-        List<Double[]> monthsPercentage = appointmentRepository.reservationsByMonths(classroomId);
+        HashMap<Pair<String,Integer>,Double> monthsPercentage=new HashMap<>(){{
+            put(Pair.of("January",1), 0.0);
+            put(Pair.of("February",2), 0.0);
+            put(Pair.of("March",3),0.0);
+            put(Pair.of("April",4),0.0);
+            put(Pair.of("May",5), 0.0);
+            put(Pair.of("June",6), 0.0);
+            put(Pair.of("July",7),0.0);
+            put(Pair.of("August",8), 0.0);
+            put(Pair.of("September",9), 0.0);
+            put(Pair.of("October",10),0.0);
+            put(Pair.of("November",11),0.0);
+            put(Pair.of("December",12),0.0);
 
-        for (Double[] month : monthsPercentage) {
-            for (int i = 1; i < month.length; i++) {
-                month[i] = (month[i] / 310) * 100;
+        }};
 
-            }
-        }
+        for (Map.Entry<Pair<String, Integer>, Double> ele: monthsPercentage.entrySet()
+             ) {
+           // System.out.println(appointmentRepository.reservationsByMonths(classroomId,ele.));
+            int countApp=appointmentRepository.reservationsByMonths(classroomId,ele.getKey().getSecond());
+            double calculated=(countApp/180.0)* 100;
+            ele.setValue(calculated);
+
+
+        };
+
+//        for (Double[] month : monthsPercentage) {
+//            for (int i = 1; i < month.length; i++) {
+//                month[i] = (month[i] / 310) * 100;
+//
+//            }
+//        }
 
         return new  ClassroomDetailsDTO(classroom.getName(),
                 classroom.getNumber_of_seats(),

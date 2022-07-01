@@ -66,8 +66,11 @@ public interface AppointmentRepository extends JpaRepository<Appointment, UUID> 
     List<Appointment> findByDateAndClassroom(Date date, Classroom classroom);
     List<Appointment> findByEmployeeId(Long id);
 
-    @Query("select month(a.date),count(a.date) from Appointment a where a.classroom.id =:id group by month(a.date)")
-    List<Double[]> reservationsByMonths(Long id);
+    //@Query(value = "SELECT count(*) FROM APPOINTMENT WHERE classroom_id=?1 AND MONTH(date)=?2 ",nativeQuery = true)
+    @Query(value = "select  count(a) from Appointment a where a.classroom.id=:id  and month(a.date)=:month")
+    int reservationsByMonths(@Param("id") Long id,@Param("month") int month);
+//     @Query(value = "select  count(a) from Appointment a where a.classroom.id=:id  order by  month (a)")
+//    List<Integer> reservationsByMonths(@Param("id") Long id);
 
     @Query("select new com.example.fon_classroommanagment.Models.DTO.RequestedAppointmentsDTO(p.employee.id,p.employee.type.name,p.employee.image,p.employee.firstName,p.employee.lastName,count(p)) from Appointment  p  where  p.status.id=:status order by p.employee.id ")
     List<RequestedAppointmentsDTO> getRequestedAppointmentsForUsers(@Param("status") Long status);

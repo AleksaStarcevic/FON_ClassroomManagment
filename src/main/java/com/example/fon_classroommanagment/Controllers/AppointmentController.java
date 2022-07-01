@@ -72,12 +72,12 @@ public class AppointmentController {
         }
 
         @PostMapping(APPOINTMENT_DATE)
-        public ResponseEntity<List<GetForDateAppointmentDTO>> getAppointmentsForDate(@PathParam("date") @Valid @JsonFormat(shape=JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd") Date date){
+        public ResponseEntity<List<GetForDateAppointmentDTO>> appointmentAvailability(@PathParam("date") @Valid @JsonFormat(shape=JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd") Date date){
 
             return  ResponseEntity.ok(appointmentService.getForDate(date));
         }
         @PostMapping(APPOINTMENT_CLASSROOM)
-        public ResponseEntity<List<GetForDateAppointmentDTO>> getAppointmentsForDateAndClassroom(@RequestBody @Valid RequestAppointmetDaetForClassroomDTO requestAppointmetDateClassroomDTO){
+        public ResponseEntity<List<GetForDateAppointmentDTO>> classroomAvailability(@RequestBody @Valid RequestAppointmetDaetForClassroomDTO requestAppointmetDateClassroomDTO){
             return  ResponseEntity.ok(appointmentService.getForDateAndClassroom(requestAppointmetDateClassroomDTO));
         }
 
