@@ -81,4 +81,8 @@ public interface AppointmentRepository extends JpaRepository<Appointment, UUID> 
 
     @Query("select  new com.example.fon_classroommanagment.Models.DTO.AppointmentRequestedUserDTO(p.id,p.classroom.name,p.name,p.date,p.Start_timeInHours,p.End_timeInHours) from Appointment  p where p.employee.id=:emlopyeeId and p.status.id=:status")
     List<AppointmentRequestedUserDTO> findByeAndEmployeeIdAndStatus(@Param("emlopyeeId") Long emlopyeeId,@Param("status")Long status);
+
+
+    @Transactional
+    void deleteByIdAndAndEmployee(UUID id, Employee employee);
 }

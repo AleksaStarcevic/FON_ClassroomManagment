@@ -2,6 +2,7 @@ package com.example.fon_classroommanagment.Controllers;
 
 import com.example.fon_classroommanagment.Exceptions.AppointmentDoesNotExistsException;
 import com.example.fon_classroommanagment.Exceptions.ReservationExistsException;
+import com.example.fon_classroommanagment.Exceptions.UserExistsExcetion;
 import com.example.fon_classroommanagment.Models.Appointment.Appointment;
 import com.example.fon_classroommanagment.Models.DTO.*;
 import com.example.fon_classroommanagment.Services.AppointmentService;
@@ -31,8 +32,10 @@ public class AppointmentController {
     private AppointmentService appointmentService;
 
         @DeleteMapping(APPOINTMENT_DELETE)
-        public void DeleteAppointment(@RequestParam("id") @Valid UUID dto){
-             appointmentService.DeleteAppointment(dto.toString());
+        public void DeleteAppointment(@RequestParam("id") @Valid UUID dto,Authentication authentication) throws UserExistsExcetion {
+
+       appointmentService.DeleteAppointment(dto.toString(),authentication.getName());
+
 
         }
 

@@ -40,9 +40,7 @@ private AccountService accountService;
 
     @GetMapping(REGISTER_CONFIRM)
     public void registerAccountConfirmed(@PathVariable("token")  String token) throws TokenNotFaundException, TokenExpiredException {
-
         accountService.ConfirmAccount(token);
-
     }
 
 

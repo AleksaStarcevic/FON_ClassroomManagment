@@ -1,15 +1,17 @@
 package com.example.fon_classroommanagment.Services;
 
 import com.example.fon_classroommanagment.Configuration.ExceptionMessages;
-import com.example.fon_classroommanagment.Events.EmailApprovedAppointnemnt;
 import com.example.fon_classroommanagment.Exceptions.AppointmentDoesNotExistsException;
 import com.example.fon_classroommanagment.Exceptions.ReservationExistsException;
+import com.example.fon_classroommanagment.Exceptions.UserExistsExcetion;
 import com.example.fon_classroommanagment.Models.Appointment.Appointment;
 import com.example.fon_classroommanagment.Models.Appointment.AppointmentStatus;
 import com.example.fon_classroommanagment.Models.Appointment.AppointmentType;
 import com.example.fon_classroommanagment.Models.Classroom.Classroom;
 import com.example.fon_classroommanagment.Models.DTO.*;
+import com.example.fon_classroommanagment.Models.Emplayee.Employee;
 import com.example.fon_classroommanagment.Repository.AppointmentRepository;
+import com.example.fon_classroommanagment.Repository.EmployeeRepository;
 import com.example.fon_classroommanagment.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
@@ -23,6 +25,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 import static com.example.fon_classroommanagment.Configuration.Constants.*;
+import static com.example.fon_classroommanagment.Configuration.ExceptionMessages.USER_EXISTS;
 
 @Service
 public class AppointmentService {
@@ -30,13 +33,18 @@ public class AppointmentService {
     @Autowired
     private AppointmentRepository appointmentRepository;
     @Autowired
+    private EmployeeRepository employeeRepository;
+    @Autowired
     private UserRepository userRepository;
     @Autowired
     private       ApplicationEventPublisher publisher;
 
-    public void DeleteAppointment(String id) {
-        UUID idAppointment = UUID.fromString(id);
-        appointmentRepository.deleteById(idAppointment);
+    public void DeleteAppointment(String id, String email) throws UserExistsExcetion {
+       UUID idAppointment = UUID.fromString(id);
+        Employee empl=employeeRepository.findByEmail(email);
+
+        if(empl==null) throw new UserExistsExcetion(USER_EXISTS);
+        appointmentRepository.deleteByIdAndAndEmployee(idAppointment,empl);
     }
 
     public List<Appointment> getAll() {
