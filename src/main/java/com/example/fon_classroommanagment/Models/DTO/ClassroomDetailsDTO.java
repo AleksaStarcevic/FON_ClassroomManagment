@@ -10,6 +10,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import java.util.HashMap;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -43,7 +44,7 @@ public class ClassroomDetailsDTO {
     private int br_tabli;
 
     @NotNull(message = "Lista ne sme biti null")
-   private HashMap<Pair<String,Integer>,Double> monthPercntage;
+   private List<Double> monthPercntage;
 
 
 }

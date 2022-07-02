@@ -55,38 +55,19 @@ public class ClassroomService {
         Optional<Classroom> optional = classroomRepository.findById(classroomId);
         if (optional.isEmpty()) throw new ClassroomExistsException(ExceptionMessages.CLASSROOM_EXISTS);
         Classroom classroom = optional.get();
-        HashMap<Pair<String,Integer>,Double> monthsPercentage=new HashMap<>(){{
-            put(Pair.of("January",1), 0.0);
-            put(Pair.of("February",2), 0.0);
-            put(Pair.of("March",3),0.0);
-            put(Pair.of("April",4),0.0);
-            put(Pair.of("May",5), 0.0);
-            put(Pair.of("June",6), 0.0);
-            put(Pair.of("July",7),0.0);
-            put(Pair.of("August",8), 0.0);
-            put(Pair.of("September",9), 0.0);
-            put(Pair.of("October",10),0.0);
-            put(Pair.of("November",11),0.0);
-            put(Pair.of("December",12),0.0);
+        List<Double> results=new LinkedList<>();
 
-        }};
 
-        for (Map.Entry<Pair<String, Integer>, Double> ele: monthsPercentage.entrySet()
+        for (int i =1;i<13;i++
              ) {
-           // System.out.println(appointmentRepository.reservationsByMonths(classroomId,ele.));
-            int countApp=appointmentRepository.reservationsByMonths(classroomId,ele.getKey().getSecond());
-            double calculated=(countApp/180.0)* 100;
-            ele.setValue(calculated);
+            int countApp=appointmentRepository.reservationsByMonths(classroomId,i);
+            double calculated=(countApp/180.0)* 1;
 
+            results.add(results.size(),calculated);
+        }
 
-        };
+//            //*100 za procente ali jer na frontu ide od 0-1 /100 pa je 100/100 1
 
-//        for (Double[] month : monthsPercentage) {
-//            for (int i = 1; i < month.length; i++) {
-//                month[i] = (month[i] / 310) * 100;
-//
-//            }
-//        }
 
         return new  ClassroomDetailsDTO(classroom.getName(),
                 classroom.getNumber_of_seats(),
@@ -96,7 +77,7 @@ public class ClassroomService {
                 classroom.getType(),
                 classroom.getPovrsina(),
                 classroom.getSprat(),
-                classroom.getBr_tabli(), monthsPercentage);
+                classroom.getBr_tabli(), results);
 
 
 
