@@ -13,4 +13,9 @@ public class EmployeeService {
     public Employee findByEmail(String email) {
        return  employeeRepository.findByEmail(email);
     }
+
+    public void changeEmail(String email, String emailToChanged) {
+        Employee employee = findByEmail(email);
+        employeeRepository.changeEmail(employee.getId(),emailToChanged);
+    }
 }

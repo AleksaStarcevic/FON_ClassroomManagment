@@ -4,7 +4,6 @@ import com.example.fon_classroommanagment.Models.Emplayee.EducationTitle;
 import com.example.fon_classroommanagment.Models.Emplayee.EmployeeDepartment;
 import com.example.fon_classroommanagment.Models.Emplayee.EmployeeType;
 import com.example.fon_classroommanagment.Models.User.UserProfile;
-import com.example.fon_classroommanagment.Models.User.UserRole;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -22,7 +21,7 @@ public interface UserRepository  extends JpaRepository<UserProfile, UUID> {
     @Modifying
     @Transactional
     @Query("update UserProfile u set u.password = :password where u.id = :id")
-    void updatePhone(@Param(value = "id") UUID id, @Param(value = "password") String password);
+    void updatePassword(@Param(value = "id") UUID id, @Param(value = "password") String password);
 
     @Transactional
     @Modifying

@@ -1,7 +1,6 @@
 package com.example.fon_classroommanagment.Services;
 
 import com.auth0.jwt.exceptions.TokenExpiredException;
-import com.example.fon_classroommanagment.Configuration.Constants;
 import com.example.fon_classroommanagment.Configuration.ExceptionMessages;
 import com.example.fon_classroommanagment.Configuration.UserProfileDetails;
 import com.example.fon_classroommanagment.Exceptions.AppointmentsForUserException;
@@ -22,7 +21,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import javax.validation.constraints.Null;
 import java.util.*;
 
 import static com.example.fon_classroommanagment.Configuration.Constants.ADMIN_NAME_TYPE_ROLE;
@@ -35,6 +33,8 @@ public class UserService implements UserDetailsService {
 
    @Autowired
    private AppointmentRepository appointmentRepository;
+    @Autowired
+    private EmployeeService employeeService;
 
 @Autowired
 private BCryptPasswordEncoder encoder;
@@ -68,13 +68,15 @@ private BCryptPasswordEncoder encoder;
     public void ChangePassword(ChangePasswordDTO password,String email) throws TokenExpiredException {
         UserProfile userProfile=findByEmail(email);
         if(userProfile==null) throw new TokenExpiredException(ExceptionMessages.TOKEN_EXPIRED);
-        userRepository.updatePhone(userProfile.getId(),encoder.encode(password.getPassword()));
+        userRepository.updatePassword(userProfile.getId(),encoder.encode(password.getPassword()));
+
     }
 
     public void changeEmail(String email,ChangeEmailDTO dto) throws  TokenExpiredException {
         UserProfile userProfile=findByEmail(email);
         if(userProfile==null) throw new TokenExpiredException(ExceptionMessages.TOKEN_EXPIRED);
         userRepository.changeEmail(userProfile.getId(),dto.getEmail());
+        employeeService.changeEmail(email,dto.getEmail());
     }
 
     public UserDetailsDTO getUserDetails(String email) throws  TokenExpiredException{
