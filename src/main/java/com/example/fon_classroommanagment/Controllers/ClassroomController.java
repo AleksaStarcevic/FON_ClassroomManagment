@@ -18,11 +18,18 @@ import static com.example.fon_classroommanagment.Configuration.Constants.MAX_CAP
 import static com.example.fon_classroommanagment.Configuration.Constants.MIN_CAPACITY;
 import static com.example.fon_classroommanagment.Configuration.Routes.*;
 
+/**
+ * ClassroomController obradjuje zahteve vezane za ucionicu
+ * @author Aleksa Starcevic
+ * @version 1.0
+ */
 @RestController
 @RequestMapping(CLASSROOM_PREFIX)
 @Validated
 public class ClassroomController {
-
+    /**
+     * zavisnost ClassroomService u kojoj se nalazi logika vezana za ucionicu
+     */
     @Autowired
     private ClassroomService service;
 
@@ -32,6 +39,12 @@ public class ClassroomController {
 //        return ResponseEntity.ok(service.filter(filterDTO));
 //    }
 
+    /**
+     * Metoda koja vraca listu ucionice na osnovu odredjenih kriterijuma pretrage
+     * @param page strana sa koje hocemo informacije o ucionicama
+     * @param filterDTO sadrzi min_capacity,max_capacity,types,aircondition,projector
+     * @return HTTP odgovor koji u telu sadrzi listu informacija o ucionici
+     */
     @PostMapping(CLASSROOM_PAGING)
     public ResponseEntity<List<ClassroomCardDTO>> getClassrooms(
             @PathVariable("page")  @Valid @Positive(message = "Page mora biti pozitivan broj") int page,
@@ -43,7 +56,12 @@ public class ClassroomController {
 
     }
 
-
+    /**
+     * Metoda za pretragu ucionica
+     * @param page strana sa koje hocemo ucionicu
+     * @param name ime ucionice
+     * @return HTTP odgovor koji u telu sadrzi listu informacija o ucionici
+     */
     @GetMapping(CLASSROOM_SEARCH)
     public ResponseEntity<List<ClassroomCardDTO>> searchClassroom(@PathVariable("page")  @Positive(message = "Page mora biti pozitivan broj") int page,@RequestParam("name") String name) {
        return ResponseEntity.ok(service.searchClassroom(page,name));
@@ -51,7 +69,12 @@ public class ClassroomController {
 
     }
 
-
+    /**
+     * Metoda za dobijanje detalja ucionice
+     * @param classroomId identifikator ucionice
+     * @return HTTP odgovor koji u telu sadrzi listu detalja o ucionici
+     * @throws ClassroomExistsException ako ucionica ne postoji
+     */
     @GetMapping(CLASSROOM_DETAILS)
     public ResponseEntity<ClassroomDetailsDTO> classroomDetails(
             @RequestParam("id")
