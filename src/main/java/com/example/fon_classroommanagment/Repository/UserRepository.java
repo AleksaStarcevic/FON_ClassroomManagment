@@ -1,5 +1,6 @@
 package com.example.fon_classroommanagment.Repository;
 
+import com.example.fon_classroommanagment.Models.DTO.EmployeeAdminCardDTO;
 import com.example.fon_classroommanagment.Models.Emplayee.EducationTitle;
 import com.example.fon_classroommanagment.Models.Emplayee.EmployeeDepartment;
 import com.example.fon_classroommanagment.Models.Emplayee.EmployeeType;
@@ -37,6 +38,9 @@ public interface UserRepository  extends JpaRepository<UserProfile, UUID> {
     @Query("select e from EmployeeDepartment  e")
     List<EmployeeDepartment> getAllEmployeeDepartments();
 
+
+    @Query("select  new com.example.fon_classroommanagment.Models.DTO.EmployeeAdminCardDTO(e.employee.firstName,e.employee.lastName,e.role.name) from  UserProfile  e where  e.email <>:email")
+    List<EmployeeAdminCardDTO> getEmployeesPermissions(@Param("email") String email);
 
 
 }

@@ -48,7 +48,7 @@ public class Routes {
     public  static final String  COMMON_ALL_EMPLOYEE_DEPARTMENTS="/employee/departments";
     public  static final String  COMMON_ALL_CLASSROOM_TYPES="/classroom/types";
     public  static final String  COMMON_ALL_APPOINTMENT_TYPES="/appointment/types";
-
+    public static final String COMMON_EMPLOYEE_PERMISSIONS_INFO="/employee/permissions";
 
 
     //user
@@ -61,6 +61,7 @@ public class Routes {
     public  static final String PASSWORD_RESET="/password/reset";
     public  static final String EMAIL_RESET="/email/reset";
     public  static final String IS_USER_ADMIN="/admin";
+
 
 
 }

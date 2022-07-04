@@ -141,5 +141,9 @@ private BCryptPasswordEncoder encoder;
     public List<AppointmentRequestedUserDTO> getAppointmentsPendingForUser(Long id) {
         return appointmentRepository.findByeAndEmployeeIdAndStatus(id,STATUS_PENDING);
     }
+    public List<EmployeeAdminCardDTO> getEmployeesPermissions(String name) {
+        return userRepository.getEmployeesPermissions(name);
+    }
+
 
 }
