@@ -49,6 +49,7 @@ public class Routes {
     public  static final String  COMMON_ALL_CLASSROOM_TYPES="/classroom/types";
     public  static final String  COMMON_ALL_APPOINTMENT_TYPES="/appointment/types";
     public static final String COMMON_EMPLOYEE_PERMISSIONS_INFO="/employee/permissions";
+    public static final String COMMON_USER_ROLES="/user/roles";
 
 
     //user

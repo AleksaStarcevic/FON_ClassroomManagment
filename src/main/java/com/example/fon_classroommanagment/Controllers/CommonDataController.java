@@ -5,6 +5,7 @@ import com.example.fon_classroommanagment.Models.Classroom.ClassroomType;
 import com.example.fon_classroommanagment.Models.Emplayee.EducationTitle;
 import com.example.fon_classroommanagment.Models.Emplayee.EmployeeDepartment;
 import com.example.fon_classroommanagment.Models.Emplayee.EmployeeType;
+import com.example.fon_classroommanagment.Models.User.UserRole;
 import com.example.fon_classroommanagment.Services.ClassroomService;
 import com.example.fon_classroommanagment.Services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,5 +48,9 @@ public class CommonDataController {
     @GetMapping(COMMON_ALL_APPOINTMENT_TYPES)
     public ResponseEntity<List<AppointmentType>> getAllAppointmentTypes(){
         return ResponseEntity.ok(classrromService.getAllAppointmentTypes());
+    }
+    @GetMapping(COMMON_USER_ROLES)
+    public ResponseEntity<List<UserRole>> getAllUserRoles(){
+        return ResponseEntity.ok(classrromService.getAllUserRoles());
     }
 }

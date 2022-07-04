@@ -8,8 +8,10 @@ import com.example.fon_classroommanagment.Models.Appointment.AppointmentType;
 import com.example.fon_classroommanagment.Models.Classroom.Classroom;
 import com.example.fon_classroommanagment.Models.Classroom.ClassroomType;
 import com.example.fon_classroommanagment.Models.DTO.*;
+import com.example.fon_classroommanagment.Models.User.UserRole;
 import com.example.fon_classroommanagment.Repository.AppointmentRepository;
 import com.example.fon_classroommanagment.Repository.ClassroomRepository;
+import com.example.fon_classroommanagment.Repository.UserRoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -31,6 +33,8 @@ public class ClassroomService {
 
     @Autowired
     private AppointmentRepository appointmentRepository;
+    @Autowired
+    private UserRoleRepository userRoleRepository;
 
 //    public List<ClassroomCardDTO> filter(FilterDTO filterDTO) {
 //
@@ -134,4 +138,7 @@ return CreateClassroomChipDTOs(result);
     }
 
 
+    public List<UserRole> getAllUserRoles() {
+        return userRoleRepository.findAll();
+    }
 }
