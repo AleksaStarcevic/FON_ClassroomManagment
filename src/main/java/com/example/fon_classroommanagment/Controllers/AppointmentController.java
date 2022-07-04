@@ -23,14 +23,27 @@ import java.util.stream.Collectors;
 
 import static com.example.fon_classroommanagment.Configuration.Routes.*;
 
+/**
+ * AppointmentController obradjuje zahteve vezane za termin
+ * @author Aleksa Starcevic
+ * @version 1.0
+ */
 @RestController()
 @RequestMapping(APPOINTMENT_PREFIX)
 @Validated
 public class AppointmentController {
-
+    /**
+     * zavisnost appointmentService u kojoj se nalazi logika vezana za termin
+     */
     @Autowired
     private AppointmentService appointmentService;
 
+    /**
+     * Metoda koja na osnovu id-ja termina i mejla zaposlenog brise termin
+     * @param dto id termina za brisanje
+     * @param authentication podaci korisnika koji brise termin
+     * @throws UserExistsExcetion ako korisnik ne postoji
+     */
         @DeleteMapping(APPOINTMENT_DELETE)
         public void DeleteAppointment(@RequestParam("id") @Valid UUID dto,Authentication authentication) throws UserExistsExcetion {
 
@@ -39,54 +52,107 @@ public class AppointmentController {
 
         }
 
-        @GetMapping(APPOINTMENTS)
+    /**
+     * Metoda koja vraca sve termine
+     * @return HTTP odgovor koji u telu sadrzi listu termina
+     */
+    @GetMapping(APPOINTMENTS)
         public ResponseEntity<List<Appointment>> getAll(){
             return ResponseEntity.ok(appointmentService.getAll());
         }
 
 
-
-        @PostMapping(APPOINTMENT_CONFIRM)
+    /**
+     * Metoda za potvrdu termina
+     * @param appointmentId id termina kojeg hocemo da potvrdimo
+     * @throws AppointmentDoesNotExistsException ako termin sa zadatim identifikatorom ne postoji
+     */
+    @PostMapping(APPOINTMENT_CONFIRM)
         public void ConfirmAppointment(@RequestParam("id") String appointmentId) throws AppointmentDoesNotExistsException {
               appointmentService.ConfirmAppointment(UUID.fromString(appointmentId));
         }
-        @PostMapping(APPOINTMENT_DECLINE)
+
+    /**
+     * Metoda za odbijanje termina
+     * @param appointmentId id termina kojeg hocemo da odbijemo
+     * @throws AppointmentDoesNotExistsException ako termin sa zadatim identifikatorom ne postoji
+     */
+    @PostMapping(APPOINTMENT_DECLINE)
         public void DeclineAppointment(@RequestParam("id") String appointmentId) throws AppointmentDoesNotExistsException {
               appointmentService.DeclineAppointment(UUID.fromString(appointmentId));
         }
 
-        @PostMapping(APPOINTMENT_CONFIRM_ALL)
+    /**
+     * Metoda za potvrdu liste termina
+     * @param dto lista identifikatora termina za odobravanje
+     * @throws AppointmentDoesNotExistsException ako termin sa zadatim identifikatorom ne postoji
+     */
+    @PostMapping(APPOINTMENT_CONFIRM_ALL)
         public void ConfirmAppointment(@RequestBody List<String> dto) throws AppointmentDoesNotExistsException {
             appointmentService.ConfirmAllAppointments(dto.stream().map(UUID::fromString).collect(Collectors.toList()));
         }
 
+    /**
+     * Metoda za rezervisanje liste termina
+     * @param dto
+     * @param authentication podaci o korisniku koji rezervise, ako je administrator termin se odmah odobrava
+     * @throws ReservationExistsException ako vec postoji termin sa istim vremenom i datumom
+     */
         @PostMapping(APPOINTMENT_RESERVE)
         public void Reserve(@RequestBody  @Valid  List<ReserveDTO> dto, Authentication authentication) throws ReservationExistsException {
         appointmentService.ReserveAppointment(dto,authentication.getAuthorities().toArray()[0].toString());
 
         }
 
+    /**
+     * Metoda za pretragu termina
+     * @param dto dto koji sadrzi date,classroomId i start_timeInHours
+     * @return HTTP odgovor koji u telu sadrzi listu termina
+     * @throws ReservationExistsException ako termin nije pronadjen za uneti datum i vreme
+     */
         @GetMapping(APPOINTMENT_SEARCH)
         public ResponseEntity<List<Appointment>> searchReservation(@RequestBody  @Valid SearchReservationDTO dto) throws ReservationExistsException {
             return ResponseEntity.status(HttpStatus.OK).body(appointmentService.searchReservation(dto));
         }
 
-        @PostMapping(APPOINTMENT_DATE)
+    /**
+     * Metoda koja vraca termine na osnovu datuma
+     * @param date datum kada je termin rezervisan
+     * @return HTTP odgovor koji u telu sadrzi listu termina za trazeni datum
+     */
+
+    @PostMapping(APPOINTMENT_DATE)
         public ResponseEntity<List<GetForDateAppointmentDTO>> appointmentAvailability(@PathParam("date") @Valid @JsonFormat(shape=JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd") Date date){
 
             return  ResponseEntity.ok(appointmentService.getForDate(date));
         }
-        @PostMapping(APPOINTMENT_CLASSROOM)
+
+    /**
+     * Metoda koja vraca termine na osnovu datuma i ucionica u kojoj su rezervisani
+     * @param requestAppointmetDateClassroomDTO dto koji sadrzi date i classroomId
+     * @return HTTP odgovor koji u telu sadrzi listu termina za trazeni datum i ucionicu
+     */
+    @PostMapping(APPOINTMENT_CLASSROOM)
         public ResponseEntity<List<GetForDateAppointmentDTO>> classroomAvailability(@RequestBody @Valid RequestAppointmetDaetForClassroomDTO requestAppointmetDateClassroomDTO){
             return  ResponseEntity.ok(appointmentService.getForDateAndClassroom(requestAppointmetDateClassroomDTO));
         }
 
-        @PostMapping(APPOINTMENT_AVAILABILITY)
+    /**
+     * Metoda koja proverava da li se termin moze rezervisati
+     * @param dto dto koji sadrzi date,classroomId,start_timeInHours,end_timeInHours
+     * @return HTTP odgovor koji u telu sadrzi informaciju o tome da li je termin vec zauzet
+     */
+    @PostMapping(APPOINTMENT_AVAILABILITY)
         public ResponseEntity<Boolean> getIsClassroomAvailableForDate(@RequestBody @Valid RequestIsClassroomAvailableForDateDTO dto ){
           return  ResponseEntity.ok(appointmentService.IsClassroomAvailableAtDate(dto));
         }
 
-        @PatchMapping(APPOINTMENT_UPDATE)
+    /**
+     * Metoda koja azurira termin
+     * @param dto sadrzi podatke termina koji se azuriraju
+     * @throws ReservationExistsException ako je termin vec rezervisan
+     */
+    @PatchMapping(APPOINTMENT_UPDATE)
         public void updateReservation(@RequestBody @Valid UpdateReservationDTO dto) throws ReservationExistsException {
              appointmentService.updateReservation(dto);
         }
