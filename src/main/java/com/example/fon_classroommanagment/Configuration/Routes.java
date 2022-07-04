@@ -58,11 +58,13 @@ public class Routes {
     public  static final String USER_APPOINTMENTS_PENDING ="/appointments/pending";
     public  static final String USER_REQUESTED_APPOINTMENTS="/appointments-requested";
 
+    public  static final String USER_UPDATE_ROLE="/update-role";
+
     public  static final String PASSWORD_RESET="/password/reset";
     public  static final String EMAIL_RESET="/email/reset";
     public  static final String IS_USER_ADMIN="/admin";
 
-    public  static final String USER_UPDATE_ROLE="/updateRole";
+
 
 
 
