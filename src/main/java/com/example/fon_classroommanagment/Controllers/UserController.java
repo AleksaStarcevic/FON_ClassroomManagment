@@ -3,8 +3,8 @@ package com.example.fon_classroommanagment.Controllers;
 import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.example.fon_classroommanagment.Exceptions.AppointmentsForUserException;
 import com.example.fon_classroommanagment.Models.DTO.*;
-import com.example.fon_classroommanagment.Services.EmployeeService;
 import com.example.fon_classroommanagment.Services.UserService;
+import com.fasterxml.classmate.types.ResolvedInterfaceType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -21,8 +21,6 @@ import static com.example.fon_classroommanagment.Configuration.Routes.*;
 public class UserController {
     @Autowired
     private UserService userService;
-
-
 
     @GetMapping(USER_DETAILS)
     public ResponseEntity<UserDetailsDTO> getUserDetails(Authentication authentication)throws  TokenExpiredException{
@@ -60,8 +58,7 @@ public class UserController {
     }
 
     @GetMapping(COMMON_EMPLOYEE_PERMISSIONS_INFO)
-    public  ResponseEntity<List<EmployeeAdminCardDTO>> getEmployeesInfo(Authentication authentication){
-        return ResponseEntity.ok(userService.getEmployeesPermissions(authentication.getName()));
+    public ResponseEntity<List<EmployeeAdminCardDTO>> getEmployeePermissions(Authentication authentication){
+        return ResponseEntity.ok((userService.getEmployeesPermissions(authentication.getName())));
     }
-
 }

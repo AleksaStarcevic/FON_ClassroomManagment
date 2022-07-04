@@ -39,8 +39,6 @@ public interface UserRepository  extends JpaRepository<UserProfile, UUID> {
     List<EmployeeDepartment> getAllEmployeeDepartments();
 
 
-    @Query("select  new com.example.fon_classroommanagment.Models.DTO.EmployeeAdminCardDTO(e.employee.firstName,e.employee.lastName,e.role.name) from  UserProfile  e where  e.email <>:email")
-    List<EmployeeAdminCardDTO> getEmployeesPermissions(@Param("email") String email);
-
-
+    @Query("select  new com.example.fon_classroommanagment.Models.DTO.EmployeeAdminCardDTO(e.employee.firstName,e.employee.lastName,e.role.name) from UserProfile  e where e.email<>:email")
+    List<EmployeeAdminCardDTO> getEmployeesPermissions(@Param("email") String name);
 }

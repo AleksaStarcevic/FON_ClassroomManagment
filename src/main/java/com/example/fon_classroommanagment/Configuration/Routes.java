@@ -62,6 +62,8 @@ public class Routes {
     public  static final String EMAIL_RESET="/email/reset";
     public  static final String IS_USER_ADMIN="/admin";
 
+    public  static final String USER_UPDATE_ROLE="/updateRole";
+
 
 
 }
