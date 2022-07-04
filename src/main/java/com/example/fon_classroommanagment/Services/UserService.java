@@ -144,6 +144,9 @@ private BCryptPasswordEncoder encoder;
     public List<EmployeeAdminCardDTO> getEmployeesPermissions(String name) {
         return userRepository.getEmployeesPermissions(name);
     }
+    public void updateRole(UpdateRoleDTO dto) {
+        userRepository.updateUserRole(dto.getId(),dto.getId_role());
+    }
 
 
 

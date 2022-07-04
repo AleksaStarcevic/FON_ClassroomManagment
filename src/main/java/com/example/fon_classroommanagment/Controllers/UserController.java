@@ -61,4 +61,8 @@ public class UserController {
     public ResponseEntity<List<EmployeeAdminCardDTO>> getEmployeePermissions(Authentication authentication){
         return ResponseEntity.ok((userService.getEmployeesPermissions(authentication.getName())));
     }
+    @PostMapping(USER_UPDATE_ROLE)
+    public void updateRole(@RequestBody @Valid UpdateRoleDTO dto){
+        userService.updateRole(dto);
+    }
 }
