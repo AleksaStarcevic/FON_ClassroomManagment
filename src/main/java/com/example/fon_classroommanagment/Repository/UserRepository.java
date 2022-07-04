@@ -37,6 +37,9 @@ public interface UserRepository  extends JpaRepository<UserProfile, UUID> {
     @Query("select e from EmployeeDepartment  e")
     List<EmployeeDepartment> getAllEmployeeDepartments();
 
-
+    @Transactional
+    @Modifying
+    @Query("update UserProfile u set u.role.id=:user_role where u.id=:id")
+    void updateUserRole(UUID id, Long user_role);
 
 }

@@ -142,4 +142,7 @@ private BCryptPasswordEncoder encoder;
         return appointmentRepository.findByeAndEmployeeIdAndStatus(id,STATUS_PENDING);
     }
 
+    public void updateRole(UpdateRoleDTO dto) {
+        userRepository.updateUserRole(dto.getId(),dto.getId_role());
+    }
 }

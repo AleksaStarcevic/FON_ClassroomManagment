@@ -55,4 +55,9 @@ public class UserController {
     public ResponseEntity<Boolean> isUserAdmin(Authentication authentication){
         return ResponseEntity.ok(userService.isUserAdmin(authentication.getName()));
     }
+
+    @PostMapping(USER_UPDATE_ROLE)
+    public void updateRole(@RequestBody @Valid UpdateRoleDTO dto){
+        userService.updateRole(dto);
+    }
 }
