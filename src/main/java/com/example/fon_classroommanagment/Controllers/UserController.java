@@ -4,6 +4,7 @@ import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.example.fon_classroommanagment.Exceptions.AppointmentsForUserException;
 import com.example.fon_classroommanagment.Models.DTO.*;
 import com.example.fon_classroommanagment.Services.UserService;
+import com.fasterxml.classmate.types.ResolvedInterfaceType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -56,8 +57,8 @@ public class UserController {
         return ResponseEntity.ok(userService.isUserAdmin(authentication.getName()));
     }
 
-    @PostMapping(USER_UPDATE_ROLE)
-    public void updateRole(@RequestBody @Valid UpdateRoleDTO dto){
-        userService.updateRole(dto);
+    @GetMapping(COMMON_EMPLOYEE_PERMISSIONS_INFO)
+    public ResponseEntity<List<EmployeeAdminCardDTO>> getEmployeePermissions(Authentication authentication){
+        return ResponseEntity.ok((userService.getEmployeesPermissions(authentication.getName())));
     }
 }
