@@ -8,11 +8,7 @@ import com.example.fon_classroommanagment.Models.Appointment.Appointment;
 import com.example.fon_classroommanagment.Models.Appointment.AppointmentStatus;
 import com.example.fon_classroommanagment.Models.Appointment.AppointmentType;
 import com.example.fon_classroommanagment.Models.Classroom.Classroom;
-import com.example.fon_classroommanagment.Models.DTO.*;
-import com.example.fon_classroommanagment.Models.DTO.appointment.GetForDateAppointmentDTO;
-import com.example.fon_classroommanagment.Models.DTO.appointment.ReserveDTO;
-import com.example.fon_classroommanagment.Models.DTO.appointment.SearchAppointmentDTO;
-import com.example.fon_classroommanagment.Models.DTO.appointment.UpdateAppointmentDTO;
+import com.example.fon_classroommanagment.Models.DTO.appointment.*;
 import com.example.fon_classroommanagment.Models.DTO.classroom.RequestIsClassroomAvailableForDateDTO;
 import com.example.fon_classroommanagment.Models.Emplayee.Employee;
 import com.example.fon_classroommanagment.Repository.AppointmentRepository;
@@ -142,7 +138,7 @@ public class AppointmentService {
     }
 
 
-    public List<GetForDateAppointmentDTO> getForDateAndClassroom(RequestAppointmetDaetForClassroomDTO requestAppointmetDateClassroomDTO) {
+    public List<GetForDateAppointmentDTO> getForDateAndClassroom(RequestAppointmetDateForClassroomDTO requestAppointmetDateClassroomDTO) {
         List<Appointment> byDateAndClassroom = appointmentRepository.findByDateAndClassroom(requestAppointmetDateClassroomDTO.getDate(), requestAppointmetDateClassroomDTO.getClassroomId());
         return getForDateAppointmentDTOS((byDateAndClassroom));
 

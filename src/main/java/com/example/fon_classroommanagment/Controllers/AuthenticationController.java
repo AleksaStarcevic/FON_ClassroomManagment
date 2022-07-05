@@ -4,7 +4,7 @@ import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.example.fon_classroommanagment.Events.AccountRegistrationRequestEvent;
 import com.example.fon_classroommanagment.Exceptions.TokenNotFaundException;
 import com.example.fon_classroommanagment.Exceptions.UserExistsExcetion;
-import com.example.fon_classroommanagment.Models.DTO.UserRegistrationDTO;
+import com.example.fon_classroommanagment.Models.DTO.user.UserRegistrationDTO;
 import com.example.fon_classroommanagment.Models.User.Account;
 import com.example.fon_classroommanagment.Models.User.ValidationToken;
 import com.example.fon_classroommanagment.Services.AccountService;

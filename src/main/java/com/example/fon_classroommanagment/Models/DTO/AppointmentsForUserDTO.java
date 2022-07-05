@@ -15,6 +15,7 @@ import java.util.UUID;
 @NoArgsConstructor
 public class AppointmentsForUserDTO {
 
+
    private UUID id;
    private Long state;
    private String classroomName;

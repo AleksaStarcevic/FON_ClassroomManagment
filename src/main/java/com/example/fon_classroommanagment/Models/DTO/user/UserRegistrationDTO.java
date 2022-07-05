@@ -1,4 +1,4 @@
-package com.example.fon_classroommanagment.Models.DTO;
+package com.example.fon_classroommanagment.Models.DTO.user;
 
 import com.example.fon_classroommanagment.Models.User.Account;
 import lombok.AllArgsConstructor;

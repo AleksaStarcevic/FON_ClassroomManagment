@@ -4,11 +4,7 @@ import com.example.fon_classroommanagment.Exceptions.AppointmentDoesNotExistsExc
 import com.example.fon_classroommanagment.Exceptions.ReservationExistsException;
 import com.example.fon_classroommanagment.Exceptions.UserExistsExcetion;
 import com.example.fon_classroommanagment.Models.Appointment.Appointment;
-import com.example.fon_classroommanagment.Models.DTO.*;
-import com.example.fon_classroommanagment.Models.DTO.appointment.GetForDateAppointmentDTO;
-import com.example.fon_classroommanagment.Models.DTO.appointment.ReserveDTO;
-import com.example.fon_classroommanagment.Models.DTO.appointment.SearchAppointmentDTO;
-import com.example.fon_classroommanagment.Models.DTO.appointment.UpdateAppointmentDTO;
+import com.example.fon_classroommanagment.Models.DTO.appointment.*;
 import com.example.fon_classroommanagment.Models.DTO.classroom.RequestIsClassroomAvailableForDateDTO;
 import com.example.fon_classroommanagment.Services.AppointmentService;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -138,7 +134,7 @@ public class AppointmentController {
      * @return HTTP odgovor koji u telu sadrzi listu termina za trazeni datum i ucionicu
      */
     @PostMapping(APPOINTMENT_CLASSROOM)
-        public ResponseEntity<List<GetForDateAppointmentDTO>> classroomAvailability(@RequestBody @Valid RequestAppointmetDaetForClassroomDTO requestAppointmetDateClassroomDTO){
+        public ResponseEntity<List<GetForDateAppointmentDTO>> classroomAvailability(@RequestBody @Valid RequestAppointmetDateForClassroomDTO requestAppointmetDateClassroomDTO){
             return  ResponseEntity.ok(appointmentService.getForDateAndClassroom(requestAppointmetDateClassroomDTO));
         }
 

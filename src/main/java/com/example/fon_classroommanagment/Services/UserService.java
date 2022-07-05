@@ -7,10 +7,9 @@ import com.example.fon_classroommanagment.Exceptions.AppointmentsForUserExceptio
 import com.example.fon_classroommanagment.Exceptions.UserExistsExcetion;
 import com.example.fon_classroommanagment.Models.Appointment.Appointment;
 import com.example.fon_classroommanagment.Models.DTO.*;
+import com.example.fon_classroommanagment.Models.DTO.appointment.AppointmentRequestedUserDTO;
 import com.example.fon_classroommanagment.Models.DTO.appointment.RequestedAppointmentsDTO;
-import com.example.fon_classroommanagment.Models.DTO.user.ChangeEmailDTO;
-import com.example.fon_classroommanagment.Models.DTO.user.ChangePasswordDTO;
-import com.example.fon_classroommanagment.Models.DTO.user.UserDetailsDTO;
+import com.example.fon_classroommanagment.Models.DTO.user.*;
 import com.example.fon_classroommanagment.Models.Emplayee.EducationTitle;
 import com.example.fon_classroommanagment.Models.Emplayee.Employee;
 import com.example.fon_classroommanagment.Models.Emplayee.EmployeeDepartment;
@@ -149,7 +148,7 @@ private BCryptPasswordEncoder encoder;
         return userRepository.getEmployeesPermissions(name);
     }
     public void updateRole(UpdateRoleDTO dto) {
-        userRepository.updateUserRole(dto.getId(),dto.getId_role());
+        userRepository.updateUserRole(dto.getId_user(),dto.getId_role());
     }
 
 

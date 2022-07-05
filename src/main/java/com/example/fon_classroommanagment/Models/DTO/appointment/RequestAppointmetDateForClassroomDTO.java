@@ -1,4 +1,4 @@
-package com.example.fon_classroommanagment.Models.DTO;
+package com.example.fon_classroommanagment.Models.DTO.appointment;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
@@ -10,7 +10,7 @@ import java.util.Date;
 
 @Data
 @AllArgsConstructor
-public class RequestAppointmetDaetForClassroomDTO {
+public class RequestAppointmetDateForClassroomDTO {
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date date;
 
