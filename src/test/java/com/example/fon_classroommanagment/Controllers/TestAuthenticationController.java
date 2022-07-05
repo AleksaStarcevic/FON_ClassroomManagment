@@ -4,56 +4,38 @@ package com.example.fon_classroommanagment.Controllers;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.example.fon_classroommanagment.Configuration.SecurityConfiguration;
-import com.example.fon_classroommanagment.Configuration.UserProfileDetails;
 import com.example.fon_classroommanagment.Filters.UserFilter;
 import com.example.fon_classroommanagment.FonClassroomManagmentApplication;
-import com.example.fon_classroommanagment.Models.DTO.AccountDTO;
-import com.example.fon_classroommanagment.Models.DTO.ChangePasswordDTO;
+import com.example.fon_classroommanagment.Models.DTO.user.AccountDTO;
+import com.example.fon_classroommanagment.Models.DTO.user.ChangePasswordDTO;
 import com.example.fon_classroommanagment.Models.Emplayee.EducationTitle;
 import com.example.fon_classroommanagment.Models.Emplayee.EmployeeDepartment;
 import com.example.fon_classroommanagment.Models.Emplayee.EmployeeType;
-import com.example.fon_classroommanagment.Models.User.Account;
-import com.example.fon_classroommanagment.Models.User.UserProfile;
-import com.example.fon_classroommanagment.Models.User.UserRole;
-import com.example.fon_classroommanagment.Models.User.ValidationToken;
 import com.example.fon_classroommanagment.Repository.UserRepository;
 import com.example.fon_classroommanagment.Services.AccountService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.apache.catalina.User;
-import org.junit.Assert;
 import org.junit.Test;
-import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
-import org.springframework.security.access.SecurityConfig;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
-import javax.validation.ConstraintViolationException;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static com.example.fon_classroommanagment.Configuration.Constants.SECRET;
 import static com.example.fon_classroommanagment.Configuration.Constants.VALIDATION_TOKEN_EXPIRATION;
-import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 
 
 @RunWith(SpringRunner.class)

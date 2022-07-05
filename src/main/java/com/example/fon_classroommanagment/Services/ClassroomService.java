@@ -8,6 +8,11 @@ import com.example.fon_classroommanagment.Models.Appointment.AppointmentType;
 import com.example.fon_classroommanagment.Models.Classroom.Classroom;
 import com.example.fon_classroommanagment.Models.Classroom.ClassroomType;
 import com.example.fon_classroommanagment.Models.DTO.*;
+import com.example.fon_classroommanagment.Models.DTO.appointment.GetForDateAppointmentDTO;
+import com.example.fon_classroommanagment.Models.DTO.classroom.ClassroomCardDTO;
+import com.example.fon_classroommanagment.Models.DTO.classroom.ClassroomDetailsDTO;
+import com.example.fon_classroommanagment.Models.DTO.classroom.FilterDTO;
+import com.example.fon_classroommanagment.Models.DTO.classroom.RequestIsClassroomAvailableForDateDTO;
 import com.example.fon_classroommanagment.Models.User.UserRole;
 import com.example.fon_classroommanagment.Repository.AppointmentRepository;
 import com.example.fon_classroommanagment.Repository.ClassroomRepository;
@@ -16,11 +21,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Service;
 
-import javax.validation.Valid;
-import java.security.KeyPair;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -42,7 +44,7 @@ public class ClassroomService {
 //        return CreateClassroomPagingDTOs(result);
 //    }
 
-    public List<ClassroomCardDTO> searchClassroom(int page,String name)  {
+    public List<ClassroomCardDTO> searchClassroom(int page, String name)  {
         //if(classrooms.isEmpty()) throw new ClassroomExistsException("Classroom with that name doesn't exist");
        List<Classroom> result= classroomRepository.findByNameContaining("%"+name+"%",PageRequest.of(page-1, PAGE_SIZE)).getContent();
         return CreateClassroomPagingDTOs(result);
@@ -88,7 +90,7 @@ public class ClassroomService {
     }
 
 
-    public List<ClassroomCardDTO> getAllClassrooms(int page,FilterDTO filterDTO) {
+    public List<ClassroomCardDTO> getAllClassrooms(int page, FilterDTO filterDTO) {
 
         Page<Classroom> all;
         if(filterDTO.isSortByCapacity())

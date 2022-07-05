@@ -2,6 +2,9 @@ package com.example.fon_classroommanagment.Controllers;
 
 import com.example.fon_classroommanagment.Exceptions.ClassroomExistsException;
 import com.example.fon_classroommanagment.Models.DTO.*;
+import com.example.fon_classroommanagment.Models.DTO.classroom.ClassroomCardDTO;
+import com.example.fon_classroommanagment.Models.DTO.classroom.ClassroomDetailsDTO;
+import com.example.fon_classroommanagment.Models.DTO.classroom.FilterDTO;
 import com.example.fon_classroommanagment.Services.ClassroomService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,8 +17,6 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import java.util.List;
 
-import static com.example.fon_classroommanagment.Configuration.Constants.MAX_CAPACITY;
-import static com.example.fon_classroommanagment.Configuration.Constants.MIN_CAPACITY;
 import static com.example.fon_classroommanagment.Configuration.Routes.*;
 
 /**

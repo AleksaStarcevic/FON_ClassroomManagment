@@ -7,6 +7,10 @@ import com.example.fon_classroommanagment.Exceptions.AppointmentsForUserExceptio
 import com.example.fon_classroommanagment.Exceptions.UserExistsExcetion;
 import com.example.fon_classroommanagment.Models.Appointment.Appointment;
 import com.example.fon_classroommanagment.Models.DTO.*;
+import com.example.fon_classroommanagment.Models.DTO.appointment.RequestedAppointmentsDTO;
+import com.example.fon_classroommanagment.Models.DTO.user.ChangeEmailDTO;
+import com.example.fon_classroommanagment.Models.DTO.user.ChangePasswordDTO;
+import com.example.fon_classroommanagment.Models.DTO.user.UserDetailsDTO;
 import com.example.fon_classroommanagment.Models.Emplayee.EducationTitle;
 import com.example.fon_classroommanagment.Models.Emplayee.Employee;
 import com.example.fon_classroommanagment.Models.Emplayee.EmployeeDepartment;
@@ -65,14 +69,14 @@ private BCryptPasswordEncoder encoder;
         return profile.get();
     }
 
-    public void ChangePassword(ChangePasswordDTO password,String email) throws TokenExpiredException {
+    public void ChangePassword(ChangePasswordDTO password, String email) throws TokenExpiredException {
         UserProfile userProfile=findByEmail(email);
         if(userProfile==null) throw new TokenExpiredException(ExceptionMessages.TOKEN_EXPIRED);
         userRepository.updatePassword(userProfile.getId(),encoder.encode(password.getPassword()));
 
     }
 
-    public void changeEmail(String email,ChangeEmailDTO dto) throws  TokenExpiredException {
+    public void changeEmail(String email, ChangeEmailDTO dto) throws  TokenExpiredException {
         UserProfile userProfile=findByEmail(email);
         if(userProfile==null) throw new TokenExpiredException(ExceptionMessages.TOKEN_EXPIRED);
         userRepository.changeEmail(userProfile.getId(),dto.getEmail());

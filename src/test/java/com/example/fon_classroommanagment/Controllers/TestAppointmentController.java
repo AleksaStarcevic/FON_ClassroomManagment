@@ -5,9 +5,9 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.example.fon_classroommanagment.Filters.UserFilter;
 import com.example.fon_classroommanagment.FonClassroomManagmentApplication;
-import com.example.fon_classroommanagment.Models.DTO.ChangeStatusAppointmentDTO;
-import com.example.fon_classroommanagment.Models.DTO.DeleteReservationDTO;
-import com.example.fon_classroommanagment.Models.DTO.ReserveDTO;
+import com.example.fon_classroommanagment.Models.DTO.appointment.ChangeStatusAppointmentDTO;
+import com.example.fon_classroommanagment.Models.DTO.appointment.DeleteAppointmentDTO;
+import com.example.fon_classroommanagment.Models.DTO.appointment.ReserveDTO;
 import com.example.fon_classroommanagment.Services.AppointmentService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -132,8 +132,8 @@ private UserFilter userFilter;
                 100,2,4,1,1);
     }
 
-    private  DeleteReservationDTO getValidDeleteDTO(UUID id){
-        return new DeleteReservationDTO(id);
+    private DeleteAppointmentDTO getValidDeleteDTO(UUID id){
+        return new DeleteAppointmentDTO(id);
     }
     private String CreateJWTToken(String role) {
         Algorithm algorithm=Algorithm.HMAC256(SECRET.getBytes());
@@ -148,8 +148,8 @@ private UserFilter userFilter;
 
 
 
-    private DeleteReservationDTO getValidDeleteReservationDTO(){
-        return new DeleteReservationDTO(UUID.randomUUID());
+    private DeleteAppointmentDTO getValidDeleteReservationDTO(){
+        return new DeleteAppointmentDTO(UUID.randomUUID());
     }
     private String ConvertObjectToJson(Object dto) throws JsonProcessingException {
         return objectMapper.writeValueAsString(dto);

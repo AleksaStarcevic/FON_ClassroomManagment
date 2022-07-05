@@ -1,6 +1,5 @@
 package com.example.fon_classroommanagment.Events;
 
-import com.example.fon_classroommanagment.Models.DTO.AccountDTO;
 import com.example.fon_classroommanagment.Models.User.Account;
 import lombok.Getter;
 import org.springframework.context.ApplicationEvent;

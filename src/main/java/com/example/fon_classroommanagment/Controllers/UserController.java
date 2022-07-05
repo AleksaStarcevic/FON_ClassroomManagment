@@ -3,8 +3,11 @@ package com.example.fon_classroommanagment.Controllers;
 import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.example.fon_classroommanagment.Exceptions.AppointmentsForUserException;
 import com.example.fon_classroommanagment.Models.DTO.*;
+import com.example.fon_classroommanagment.Models.DTO.appointment.RequestedAppointmentsDTO;
+import com.example.fon_classroommanagment.Models.DTO.user.ChangeEmailDTO;
+import com.example.fon_classroommanagment.Models.DTO.user.ChangePasswordDTO;
+import com.example.fon_classroommanagment.Models.DTO.user.UserDetailsDTO;
 import com.example.fon_classroommanagment.Services.UserService;
-import com.fasterxml.classmate.types.ResolvedInterfaceType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -64,7 +67,7 @@ public class UserController {
      * @param password objekat koji sadrzi informacije za menjanje sifre
      */
     @PostMapping(PASSWORD_RESET)
-    public void ChangePassword(@RequestBody @Valid ChangePasswordDTO password,Authentication authentication) throws TokenExpiredException {
+    public void ChangePassword(@RequestBody @Valid ChangePasswordDTO password, Authentication authentication) throws TokenExpiredException {
         userService.ChangePassword(password,authentication.getName());
     }
 

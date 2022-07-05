@@ -1,14 +1,10 @@
 package com.example.fon_classroommanagment.Repository;
 
-import com.example.fon_classroommanagment.Configuration.Constants;
 import com.example.fon_classroommanagment.Models.Appointment.Appointment;
-import com.example.fon_classroommanagment.Models.Appointment.AppointmentStatus;
 import com.example.fon_classroommanagment.Models.Appointment.AppointmentType;
 import com.example.fon_classroommanagment.Models.Classroom.Classroom;
 import com.example.fon_classroommanagment.Models.DTO.AppointmentRequestedUserDTO;
-import com.example.fon_classroommanagment.Models.DTO.GetForDateAppointmentDTO;
-import com.example.fon_classroommanagment.Models.DTO.RequestAppointmetDaetForClassroomDTO;
-import com.example.fon_classroommanagment.Models.DTO.RequestedAppointmentsDTO;
+import com.example.fon_classroommanagment.Models.DTO.appointment.RequestedAppointmentsDTO;
 import com.example.fon_classroommanagment.Models.Emplayee.Employee;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -19,8 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 
 import java.util.*;
-
-import static com.example.fon_classroommanagment.Configuration.Constants.APPOINTMENT_PENDING;
 
 @Repository
 public interface AppointmentRepository extends JpaRepository<Appointment, UUID> {
@@ -72,7 +66,7 @@ public interface AppointmentRepository extends JpaRepository<Appointment, UUID> 
 //     @Query(value = "select  count(a) from Appointment a where a.classroom.id=:id  order by  month (a)")
 //    List<Integer> reservationsByMonths(@Param("id") Long id);
 
-    @Query("select new com.example.fon_classroommanagment.Models.DTO.RequestedAppointmentsDTO(p.employee.id,p.employee.type.name,p.employee.image,p.employee.firstName,p.employee.lastName,count(p)) from Appointment  p  where  p.status.id=:status order by p.employee.id ")
+    @Query("select new com.example.fon_classroommanagment.Models.DTO.appointment.RequestedAppointmentsDTO(p.employee.id,p.employee.type.name,p.employee.image,p.employee.firstName,p.employee.lastName,count(p)) from Appointment  p  where  p.status.id=:status order by p.employee.id ")
     List<RequestedAppointmentsDTO> getRequestedAppointmentsForUsers(@Param("status") Long status);
 
     @Query("select c from AppointmentType  c")

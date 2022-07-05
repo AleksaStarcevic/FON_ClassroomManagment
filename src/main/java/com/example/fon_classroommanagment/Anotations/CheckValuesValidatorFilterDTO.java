@@ -1,7 +1,6 @@
 package com.example.fon_classroommanagment.Anotations;
 
-import com.example.fon_classroommanagment.Models.DTO.FilterDTO;
-import com.example.fon_classroommanagment.Models.DTO.ReserveDTO;
+import com.example.fon_classroommanagment.Models.DTO.classroom.FilterDTO;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;

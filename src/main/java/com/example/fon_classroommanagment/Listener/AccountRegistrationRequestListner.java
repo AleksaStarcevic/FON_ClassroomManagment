@@ -1,13 +1,11 @@
 package com.example.fon_classroommanagment.Listener;
 
 import com.example.fon_classroommanagment.Events.AccountRegistrationRequestEvent;
-import com.example.fon_classroommanagment.Models.DTO.AccountDTO;
 import com.example.fon_classroommanagment.Models.Email.Email;
 import com.example.fon_classroommanagment.Models.Email.EmailSender;
 import com.example.fon_classroommanagment.Models.User.Account;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Component;
 
 import javax.mail.MessagingException;
@@ -16,7 +14,6 @@ import java.util.HashMap;
 import static com.example.fon_classroommanagment.Configuration.Constants.EMAIL_HOST_SENDER;
 import static com.example.fon_classroommanagment.Configuration.Constants.EMAIL_REGISTRATION_REQUEST_TEMPLATE;
 import static com.example.fon_classroommanagment.Configuration.Routes.REGISTER;
-import static com.example.fon_classroommanagment.Configuration.Routes.REGISTER_CONFIRM;
 
 @Component
 public class AccountRegistrationRequestListner implements ApplicationListener<AccountRegistrationRequestEvent> {

@@ -9,6 +9,11 @@ import com.example.fon_classroommanagment.Models.Appointment.AppointmentStatus;
 import com.example.fon_classroommanagment.Models.Appointment.AppointmentType;
 import com.example.fon_classroommanagment.Models.Classroom.Classroom;
 import com.example.fon_classroommanagment.Models.DTO.*;
+import com.example.fon_classroommanagment.Models.DTO.appointment.GetForDateAppointmentDTO;
+import com.example.fon_classroommanagment.Models.DTO.appointment.ReserveDTO;
+import com.example.fon_classroommanagment.Models.DTO.appointment.SearchAppointmentDTO;
+import com.example.fon_classroommanagment.Models.DTO.appointment.UpdateAppointmentDTO;
+import com.example.fon_classroommanagment.Models.DTO.classroom.RequestIsClassroomAvailableForDateDTO;
 import com.example.fon_classroommanagment.Models.Emplayee.Employee;
 import com.example.fon_classroommanagment.Repository.AppointmentRepository;
 import com.example.fon_classroommanagment.Repository.EmployeeRepository;
@@ -82,7 +87,7 @@ public class AppointmentService {
 
 
 
-    public List<Appointment> searchReservation(SearchReservationDTO dto) throws ReservationExistsException {
+    public List<Appointment> searchReservation(SearchAppointmentDTO dto) throws ReservationExistsException {
         List<Appointment> appointments = appointmentRepository.searchReservationsByClassroomAndDate(dto.getClassroomId(),dto.getDate());
         if(appointments.isEmpty()) throw new ReservationExistsException(ExceptionMessages.APPOINTMENT_NOT_FOUND);
       return appointmentRepository.searchReservationsByClassroomAndDate(dto.getClassroomId(),dto.getDate());
@@ -102,7 +107,7 @@ public class AppointmentService {
     }
 
 
-    public void updateReservation(UpdateReservationDTO dto) throws ReservationExistsException {
+    public void updateReservation(UpdateAppointmentDTO dto) throws ReservationExistsException {
         if (AppointmentConflict(dto)) {
             appointmentRepository.updateReservation(dto.getId(),dto.getClassroomId(),
                     dto.getName(),
@@ -120,7 +125,7 @@ public class AppointmentService {
 
     }
 
-    private boolean AppointmentConflict(UpdateReservationDTO dto) {
+    private boolean AppointmentConflict(UpdateAppointmentDTO dto) {
         List<String> o = appointmentRepository.AppointmentConflict(dto.getId(),dto.getClassroomId(), dto.getDate(), dto.getStart_timeInHours(), dto.getEnd_timeInHours());
         System.out.println(o);
 

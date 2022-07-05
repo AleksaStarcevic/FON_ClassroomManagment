@@ -5,6 +5,11 @@ import com.example.fon_classroommanagment.Exceptions.ReservationExistsException;
 import com.example.fon_classroommanagment.Exceptions.UserExistsExcetion;
 import com.example.fon_classroommanagment.Models.Appointment.Appointment;
 import com.example.fon_classroommanagment.Models.DTO.*;
+import com.example.fon_classroommanagment.Models.DTO.appointment.GetForDateAppointmentDTO;
+import com.example.fon_classroommanagment.Models.DTO.appointment.ReserveDTO;
+import com.example.fon_classroommanagment.Models.DTO.appointment.SearchAppointmentDTO;
+import com.example.fon_classroommanagment.Models.DTO.appointment.UpdateAppointmentDTO;
+import com.example.fon_classroommanagment.Models.DTO.classroom.RequestIsClassroomAvailableForDateDTO;
 import com.example.fon_classroommanagment.Services.AppointmentService;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -111,7 +116,7 @@ public class AppointmentController {
      * @throws ReservationExistsException ako termin nije pronadjen za uneti datum i vreme
      */
         @GetMapping(APPOINTMENT_SEARCH)
-        public ResponseEntity<List<Appointment>> searchReservation(@RequestBody  @Valid SearchReservationDTO dto) throws ReservationExistsException {
+        public ResponseEntity<List<Appointment>> searchReservation(@RequestBody  @Valid SearchAppointmentDTO dto) throws ReservationExistsException {
             return ResponseEntity.status(HttpStatus.OK).body(appointmentService.searchReservation(dto));
         }
 
@@ -153,7 +158,7 @@ public class AppointmentController {
      * @throws ReservationExistsException ako je termin vec rezervisan
      */
     @PatchMapping(APPOINTMENT_UPDATE)
-        public void updateReservation(@RequestBody @Valid UpdateReservationDTO dto) throws ReservationExistsException {
+        public void updateReservation(@RequestBody @Valid UpdateAppointmentDTO dto) throws ReservationExistsException {
              appointmentService.updateReservation(dto);
         }
 
