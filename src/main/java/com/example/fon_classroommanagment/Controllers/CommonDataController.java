@@ -18,37 +18,71 @@ import java.util.List;
 
 import static com.example.fon_classroommanagment.Configuration.Routes.*;
 
+/**
+ * CommonDataController obradjuje zahteve vezane za opste podatke
+ * @author Ilija Radojkovic
+ * @version 1.0
+ */
 @RestController
 @RequestMapping(COMMON_PREFIX)
 public class CommonDataController {
 
+    /**
+     * zavisnost UserService u kojoj se nalazi logika vezana za usere
+     */
     @Autowired private UserService userService;
+
+    /**
+     * zavisnost ClassroomService u kojoj se nalazi logika vezana za ucionice
+     */
     @Autowired
     private ClassroomService classrromService;
 
+    /**
+     * Metoda koja vraca listu tipova zaposlenih
+     * @return HTTP odgovor koji u telu sadrzi listu informacija o tipu zaposlenog
+     */
     @GetMapping(COMMON_ALL_EMPLOYEE_TYPES)
     public ResponseEntity<List<EmployeeType>> getAllEmployeeTypes(){
         return ResponseEntity.ok(userService.getAllEmpoyeeTypes());
     }
-
+    /**
+     * Metoda koja vraca listu obrazovanja
+     * @return HTTP odgovor koji u telu sadrzi listu obrazovanja
+     */
     @GetMapping(COMMON_ALL_EDUCATION_TITLES)
     public ResponseEntity<List<EducationTitle>> getAllEducationTitles(){
         return ResponseEntity.ok(userService.getAllEducationTitles());
     }
+    /**
+     * Metoda koja vraca listu odeljenja
+     * @return HTTP odgovor koji u telu sadrzi listu odeljenja
+     */
     @GetMapping(COMMON_ALL_EMPLOYEE_DEPARTMENTS)
     public ResponseEntity<List<EmployeeDepartment>> getAllEmployeeDepartments(){
         return ResponseEntity.ok(userService.getAllEmployeeDepartments());
     }
+    /**
+     * Metoda koja vraca listu tipa ucionica
+     * @return HTTP odgovor koji u telu sadrzi listu ucionica
+     */
 
     @GetMapping(COMMON_ALL_CLASSROOM_TYPES)
     public ResponseEntity<List<ClassroomType>> getAllClassroomTypes(){
         return ResponseEntity.ok(classrromService.getAllClassroomTypes());
     }
-
+    /**
+     * Metoda koja vraca listu tipova termina
+     * @return HTTP odgovor koji u telu sadrzi listu tipova termina
+     */
     @GetMapping(COMMON_ALL_APPOINTMENT_TYPES)
     public ResponseEntity<List<AppointmentType>> getAllAppointmentTypes(){
         return ResponseEntity.ok(classrromService.getAllAppointmentTypes());
     }
+    /**
+     * Metoda koja vraca listu dozvola usera
+     * @return HTTP odgovor koji u telu sadrzi listu dozvola
+     */
     @GetMapping(COMMON_USER_ROLES)
     public ResponseEntity<List<UserRole>> getAllUserRoles(){
         return ResponseEntity.ok(classrromService.getAllUserRoles());

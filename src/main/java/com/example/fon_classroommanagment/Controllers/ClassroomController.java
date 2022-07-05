@@ -33,11 +33,7 @@ public class ClassroomController {
     @Autowired
     private ClassroomService service;
 
-//    @PostMapping(CLASSROOM_FILTER)
-//    public ResponseEntity<List<ClassroomCardDTO>> filter(@RequestBody @Valid FilterDTO filterDTO) {
-//
-//        return ResponseEntity.ok(service.filter(filterDTO));
-//    }
+
 
     /**
      * Metoda koja vraca listu ucionice na osnovu odredjenih kriterijuma pretrage
