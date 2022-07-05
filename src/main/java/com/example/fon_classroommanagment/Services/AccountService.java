@@ -25,19 +25,22 @@ import static com.example.fon_classroommanagment.Configuration.Constants.USER_NA
 @Service
 public class AccountService {
 
-    @Autowired
-    private TokenValidationAccountRepository tokenValidationAccountRepository;
-    @Autowired
-    private AccountRepository accountRepository;
+    private final TokenValidationAccountRepository tokenValidationAccountRepository;
+    private final AccountRepository accountRepository;
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
 
-    @Autowired
-    private EmployeeService employeeService;
+    private final EmployeeService employeeService;
 
-    @Autowired
-    private BCryptPasswordEncoder encoder;
+    private final BCryptPasswordEncoder encoder;
+
+    public AccountService(TokenValidationAccountRepository tokenValidationAccountRepository, AccountRepository accountRepository, UserService userService, EmployeeService employeeService, BCryptPasswordEncoder encoder) {
+        this.tokenValidationAccountRepository = tokenValidationAccountRepository;
+        this.accountRepository = accountRepository;
+        this.userService = userService;
+        this.employeeService = employeeService;
+        this.encoder = encoder;
+    }
 
     public ValidationToken  createValidationToken(Account dto) throws  UserExistsExcetion{
         String token=UUID.randomUUID().toString();

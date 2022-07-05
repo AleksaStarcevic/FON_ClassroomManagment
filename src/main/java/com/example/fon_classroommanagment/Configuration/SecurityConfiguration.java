@@ -2,6 +2,7 @@ package com.example.fon_classroommanagment.Configuration;
 
 import com.example.fon_classroommanagment.Filters.BeforeRequestTokenFilter;
 import com.example.fon_classroommanagment.Filters.UserFilter;
+import com.example.fon_classroommanagment.Models.Email.EmailSender;
 import com.example.fon_classroommanagment.Services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -19,10 +20,16 @@ import static com.example.fon_classroommanagment.Configuration.Routes.*;
 
 @Configuration
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
-@Autowired
-private UserService userService;
-@Autowired
-private BCryptPasswordEncoder encoder;
+
+    private final BCryptPasswordEncoder encoder;
+
+private final UserService userService;
+
+    public SecurityConfiguration(BCryptPasswordEncoder encoder, UserService userService) {
+        this.encoder = encoder;
+        this.userService = userService;
+    }
+
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {

@@ -13,6 +13,8 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 import static com.example.fon_classroommanagment.Configuration.Routes.REGISTER;
 import static com.example.fon_classroommanagment.Configuration.Routes.REGISTER_CONFIRM;
 
@@ -42,7 +44,7 @@ private AccountService accountService;
      * @throws UserExistsExcetion ako je korisnik vec registrovan
      */
     @PostMapping (REGISTER)
-    public void registerAccount(@RequestBody() UserRegistrationDTO registerDTO) throws UserExistsExcetion {
+    public void registerAccount(@RequestBody @Valid UserRegistrationDTO registerDTO) throws UserExistsExcetion {
        Account account=registerDTO.createAccount();
         ValidationToken token=  accountService.createValidationToken(account);
         account.setToken(token.getToken());

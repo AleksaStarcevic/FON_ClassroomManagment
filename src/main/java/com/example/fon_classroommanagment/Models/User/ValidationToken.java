@@ -31,6 +31,8 @@ public class ValidationToken {
     @OneToOne(cascade = CascadeType.ALL,orphanRemoval = true)
     private Account registerDTO;
 
+
+
     public ValidationToken(String token, Account account) {
         this.token = token;
         this.registerDTO = account;
