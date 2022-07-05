@@ -31,14 +31,15 @@ import static com.example.fon_classroommanagment.Configuration.ExceptionMessages
 @Service
 public class AppointmentService {
 
-    @Autowired
-    private AppointmentRepository appointmentRepository;
-    @Autowired
-    private EmployeeRepository employeeRepository;
-    @Autowired
-    private UserRepository userRepository;
-    @Autowired
-    private       ApplicationEventPublisher publisher;
+    private final AppointmentRepository appointmentRepository;
+    private final EmployeeRepository employeeRepository;
+    private final UserRepository userRepository;
+
+    public AppointmentService(AppointmentRepository appointmentRepository, EmployeeRepository employeeRepository, UserRepository userRepository) {
+        this.appointmentRepository = appointmentRepository;
+        this.employeeRepository = employeeRepository;
+        this.userRepository = userRepository;
+    }
 
     public void DeleteAppointment(String id, String email) throws UserExistsExcetion {
        UUID idAppointment = UUID.fromString(id);
@@ -62,7 +63,21 @@ public class AppointmentService {
                 if(role.equals(ADMIN_NAME_TYPE_ROLE))
                      dto.setStatus(STATUS_APPROVED);
 
-                    Appointment appointment = new Appointment(UUID.randomUUID(), userRepository.findByEmail(dto.getEmail()).getEmployee(), new Classroom(dto.getClassroomId()), dto.getName(), dto.getDate(), dto.getDecription(), dto.getReason(), dto.getNumber_of_attendies(), dto.getStart_timeInHours(), dto.getEnd_timeInHours(), new AppointmentStatus((long) dto.getStatus()), new AppointmentType((long) dto.getType()));
+                    Appointment appointment = new Appointment(UUID.randomUUID(),
+                            userRepository.findByEmail(
+                                    dto.getEmail()).getEmployee(),
+                                    new Classroom(
+                                            dto.getClassroomId()
+                                    ),
+                                    dto.getName(),
+                                    dto.getDate(),
+                                    dto.getDecription(),
+                                    dto.getReason(),
+                                    dto.getNumber_of_attendies(),
+                                    dto.getStart_timeInHours(),
+                                    dto.getEnd_timeInHours(),
+                                    new AppointmentStatus((long) dto.getStatus()),
+                                    new AppointmentType((long) dto.getType()));
                 appointmentRepository.save(appointment);
             } else {
                 throw new ReservationExistsException(ExceptionMessages.APPOINTMENT_RESERVED);
@@ -74,19 +89,17 @@ public class AppointmentService {
     }
 
     private boolean AvailableRoom(Long classroomId, Date date, int start_timeInHours, int end_timeInHours) {
-        List<String> o = appointmentRepository.AppointmentAvailable(classroomId, date, start_timeInHours, end_timeInHours);
-        System.out.println(o);
+        List<String> rooms = appointmentRepository.AppointmentAvailable(classroomId, date, start_timeInHours, end_timeInHours);
 
 
-        return o.isEmpty();
+        return rooms.isEmpty();
     }
 
 
 
-    public List<Appointment> searchReservation(SearchAppointmentDTO dto) throws ReservationExistsException {
-        List<Appointment> appointments = appointmentRepository.searchReservationsByClassroomAndDate(dto.getClassroomId(),dto.getDate());
-        if(appointments.isEmpty()) throw new ReservationExistsException(ExceptionMessages.APPOINTMENT_NOT_FOUND);
-      return appointmentRepository.searchReservationsByClassroomAndDate(dto.getClassroomId(),dto.getDate());
+    public List<Appointment> searchReservation(SearchAppointmentDTO dto)  {
+        return  appointmentRepository.searchReservationsByClassroomAndDate(dto.getClassroomId(),dto.getDate());
+
     }
 
     public List<GetForDateAppointmentDTO> getForDate(Date date) {
@@ -98,8 +111,6 @@ public class AppointmentService {
     public boolean IsClassroomAvailableAtDate(RequestIsClassroomAvailableForDateDTO dto) {
 
         return AvailableRoom(dto.getClassroomId(), dto.getDate(), dto.getStart_timeInHours(), dto.getEnd_timeInHours());
-
-
     }
 
 
@@ -122,11 +133,11 @@ public class AppointmentService {
     }
 
     private boolean AppointmentConflict(UpdateAppointmentDTO dto) {
-        List<String> o = appointmentRepository.AppointmentConflict(dto.getId(),dto.getClassroomId(), dto.getDate(), dto.getStart_timeInHours(), dto.getEnd_timeInHours());
-        System.out.println(o);
+        List<String> appointments = appointmentRepository.AppointmentConflict(dto.getId(),dto.getClassroomId(), dto.getDate(), dto.getStart_timeInHours(), dto.getEnd_timeInHours());
 
 
-        return o.isEmpty();
+
+        return appointments.isEmpty();
     }
 
 

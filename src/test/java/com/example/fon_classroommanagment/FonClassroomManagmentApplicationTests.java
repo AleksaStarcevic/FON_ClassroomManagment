@@ -11,8 +11,6 @@ import org.springframework.test.context.ContextConfiguration;
 @ContextConfiguration(classes={  SecurityConfiguration.class})
 class FonClassroomManagmentApplicationTests {
 
-    @Test
-    void contextLoads() {
-    }
+
 
 }
