@@ -3,7 +3,6 @@ package com.example.fon_classroommanagment.Models.classroom;
 import com.example.fon_classroommanagment.FonClassroomManagmentApplication;
 import com.example.fon_classroommanagment.Models.DTO.classroom.RequestIsClassroomAvailableForDateDTO;
 import com.example.fon_classroommanagment.Models.ModelTest;
-import com.example.fon_classroommanagment.Models.user.TestAccountDTO;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -19,7 +18,7 @@ import static com.example.fon_classroommanagment.Configuration.Constants.MAX_VRE
 import static com.example.fon_classroommanagment.Configuration.Constants.MIN_VREME_ZAKAZIVANJA;
 
 @SpringBootTest(
-        classes = TestAccountDTO.class)
+        classes = TestRequestIsClassroomAvailableForDateDTO.class)
 @AutoConfigureMockMvc
 @ContextConfiguration(classes= FonClassroomManagmentApplication.class)
 public class TestRequestIsClassroomAvailableForDateDTO extends ModelTest<RequestIsClassroomAvailableForDateDTO> {

@@ -15,7 +15,7 @@ import org.springframework.test.context.ContextConfiguration;
 import java.util.stream.Stream;
 
 @SpringBootTest(
-        classes = TestAccountDTO.class)
+        classes = TestChangePasswordDTO.class)
 @AutoConfigureMockMvc
 @ContextConfiguration(classes= FonClassroomManagmentApplication.class)
 public class TestChangePasswordDTO extends ModelTest<ChangePasswordDTO> {

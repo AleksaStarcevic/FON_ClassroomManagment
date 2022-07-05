@@ -4,7 +4,6 @@ import com.example.fon_classroommanagment.FonClassroomManagmentApplication;
 import com.example.fon_classroommanagment.Models.Classroom.ClassroomType;
 import com.example.fon_classroommanagment.Models.DTO.classroom.ClassroomDetailsDTO;
 import com.example.fon_classroommanagment.Models.ModelTest;
-import com.example.fon_classroommanagment.Models.user.TestAccountDTO;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -18,7 +17,7 @@ import java.util.List;
 import java.util.stream.Stream;
 
 @SpringBootTest(
-        classes = TestAccountDTO.class)
+        classes = TestClassroomDetailsDTO.class)
 @AutoConfigureMockMvc
 @ContextConfiguration(classes= FonClassroomManagmentApplication.class)
 public class TestClassroomDetailsDTO extends ModelTest<ClassroomDetailsDTO> {

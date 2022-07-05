@@ -3,7 +3,6 @@ package com.example.fon_classroommanagment.Models.appointment;
 import com.example.fon_classroommanagment.FonClassroomManagmentApplication;
 import com.example.fon_classroommanagment.Models.DTO.appointment.SearchAppointmentDTO;
 import com.example.fon_classroommanagment.Models.ModelTest;
-import com.example.fon_classroommanagment.Models.user.TestAccountDTO;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -17,7 +16,7 @@ import java.util.stream.Stream;
 
 
 @SpringBootTest(
-        classes = TestAccountDTO.class)
+        classes = TestSearchAppointmentDTO.class)
 @AutoConfigureMockMvc
 @ContextConfiguration(classes= FonClassroomManagmentApplication.class)
 public class TestSearchAppointmentDTO extends ModelTest<SearchAppointmentDTO> {
