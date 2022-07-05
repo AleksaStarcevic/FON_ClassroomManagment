@@ -52,7 +52,7 @@ public class BeforeRequestTokenFilter extends OncePerRequestFilter {
                 }
             }else{
 
-                TokenInvalid(response, "Not logged ino", HttpServletResponse.SC_UNAUTHORIZED);
+                TokenInvalid(response, "Not logged in", HttpServletResponse.SC_UNAUTHORIZED);
             }
         }
     }

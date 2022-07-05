@@ -12,6 +12,7 @@ import javax.validation.constraints.Size;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
+
 public class UserRegistrationDTO {
 
         @NotNull(message = "email ne sme biti null")
