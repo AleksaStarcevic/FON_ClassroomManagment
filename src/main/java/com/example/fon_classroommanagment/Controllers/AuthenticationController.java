@@ -45,7 +45,6 @@ private AccountService accountService;
      */
     @PostMapping (REGISTER)
     public void registerAccount(@RequestBody @Valid UserRegistrationDTO registerDTO) throws UserExistsExcetion {
-        System.out.println(registerDTO.toString());
        Account account=registerDTO.createAccount();
         ValidationToken token=  accountService.createValidationToken(account);
         account.setToken(token.getToken());

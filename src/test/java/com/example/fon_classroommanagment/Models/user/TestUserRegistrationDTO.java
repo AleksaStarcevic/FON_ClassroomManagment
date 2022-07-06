@@ -26,17 +26,17 @@ public class TestUserRegistrationDTO extends ModelTest<UserRegistrationDTO> {
 
     private static Stream<Arguments> generateValid(){
         return  Stream.of(
-                Arguments.of(new UserRegistrationDTO("test@gmail.com","1234","test","test"
+                Arguments.of(new UserRegistrationDTO("test@gmail.com","1234","test","test",null
                 )
           ));
     }
 
     private static Stream<Arguments> generateInvalid(){
         return  Stream.of(
-                Arguments.of(new UserRegistrationDTO(null,null,null,null
+                Arguments.of(new UserRegistrationDTO(null,null,null,null,null
                 )),
                 Arguments.of(
-                        new UserRegistrationDTO("gewrwe","123","121r5312rf3223rf312f314124","gewf1231f2432tg43reyhg4q2h31f32f234231 t42etg")
+                        new UserRegistrationDTO("gewrwe","123","121r5312rf3223rf312f314124","gewf1231f2432tg43reyhg4q2h31f32f234231 t42etg",null)
 
 
                 ));

@@ -45,7 +45,7 @@ class AccountServiceTest {
     @Test
     void confirmAccount_Pass() throws TokenNotFaundException {
         String token="123456789";
-        ValidationToken VToken=new ValidationToken(token,new Account("test@gmail.com","1234","test",token,"1234"));
+        ValidationToken VToken=new ValidationToken(token,new Account("test@gmail.com","1234","test",null,token,"1234"));
         AccountRepository mockRepo = Mockito.mock(AccountRepository.class);
         TokenValidationAccountRepository mockTokenValidationRepo = Mockito.mock(TokenValidationAccountRepository.class);
         UserService mockUserService = Mockito.mock(UserService.class);
@@ -79,7 +79,7 @@ class AccountServiceTest {
     @Test
     void confirmAccount_TokenExpiredException() throws TokenNotFaundException {
         String token = "123456789";
-        ValidationToken VToken = new ValidationToken(token,  new Date( Calendar.getInstance().getTimeInMillis() + (EXPIRATION_TIME+1000)),new Account("test@gmail.com", "1234", "test", token, "1234"));
+        ValidationToken VToken = new ValidationToken(token,  new Date( Calendar.getInstance().getTimeInMillis() + (EXPIRATION_TIME+1000)),new Account("test@gmail.com", "1234", "test",null, token, "1234"));
         VToken.setExpirationDate(new Date());
         AccountRepository mockRepo = Mockito.mock(AccountRepository.class);
         TokenValidationAccountRepository mockTokenValidationRepo = Mockito.mock(TokenValidationAccountRepository.class);
