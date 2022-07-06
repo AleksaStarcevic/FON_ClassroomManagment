@@ -30,19 +30,19 @@ import static com.example.fon_classroommanagment.Configuration.Constants.*;
 
 @Service
 public class ClassroomService {
-    @Autowired
-    private ClassroomRepository classroomRepository;
 
-    @Autowired
-    private AppointmentRepository appointmentRepository;
-    @Autowired
-    private UserRoleRepository userRoleRepository;
+    private final ClassroomRepository classroomRepository;
 
-//    public List<ClassroomCardDTO> filter(FilterDTO filterDTO) {
-//
-//
-//        return CreateClassroomPagingDTOs(result);
-//    }
+
+    private final AppointmentRepository appointmentRepository;
+
+    private final UserRoleRepository userRoleRepository;
+
+    public ClassroomService(ClassroomRepository classroomRepository, AppointmentRepository appointmentRepository, UserRoleRepository userRoleRepository) {
+        this.classroomRepository = classroomRepository;
+        this.appointmentRepository = appointmentRepository;
+        this.userRoleRepository = userRoleRepository;
+    }
 
     public List<ClassroomCardDTO> searchClassroom(int page, String name)  {
         //if(classrooms.isEmpty()) throw new ClassroomExistsException("Classroom with that name doesn't exist");
