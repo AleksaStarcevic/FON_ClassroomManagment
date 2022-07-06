@@ -13,7 +13,7 @@ public class RequestedAppointmentsDTO {
 
     private Long id;
     private  String type;
-    private  byte[] image;
+    private  String image;
 
     @NotNull(message = "Ime ne sme biti prazno")
     @NotEmpty(message = "Ime mora sadrzati karaktere")

@@ -20,6 +20,6 @@ public interface EmployeeRepository extends JpaRepository<Employee,Long> {
 
 @Modifying
 @Transactional
-@Query("update Employee  e set e.image=:image where e.id=:id")
-    void saveImage(@Param("image") byte[] image, @Param("id") Long id);
+@Query("update Employee  e set e.image=:image,e.firstName=:firstName,e.lastName=:lastName where e.id=:id")
+    void saveImage(@Param("image") String image, @Param("id") Long id,@Param("firstName") String firstName,@Param("lastName") String lastName);
 }

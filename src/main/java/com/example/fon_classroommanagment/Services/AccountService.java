@@ -88,10 +88,10 @@ public class AccountService {
         UserRole simpleUserRole=new UserRole(USER_ID_ROLE,USER_NAME_TYPE_ROLE);
         Employee employee=employeeService.findByEmail(account.getEmail());
         UserProfile user=new UserProfile(UUID.randomUUID(),account.getEmail(),account.getPassword(),simpleUserRole,employee);
-
+        employeeService.save(account.getImage(),employee.getId(),account.getFirstName(),account.getLastName());
         tokenValidationAccountRepository.delete(validationToken);
         userService.saveUser(user);
-        //employeeService.saveImage(account.getImage(),employee.getId());
+
     }
 
 }

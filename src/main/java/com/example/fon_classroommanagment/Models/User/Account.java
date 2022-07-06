@@ -22,7 +22,7 @@ public class Account {
     private String email;
     private String firstName;
     private String lastName;
-    private byte[] image;
+    private String image;
     @Transient
     private String token;
 

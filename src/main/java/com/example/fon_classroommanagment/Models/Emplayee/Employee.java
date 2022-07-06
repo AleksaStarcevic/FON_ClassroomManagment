@@ -63,9 +63,9 @@ public class Employee {
     /**
      * Slika zaposlenog tipa byte[]
      */
-    @Lob
-    @Column(name = "image", columnDefinition = "LONGBLOB")
-    private byte[] image;
+//    @Lob
+   // @Column(name = "image", columnDefinition = "LONGBLOB")
+    private String image;
 
 
     /**
@@ -78,7 +78,7 @@ public class Employee {
      * @param email email zaposlenog
      * @param image slika zaposlenog
      */
-    public Employee(String firstName, String lastName, EmployeeDepartment department, EducationTitle title, EmployeeType type,String email,byte[] image) {
+    public Employee(String firstName, String lastName, EmployeeDepartment department, EducationTitle title, EmployeeType type,String email,String image) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.department = department;

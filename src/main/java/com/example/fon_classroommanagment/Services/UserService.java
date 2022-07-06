@@ -87,8 +87,9 @@ private BCryptPasswordEncoder encoder;
         UserProfile user=userRepository.findByEmail(email);
         if(user==null) throw new TokenExpiredException(ExceptionMessages.TOKEN_EXPIRED);
         Employee employee=user.getEmployee();
-        return  new UserDetailsDTO(employee.getFirstName(),employee.getLastName(),employee.getType().getName(),employee.getImage());
-
+        UserDetailsDTO detailsDTO = new UserDetailsDTO(employee.getFirstName(), employee.getLastName(), employee.getType().getName(), employee.getImage());
+        System.out.println(detailsDTO.getImage());
+        return  detailsDTO;
 
     }
 

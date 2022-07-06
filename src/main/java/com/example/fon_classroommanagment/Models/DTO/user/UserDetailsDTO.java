@@ -23,6 +23,6 @@ public class UserDetailsDTO {
     @NotEmpty(message = "Ime mora sadrzati karaktere")
     private String typeName;
 
-    private byte[] image;
+    private String image;
 
 }
