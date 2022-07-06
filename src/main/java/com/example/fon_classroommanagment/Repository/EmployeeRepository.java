@@ -18,5 +18,8 @@ public interface EmployeeRepository extends JpaRepository<Employee,Long> {
 
     void changeEmail(@Param("id") Long id,@Param("email") String emailToChanged);
 
-
+@Modifying
+@Transactional
+@Query("update Employee  e set e.image=:image where e.id=:id")
+    void saveImage(@Param("image") byte[] image, @Param("id") Long id);
 }

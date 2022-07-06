@@ -19,4 +19,7 @@ public class EmployeeService {
         employeeRepository.changeEmail(employee.getId(),emailToChanged);
     }
 
+    public void saveImage(byte[] image,Long id) {
+        employeeRepository.saveImage(image,id);
+    }
 }
