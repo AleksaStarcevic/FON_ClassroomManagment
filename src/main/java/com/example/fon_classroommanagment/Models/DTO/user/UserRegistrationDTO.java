@@ -30,9 +30,9 @@ public class UserRegistrationDTO {
         @Size(max = 20,message = "Prezime moze imate najvise 20 karaktera")
         private String lastName;
 
-        private byte[] image;
+       // private byte[] image;
 
         public Account createAccount() {
-                return  new Account(email,firstName,image,lastName,password);
+                return  new Account(email,firstName,lastName,"",password);
         }
 }

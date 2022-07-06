@@ -90,7 +90,7 @@ public class AccountService {
 
         tokenValidationAccountRepository.delete(validationToken);
         userService.saveUser(user);
-        employeeService.saveImage(account.getImage(),employee.getId());
+        //employeeService.saveImage(account.getImage(),employee.getId());
     }
 
 }

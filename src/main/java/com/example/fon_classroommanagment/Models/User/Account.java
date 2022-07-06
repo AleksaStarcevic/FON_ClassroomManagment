@@ -9,8 +9,6 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-import java.awt.*;
-
 import static com.example.fon_classroommanagment.Configuration.Constants.ACCOUNT_TABLE_NAME;
 
 @Entity
@@ -24,7 +22,7 @@ public class Account {
     private String email;
     private String firstName;
     private String lastName;
-     private byte[] image;
+  //  private byte[] image;
     private String token;
 
 
@@ -33,17 +31,8 @@ public class Account {
 
     private String password;
 
-    public Account(String email, String password,byte[] Image,String firstName,String lastName) {
+    public Account(String email, String password) {
         this.email = email;
         this.password = password;
-        this.image=Image;
-        this.firstName=firstName;
-        this.lastName=lastName;
-    }
-
-    public Account(String email, String password, String token) {
-        this.email=email;
-        this.password=password;
-        this.token=token;
     }
 }
