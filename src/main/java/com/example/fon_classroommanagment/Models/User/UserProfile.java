@@ -23,7 +23,7 @@ public class UserProfile {
     @Column(columnDefinition = "VARCHAR(255)",nullable = false)
     private UUID id;
 
-    @Column(columnDefinition = "VARCHAR(45)",nullable = false)
+    @Column(columnDefinition = "VARCHAR(70)",nullable = false)
     private String email;
 
     @Column(columnDefinition = "VARCHAR(255)",nullable = false)

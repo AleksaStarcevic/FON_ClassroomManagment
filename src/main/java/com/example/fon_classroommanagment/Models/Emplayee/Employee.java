@@ -58,7 +58,7 @@ public class Employee {
      * Mejl zaposlenog tipa String
      */
     @Email(message = "Email mora biti u dobrom formatu")
-    @Column(nullable = false,columnDefinition = "VARCHAR(30)")
+    @Column(nullable = false,columnDefinition = "VARCHAR(70)")
     private String email;
     /**
      * Slika zaposlenog tipa byte[]

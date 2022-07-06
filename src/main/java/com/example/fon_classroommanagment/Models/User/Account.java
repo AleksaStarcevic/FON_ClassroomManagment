@@ -22,6 +22,8 @@ public class Account {
     private String email;
     private String firstName;
     private String lastName;
+
+    @Column(columnDefinition = "LONGTEXT(255)",nullable = false)
     private String image;
     @Transient
     private String token;
