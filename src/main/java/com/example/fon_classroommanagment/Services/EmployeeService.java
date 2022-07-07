@@ -7,8 +7,12 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class EmployeeService {
-    @Autowired
-    private EmployeeRepository employeeRepository;
+
+    private final EmployeeRepository employeeRepository;
+
+    public EmployeeService(EmployeeRepository employeeRepository) {
+        this.employeeRepository = employeeRepository;
+    }
 
     public Employee findByEmail(String email) {
        return  employeeRepository.findByEmail(email);

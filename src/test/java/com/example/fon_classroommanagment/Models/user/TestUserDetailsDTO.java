@@ -39,14 +39,14 @@ public class TestUserDetailsDTO extends ModelTest<UserDetailsDTO> {
     }
     private static Stream<Arguments> generateValid(){
         return  Stream.of(
-                Arguments.of(new UserDetailsDTO("Test","Test","Test",new byte[100])),
+                Arguments.of(new UserDetailsDTO("Test","Test","Test","")),
                 Arguments.of(new UserDetailsDTO("Test","Test","Test",null))
         );
     }
 
     private static Stream<Arguments> generateInvalid(){
         return  Stream.of(
-                Arguments.of(new UserDetailsDTO("","","",new byte[100])),
+                Arguments.of(new UserDetailsDTO("","","","")),
                 Arguments.of(new UserDetailsDTO(null,null,null,null))
 
 

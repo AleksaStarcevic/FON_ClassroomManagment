@@ -40,7 +40,7 @@ public class TestRequestedAppointmentsDTO extends ModelTest<RequestedAppointment
 
     private static Stream<Arguments> generateValid(){
         return  Stream.of(
-                Arguments.of(new RequestedAppointmentsDTO(13L,"cest",new byte[100],"test","test",23L)));
+                Arguments.of(new RequestedAppointmentsDTO(13L,"cest","","test","test",23L)));
     }
 
     private static Stream<Arguments> generateInvalid(){

@@ -32,16 +32,22 @@ import static com.example.fon_classroommanagment.Configuration.Constants.STATUS_
 
 @Service
 public class UserService implements UserDetailsService {
-   @Autowired
-   private UserRepository userRepository;
 
-   @Autowired
-   private AppointmentRepository appointmentRepository;
-    @Autowired
-    private EmployeeService employeeService;
+   private  final UserRepository userRepository;
 
-@Autowired
-private BCryptPasswordEncoder encoder;
+
+   private final AppointmentRepository appointmentRepository;
+
+    private final EmployeeService employeeService;
+
+    public UserService(UserRepository userRepository, AppointmentRepository appointmentRepository, EmployeeService employeeService, BCryptPasswordEncoder encoder) {
+        this.userRepository = userRepository;
+        this.appointmentRepository = appointmentRepository;
+        this.employeeService = employeeService;
+        this.encoder = encoder;
+    }
+
+    private final BCryptPasswordEncoder encoder;
 
 
     @Override
