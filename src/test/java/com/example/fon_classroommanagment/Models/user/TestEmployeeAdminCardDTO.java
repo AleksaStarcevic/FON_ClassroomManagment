@@ -27,12 +27,12 @@ public class TestEmployeeAdminCardDTO extends ModelTest<EmployeeAdminCardDTO> {
 
     private static Stream<Arguments> generateValid(){
         return  Stream.of(
-                Arguments.of(new EmployeeAdminCardDTO(UUID.randomUUID(),"gwegewg","gewgweg","gwegweg")));
+                Arguments.of(new EmployeeAdminCardDTO(UUID.randomUUID(),"gwegewg","gewgweg","gwegweg","")));
     }
 
     private static Stream<Arguments> generateInvalid(){
         return  Stream.of(
-                Arguments.of(new EmployeeAdminCardDTO(null,null,null,null)));
+                Arguments.of(new EmployeeAdminCardDTO(null,null,null,null,null)));
     }
 
 

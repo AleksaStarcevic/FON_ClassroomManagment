@@ -73,15 +73,7 @@ class UserServiceTest {
     }
 
 
-    @Test
-    void loadUserByUsername() {
-      UserProfile userProfile = new UserProfile(UUID.randomUUID(),"test@gmail.com","1234", new UserRole(1L,"USER"), new Employee(1L,"aleks","st",new EmployeeDepartment(1L,"TESt"),new EducationTitle(1L,"TEST"),new EmployeeType(1L,"TEST"),"aa@gmail.com",null));
 
-      when(userRepository.findByEmail(userProfile.getEmail())).thenReturn(userProfile);
-      service.findByEmail(userProfile.getEmail());
-      verify(userRepository).findByEmail(userProfile.getEmail());
-
-    }
 
     @Test
     void loadUserByUsernameUsernameNotFound() {
@@ -124,6 +116,11 @@ class UserServiceTest {
 
     @Test
     void changePassword() {
+        userRepository = mock(UserRepository.class);
+        appointmentRepository = mock(AppointmentRepository.class);
+        employeeService = mock(EmployeeService.class);
+        encoder = mock(BCryptPasswordEncoder.class);
+        service = new UserService(userRepository,appointmentRepository,employeeService,encoder);
         UserProfile userProfile = new UserProfile(UUID.randomUUID(),"test@gmail.com","1234", new UserRole(1L,"USER"), new Employee(1L,"aleks","st",new EmployeeDepartment(1L,"TESt"),new EducationTitle(1L,"TEST"),new EmployeeType(1L,"TEST"),"aa@gmail.com",null));
         ChangePasswordDTO dto = new ChangePasswordDTO("12334",new Date());
 
@@ -163,11 +160,16 @@ class UserServiceTest {
 
     @Test
     void getUserDetails() {
+        userRepository = mock(UserRepository.class);
+        appointmentRepository = mock(AppointmentRepository.class);
+        employeeService = mock(EmployeeService.class);
+        encoder = mock(BCryptPasswordEncoder.class);
+        service = new UserService(userRepository,appointmentRepository,employeeService,encoder);
         String email = "test@gmail.com";
         UserProfile userProfile = new UserProfile(UUID.randomUUID(),"test@gmail.com","1234", new UserRole(1L,"USER"), new Employee(1L,"aleks","st",new EmployeeDepartment(1L,"TESt"),new EducationTitle(1L,"TEST"),new EmployeeType(1L,"TEST"),"aa@gmail.com",null));
 
         when(userRepository.findByEmail(email)).thenReturn(userProfile);
-        service.findByEmail(email);
+        service.getUserDetails(email);
         verify(userRepository,times(1)).findByEmail(email);
 
 
@@ -175,6 +177,11 @@ class UserServiceTest {
 
     @Test
     void getAppointmentsForUser() throws AppointmentsForUserException {
+        userRepository = mock(UserRepository.class);
+        appointmentRepository = mock(AppointmentRepository.class);
+        employeeService = mock(EmployeeService.class);
+        encoder = mock(BCryptPasswordEncoder.class);
+        service = new UserService(userRepository,appointmentRepository,employeeService,encoder);
         String email = "test@gmail.com";
         UserProfile userProfile = new UserProfile(UUID.randomUUID(),"test@gmail.com","1234", new UserRole(1L,"USER"), new Employee(1L,"aleks","st",new EmployeeDepartment(1L,"TESt"),new EducationTitle(1L,"TEST"),new EmployeeType(1L,"TEST"),"aa@gmail.com",null));
         Employee employee = userProfile.getEmployee();

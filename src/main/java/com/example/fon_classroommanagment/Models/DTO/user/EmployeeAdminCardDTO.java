@@ -20,5 +20,6 @@ public class EmployeeAdminCardDTO {
     @NotNull(message = "permissionTitle ne sme biti prazan")
 
     private String permissionTitle;
+    private String image;
 
 }

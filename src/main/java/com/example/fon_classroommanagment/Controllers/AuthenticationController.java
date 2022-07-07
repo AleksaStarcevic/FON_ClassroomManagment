@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 
@@ -44,7 +45,8 @@ private AccountService accountService;
      * @throws UserExistsExcetion ako je korisnik vec registrovan
      */
     @PostMapping (REGISTER)
-    public void registerAccount(@RequestBody @Valid UserRegistrationDTO registerDTO) throws UserExistsExcetion {
+    public void registerAccount(
+            @RequestBody @Valid UserRegistrationDTO registerDTO) throws UserExistsExcetion {
        Account account=registerDTO.createAccount();
        System.out.println(account.getImage().length());
         ValidationToken token=  accountService.createValidationToken(account);

@@ -3,6 +3,10 @@ package com.example.fon_classroommanagment.Services;
 import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.example.fon_classroommanagment.Exceptions.TokenNotFaundException;
 import com.example.fon_classroommanagment.Exceptions.UserExistsExcetion;
+import com.example.fon_classroommanagment.Models.Emplayee.EducationTitle;
+import com.example.fon_classroommanagment.Models.Emplayee.Employee;
+import com.example.fon_classroommanagment.Models.Emplayee.EmployeeDepartment;
+import com.example.fon_classroommanagment.Models.Emplayee.EmployeeType;
 import com.example.fon_classroommanagment.Models.User.Account;
 import com.example.fon_classroommanagment.Models.User.ValidationToken;
 import com.example.fon_classroommanagment.Repository.AccountRepository;
@@ -45,6 +49,7 @@ class AccountServiceTest {
     @Test
     void confirmAccount_Pass() throws TokenNotFaundException {
         String token="123456789";
+        Employee employee=new Employee(1L,"test","test",new EmployeeDepartment(1L,"test"),new EducationTitle(1L,"test"),new EmployeeType(1L,"test"),"test@gmail.com",null);
         ValidationToken VToken=new ValidationToken(token,new Account("test@gmail.com","1234","test",null,token,"1234"));
         AccountRepository mockRepo = Mockito.mock(AccountRepository.class);
         TokenValidationAccountRepository mockTokenValidationRepo = Mockito.mock(TokenValidationAccountRepository.class);
@@ -53,7 +58,7 @@ class AccountServiceTest {
         BCryptPasswordEncoder mockEncoder = Mockito.mock(BCryptPasswordEncoder.class);
 
         AccountService service=new AccountService(mockTokenValidationRepo,mockRepo,mockUserService,mockEmployeeService,mockEncoder);
-
+        when(mockEmployeeService.findByEmail("test@gmail.com")).thenReturn(employee);
         when(mockTokenValidationRepo.findById(token)).thenReturn(Optional.of(VToken));
        when(mockRepo.findByEmail(VToken.getRegisterDTO().getEmail())).thenReturn(VToken.getRegisterDTO());
         service.ConfirmAccount(token);
