@@ -1,5 +1,6 @@
 package com.example.fon_classroommanagment.Services;
 
+import com.example.fon_classroommanagment.Configuration.Constants;
 import com.example.fon_classroommanagment.Configuration.ExceptionMessages;
 import com.example.fon_classroommanagment.Exceptions.AppointmentDoesNotExistsException;
 import com.example.fon_classroommanagment.Exceptions.ReservationExistsException;
@@ -76,7 +77,7 @@ public class AppointmentService {
                                     dto.getNumber_of_attendies(),
                                     dto.getStart_timeInHours(),
                                     dto.getEnd_timeInHours(),
-                                    new AppointmentStatus((long) dto.getStatus()),
+                                    new AppointmentStatus(dto.getStatus()),
                                     new AppointmentType((long) dto.getType()));
                 appointmentRepository.save(appointment);
             } else {
@@ -124,7 +125,9 @@ public class AppointmentService {
                     dto.getNumber_of_attendies(),
                     dto.getStart_timeInHours(),
                     dto.getEnd_timeInHours(),
-                    dto.getType());
+                    dto.getType(),
+                    new AppointmentStatus(STATUS_PENDING, APPOINTMENT_PENDING)
+            );
         } else {
             throw new ReservationExistsException(ExceptionMessages.APPOINTMENT_RESERVED);
         }
@@ -190,4 +193,8 @@ public class AppointmentService {
     }
 
 
+    public AppointmentDetailsDTO getAppointmentDetails(UUID id) {
+        Appointment ap=appointmentRepository.getById(id);
+        return new AppointmentDetailsDTO(ap.getId(),ap.getName(),ap.getDecription(),ap.getReason(),ap.getNumber_of_attendies(),ap.getStart_timeInHours(),ap.getEnd_timeInHours(),ap.getClassroom().getName(),ap.getClassroom().getId(),ap.getType(),ap.getDate());
+    }
 }

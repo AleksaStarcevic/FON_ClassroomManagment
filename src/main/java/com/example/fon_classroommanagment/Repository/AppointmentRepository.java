@@ -1,6 +1,7 @@
 package com.example.fon_classroommanagment.Repository;
 
 import com.example.fon_classroommanagment.Models.Appointment.Appointment;
+import com.example.fon_classroommanagment.Models.Appointment.AppointmentStatus;
 import com.example.fon_classroommanagment.Models.Appointment.AppointmentType;
 import com.example.fon_classroommanagment.Models.Classroom.Classroom;
 import com.example.fon_classroommanagment.Models.DTO.appointment.AppointmentRequestedUserDTO;
@@ -41,8 +42,10 @@ public interface AppointmentRepository extends JpaRepository<Appointment, UUID> 
             ",a.number_of_attendies=:number_of_attendies" +
             ",a.Start_timeInHours=:start_timeInHours," +
             "a.End_timeInHours=:end_timeInHours," +
-            "a.type.id=:type where a.id=:id")
-    void updateReservation(UUID id,Long classroomId, String name, Date date, String description, String reason, int number_of_attendies, int start_timeInHours, int end_timeInHours, Long type);
+            "a.type.id=:type," +
+            "a.status=:status"+
+            " where a.id=:id")
+    void updateReservation(UUID id, Long classroomId, String name, Date date, String description, String reason, int number_of_attendies, int start_timeInHours, int end_timeInHours, Long type, AppointmentStatus status);
 
     @Query(value = "select a.id from Appointment  a where a.classroom.id=:classroomId and a.date=:date and " +
             "((a.Start_timeInHours<=:start_timeInHours and a.End_timeInHours>=:end_timeInHours) or " +

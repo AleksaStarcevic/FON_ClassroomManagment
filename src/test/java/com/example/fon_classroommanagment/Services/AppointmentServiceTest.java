@@ -193,7 +193,7 @@ class AppointmentServiceTest {
             add("we");
         }};
         UpdateAppointmentDTO updateAppointmentDTO=new UpdateAppointmentDTO();
-        doNothing().when(appointmentRepository).updateReservation(updateAppointmentDTO.getId(),updateAppointmentDTO.getClassroomId(),updateAppointmentDTO.getName(),updateAppointmentDTO.getDate(),updateAppointmentDTO.getDecription(),updateAppointmentDTO.getReason(),updateAppointmentDTO.getNumber_of_attendies(),updateAppointmentDTO.getStart_timeInHours(),updateAppointmentDTO.getEnd_timeInHours(),updateAppointmentDTO.getType());
+        doNothing().when(appointmentRepository).updateReservation(updateAppointmentDTO.getId(),updateAppointmentDTO.getClassroomId(),updateAppointmentDTO.getName(),updateAppointmentDTO.getDate(),updateAppointmentDTO.getDecription(),updateAppointmentDTO.getReason(),updateAppointmentDTO.getNumber_of_attendies(),updateAppointmentDTO.getStart_timeInHours(),updateAppointmentDTO.getEnd_timeInHours(),updateAppointmentDTO.getType(),new AppointmentStatus(STATUS_PENDING, APPOINTMENT_PENDING));
         when(appointmentRepository.AppointmentConflict(updateAppointmentDTO.getId(),updateAppointmentDTO.getClassroomId(),updateAppointmentDTO.getDate(),updateAppointmentDTO.getStart_timeInHours(),updateAppointmentDTO.getEnd_timeInHours())).thenReturn(result);
         assertThrows(ReservationExistsException.class,()->service.updateReservation(updateAppointmentDTO));
     }
@@ -203,10 +203,10 @@ class AppointmentServiceTest {
 
         }};
         UpdateAppointmentDTO updateAppointmentDTO=new UpdateAppointmentDTO();
-        doNothing().when(appointmentRepository).updateReservation(updateAppointmentDTO.getId(),updateAppointmentDTO.getClassroomId(),updateAppointmentDTO.getName(),updateAppointmentDTO.getDate(),updateAppointmentDTO.getDecription(),updateAppointmentDTO.getReason(),updateAppointmentDTO.getNumber_of_attendies(),updateAppointmentDTO.getStart_timeInHours(),updateAppointmentDTO.getEnd_timeInHours(),updateAppointmentDTO.getType());
+        doNothing().when(appointmentRepository).updateReservation(updateAppointmentDTO.getId(),updateAppointmentDTO.getClassroomId(),updateAppointmentDTO.getName(),updateAppointmentDTO.getDate(),updateAppointmentDTO.getDecription(),updateAppointmentDTO.getReason(),updateAppointmentDTO.getNumber_of_attendies(),updateAppointmentDTO.getStart_timeInHours(),updateAppointmentDTO.getEnd_timeInHours(),updateAppointmentDTO.getType(),new AppointmentStatus(STATUS_PENDING, APPOINTMENT_PENDING));
         when(appointmentRepository.AppointmentConflict(updateAppointmentDTO.getId(),updateAppointmentDTO.getClassroomId(),updateAppointmentDTO.getDate(),updateAppointmentDTO.getStart_timeInHours(),updateAppointmentDTO.getEnd_timeInHours())).thenReturn(result);
         service.updateReservation(updateAppointmentDTO);
-        verify(appointmentRepository,times(1)).updateReservation(updateAppointmentDTO.getId(),updateAppointmentDTO.getClassroomId(),updateAppointmentDTO.getName(),updateAppointmentDTO.getDate(),updateAppointmentDTO.getDecription(),updateAppointmentDTO.getReason(),updateAppointmentDTO.getNumber_of_attendies(),updateAppointmentDTO.getStart_timeInHours(),updateAppointmentDTO.getEnd_timeInHours(),updateAppointmentDTO.getType());
+        verify(appointmentRepository,times(1)).updateReservation(updateAppointmentDTO.getId(),updateAppointmentDTO.getClassroomId(),updateAppointmentDTO.getName(),updateAppointmentDTO.getDate(),updateAppointmentDTO.getDecription(),updateAppointmentDTO.getReason(),updateAppointmentDTO.getNumber_of_attendies(),updateAppointmentDTO.getStart_timeInHours(),updateAppointmentDTO.getEnd_timeInHours(),updateAppointmentDTO.getType(),new AppointmentStatus(STATUS_PENDING, APPOINTMENT_PENDING));
 
     }
 

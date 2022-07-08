@@ -17,6 +17,7 @@ import java.util.UUID;
 @NoArgsConstructor
 public class UpdateAppointmentDTO {
 
+
     @NotNull(message = "ID nije unet")
     private UUID id;
 
@@ -50,11 +51,9 @@ public class UpdateAppointmentDTO {
 
 
     @Positive(message = "Pocetno vreme mora biti pozitivno")
-    @Max(value = 10,message = "Maksimalno se moze rezervisati 10 h")
     private int start_timeInHours;
 
     @Positive(message = "Krajnje vreme mora biti pozitivno")
-    @Max(value = 10,message = "Maksimalno se moze rezervisati 10 h")
     private int end_timeInHours;
 
 

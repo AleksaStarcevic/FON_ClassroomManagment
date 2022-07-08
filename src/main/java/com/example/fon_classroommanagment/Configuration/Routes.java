@@ -28,6 +28,7 @@ public class Routes {
     public  static final String APPOINTMENT_DATE ="/{date}";
     public  static final String APPOINTMENT_AVAILABILITY ="/available";
     public  static final String APPOINTMENT_UPDATE ="";
+    public  static final String APPOINTMENT_DETAILS ="/details";
 
 
 

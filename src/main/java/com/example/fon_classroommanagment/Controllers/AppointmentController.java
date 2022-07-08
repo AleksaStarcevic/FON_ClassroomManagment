@@ -16,6 +16,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import javax.websocket.server.PathParam;
 import java.util.Date;
 import java.util.List;
@@ -95,7 +96,7 @@ public class AppointmentController {
 
     /**
      * Metoda za rezervisanje liste termina
-     * @param dto
+     * @param dto lista objekata rezervacija
      * @param authentication podaci o korisniku koji rezervise, ako je administrator termin se odmah odobrava
      * @throws ReservationExistsException ako vec postoji termin sa istim vremenom i datumom
      */
@@ -114,6 +115,13 @@ public class AppointmentController {
         @GetMapping(APPOINTMENT_SEARCH)
         public ResponseEntity<List<Appointment>> searchReservation(@RequestBody  @Valid SearchAppointmentDTO dto) throws ReservationExistsException {
             return ResponseEntity.status(HttpStatus.OK).body(appointmentService.searchReservation(dto));
+        }
+
+        @GetMapping(APPOINTMENT_DETAILS)
+        public ResponseEntity<AppointmentDetailsDTO> getAppointmentDetails(@RequestParam("id")  String  id)  {
+
+
+            return ResponseEntity.status(HttpStatus.OK).body(appointmentService.getAppointmentDetails(UUID.fromString(id)));
         }
 
     /**
