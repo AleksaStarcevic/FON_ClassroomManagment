@@ -17,7 +17,6 @@ import com.example.fon_classroommanagment.Models.User.UserRole;
 import com.example.fon_classroommanagment.Repository.AppointmentRepository;
 import com.example.fon_classroommanagment.Repository.ClassroomRepository;
 import com.example.fon_classroommanagment.Repository.UserRoleRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -81,9 +80,9 @@ public class ClassroomService {
                 classroom.isAircondition(),
                 classroom.isProjector(),
                 classroom.getType(),
-                classroom.getPovrsina(),
-                classroom.getSprat(),
-                classroom.getBr_tabli(), results);
+                classroom.getArea(),
+                classroom.getFloor(),
+                classroom.getNum_tables(), results);
 
 
 

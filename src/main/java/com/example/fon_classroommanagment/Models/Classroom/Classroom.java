@@ -1,7 +1,6 @@
 package com.example.fon_classroommanagment.Models.Classroom;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -60,17 +59,17 @@ public class Classroom {
      * Povrsina ucionice kao int.
      */
     @Positive(message = "Povrsina mora biti pozitivan broj")
-    private int povrsina;
+    private int area;
     /**
      * Sprat na kojem se ucionica nalazi kao int.
      */
     @Positive(message = "Sprat mora biti pozitivan broj")
-    private int sprat;
+    private int floor;
     /**
      * Broj tabli u ucionici kao int.
      */
     @Positive(message = "Broj tabli mora biti pozitivan broj")
-    private int br_tabli;
+    private int num_tables;
 
     /**
      * Tip ucionice kao ClassroomType.
@@ -78,7 +77,7 @@ public class Classroom {
     @ManyToOne( optional = false)
     private ClassroomType type;
 
-    /**
+/**
      * Konstruktor koji postavlja id na unetu vrednost
      * @param classroomId
      */
