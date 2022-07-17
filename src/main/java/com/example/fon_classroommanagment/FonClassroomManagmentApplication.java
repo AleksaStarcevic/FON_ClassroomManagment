@@ -10,6 +10,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 
+
 @SpringBootApplication(scanBasePackages={
         "com.example.fon_classroommanagment"})
 public class FonClassroomManagmentApplication {
@@ -27,7 +28,5 @@ public class FonClassroomManagmentApplication {
         return  new EmailSender();
 
     }
-
-
 
 }

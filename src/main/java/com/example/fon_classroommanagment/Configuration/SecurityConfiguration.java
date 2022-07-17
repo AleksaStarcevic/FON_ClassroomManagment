@@ -4,6 +4,7 @@ import com.example.fon_classroommanagment.Filters.BeforeRequestTokenFilter;
 import com.example.fon_classroommanagment.Filters.UserFilter;
 import com.example.fon_classroommanagment.Models.Email.EmailSender;
 import com.example.fon_classroommanagment.Services.UserService;
+import com.google.common.collect.ImmutableList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,10 +12,19 @@ import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
 
+import javax.servlet.Filter;
 import javax.xml.crypto.Data;
+
+import java.util.Arrays;
+import java.util.List;
 
 import static com.example.fon_classroommanagment.Configuration.Routes.*;
 
@@ -33,6 +43,7 @@ private final UserService userService;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+
         http.csrf().disable();
         http.authorizeRequests()
                 .mvcMatchers(REGISTER_CONFIRM,
@@ -52,7 +63,24 @@ private final UserService userService;
                 .addFilterBefore(new BeforeRequestTokenFilter(), UsernamePasswordAuthenticationFilter.class)
         ;
 
+        http.cors(c ->{
+            CorsConfigurationSource cs = r -> {
+                CorsConfiguration cc = new CorsConfiguration();
+                cc.setAllowedOrigins(List.of("*"));
+                cc.setAllowedHeaders(List.of("*"));
+                cc.setAllowedMethods(List.of("GET","POST","PUT","DELETE"));
+                cc.setExposedHeaders(List.of("*"));
+
+                return  cc;
+            };
+            c.configurationSource(cs);
+
+        });
+
     }
+
+
+
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth)  {

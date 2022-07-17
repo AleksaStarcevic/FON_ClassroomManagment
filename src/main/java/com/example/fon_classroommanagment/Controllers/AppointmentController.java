@@ -9,6 +9,7 @@ import com.example.fon_classroommanagment.Models.DTO.classroom.RequestIsClassroo
 import com.example.fon_classroommanagment.Services.AppointmentService;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -131,8 +132,7 @@ public class AppointmentController {
      */
 
     @PostMapping(APPOINTMENT_DATE)
-        public ResponseEntity<List<GetForDateAppointmentDTO>> appointmentAvailability(@PathParam("date") @Valid @JsonFormat(shape=JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd") Date date){
-
+        public ResponseEntity<List<GetForDateAppointmentDTO>> appointmentAvailability(@PathVariable @Valid @DateTimeFormat(pattern = "yyyy-MM-dd") Date date){
             return  ResponseEntity.ok(appointmentService.getForDate(date));
         }
 
