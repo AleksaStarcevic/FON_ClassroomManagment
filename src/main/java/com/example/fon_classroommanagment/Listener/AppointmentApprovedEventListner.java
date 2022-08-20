@@ -24,9 +24,9 @@ public class AppointmentApprovedEventListner implements ApplicationListener<Emai
         Appointment appointment=event.getAppointment();
         Email email=new Email(appointment.getEmployee().getEmail(),
                 EMAIL_HOST_SENDER,
-                "Appointment Approved",
+                appointment.getStatus().getName().equals(APPOINTMENT_APPROVED) ? "Appointment Approved":"Appointment Declined",
                 EMAIL_APPOINTMENT_APPROVED_TEMPLATE,
-                "Appointment Approved",
+                appointment.getStatus().getName().equals(APPOINTMENT_APPROVED) ? "Appointment Approved":"Appointment Declined",
 
                 new HashMap<>()
                 {{

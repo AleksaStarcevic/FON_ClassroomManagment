@@ -2,6 +2,8 @@ package com.example.fon_classroommanagment.Repository;
 
 import com.example.fon_classroommanagment.Models.Classroom.Classroom;
 import com.example.fon_classroommanagment.Models.Classroom.ClassroomType;
+import com.example.fon_classroommanagment.Models.DTO.classroom.ClassroomNamesDTO;
+import com.example.fon_classroommanagment.Models.DTO.classroom.ClassroomTableDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -41,4 +43,10 @@ List<Classroom> filter(@Param("min_capacity") int min_capacity, @Param("max_capa
     @Query(value = "select  c from Classroom  c where  c.number_of_seats BETWEEN :min_capacity AND :max_capacity  and c.aircondition=:aircondition and c.projector=:projector and c.type in :types order by  c.number_of_seats")
 
     Page<Classroom> findAllSortedCapacity(Pageable pageable, int min_capacity, int max_capacity, boolean aircondition, boolean projector,@Param("types") List<ClassroomType> types);
+
+    @Query(value = "select new com.example.fon_classroommanagment.Models.DTO.classroom.ClassroomNamesDTO(c.id,c.name) from Classroom c ")
+    List<ClassroomNamesDTO> findAllByIdAndName();
+
+    @Query(value = "select new com.example.fon_classroommanagment.Models.DTO.classroom.ClassroomTableDTO(c.id,c.name,c.type.name,c.number_of_seats) from Classroom c ")
+    List<ClassroomTableDTO> getClassroomTable();
 }

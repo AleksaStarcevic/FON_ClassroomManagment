@@ -2,6 +2,7 @@ package com.example.fon_classroommanagment.Controllers;
 
 import com.example.fon_classroommanagment.Models.Appointment.AppointmentType;
 import com.example.fon_classroommanagment.Models.Classroom.ClassroomType;
+import com.example.fon_classroommanagment.Models.DTO.classroom.ClassroomNamesDTO;
 import com.example.fon_classroommanagment.Models.Emplayee.EducationTitle;
 import com.example.fon_classroommanagment.Models.Emplayee.EmployeeDepartment;
 import com.example.fon_classroommanagment.Models.Emplayee.EmployeeType;
@@ -86,5 +87,10 @@ public class CommonDataController {
     @GetMapping(COMMON_USER_ROLES)
     public ResponseEntity<List<UserRole>> getAllUserRoles(){
         return ResponseEntity.ok(classrromService.getAllUserRoles());
+    }
+
+    @GetMapping(COMMON_ALL_CLASSROOM_NAMES)
+    public ResponseEntity<List<ClassroomNamesDTO>> getClassroomNames(){
+        return ResponseEntity.ok(classrromService.getAllClassroomNames());
     }
 }

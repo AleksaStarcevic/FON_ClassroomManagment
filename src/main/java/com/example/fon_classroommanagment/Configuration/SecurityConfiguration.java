@@ -52,6 +52,7 @@ private final UserService userService;
                         COMMON_PREFIX+COMMON_ALL_EMPLOYEE_TYPES,
                         COMMON_PREFIX+COMMON_ALL_EDUCATION_TITLES,
                         COMMON_PREFIX+COMMON_ALL_EMPLOYEE_DEPARTMENTS,
+                        COMMON_PREFIX+COMMON_ALL_CLASSROOM_NAMES,
                         LOGIN,
                         LOGOUT).permitAll()
                // .mvcMatchers().permitAll()
@@ -68,7 +69,7 @@ private final UserService userService;
                 CorsConfiguration cc = new CorsConfiguration();
                 cc.setAllowedOrigins(List.of("*"));
                 cc.setAllowedHeaders(List.of("*"));
-                cc.setAllowedMethods(List.of("GET","POST","PUT","DELETE"));
+                cc.setAllowedMethods(List.of("*"));
                 cc.setExposedHeaders(List.of("*"));
 
                 return  cc;

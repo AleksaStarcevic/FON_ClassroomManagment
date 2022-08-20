@@ -1,16 +1,24 @@
 package com.example.fon_classroommanagment.Controllers;
 
+import com.example.fon_classroommanagment.Events.AccountRegistrationRequestEvent;
+import com.example.fon_classroommanagment.Events.EmailApprovedAppointnemnt;
 import com.example.fon_classroommanagment.Exceptions.AppointmentDoesNotExistsException;
 import com.example.fon_classroommanagment.Exceptions.ReservationExistsException;
 import com.example.fon_classroommanagment.Exceptions.UserExistsExcetion;
+import com.example.fon_classroommanagment.Listener.AppointmentApprovedEventListner;
 import com.example.fon_classroommanagment.Models.Appointment.Appointment;
+import com.example.fon_classroommanagment.Models.Appointment.AppointmentStatus;
 import com.example.fon_classroommanagment.Models.DTO.appointment.*;
 import com.example.fon_classroommanagment.Models.DTO.classroom.RequestIsClassroomAvailableForDateDTO;
 import com.example.fon_classroommanagment.Services.AppointmentService;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.validation.annotation.Validated;
@@ -19,11 +27,15 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.websocket.server.PathParam;
+import java.io.InputStream;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import static com.example.fon_classroommanagment.Configuration.Constants.APPOINTMENT_APPROVED;
+import static com.example.fon_classroommanagment.Configuration.Constants.APPOINTMENT_DECLINED;
+import static com.example.fon_classroommanagment.Configuration.ExceptionMessages.APPOINTMENT_RESERVED;
 import static com.example.fon_classroommanagment.Configuration.Routes.*;
 
 /**
@@ -40,6 +52,9 @@ public class AppointmentController {
      */
     @Autowired
     private AppointmentService appointmentService;
+
+    @Autowired
+    private ApplicationEventPublisher publisher;
 
     /**
      * Metoda koja na osnovu id-ja termina i mejla zaposlenog brise termin
@@ -65,14 +80,21 @@ public class AppointmentController {
         }
 
 
+
+
     /**
      * Metoda za potvrdu termina
      * @param appointmentId id termina kojeg hocemo da potvrdimo
      * @throws AppointmentDoesNotExistsException ako termin sa zadatim identifikatorom ne postoji
      */
     @PostMapping(APPOINTMENT_CONFIRM)
-        public void ConfirmAppointment(@RequestParam("id") String appointmentId) throws AppointmentDoesNotExistsException {
-              appointmentService.ConfirmAppointment(UUID.fromString(appointmentId));
+        public void ConfirmAppointment(@RequestBody AppointmentAcceptDTO appointmentId) throws AppointmentDoesNotExistsException {
+              appointmentService.ConfirmAppointment(UUID.fromString(appointmentId.getId()));
+        UUID uuid =  UUID.fromString(appointmentId.getId());
+
+        Appointment appointment = appointmentService.FindById(uuid).get();
+        appointment.setStatus(new AppointmentStatus(1L,APPOINTMENT_APPROVED));
+        publisher.publishEvent(new EmailApprovedAppointnemnt(appointment));
         }
 
     /**
@@ -81,8 +103,13 @@ public class AppointmentController {
      * @throws AppointmentDoesNotExistsException ako termin sa zadatim identifikatorom ne postoji
      */
     @PostMapping(APPOINTMENT_DECLINE)
-        public void DeclineAppointment(@RequestParam("id") String appointmentId) throws AppointmentDoesNotExistsException {
-              appointmentService.DeclineAppointment(UUID.fromString(appointmentId));
+        public void DeclineAppointment(@RequestBody AppointmentDeclineDTO appointmentId) throws AppointmentDoesNotExistsException {
+              appointmentService.DeclineAppointment(UUID.fromString(appointmentId.getId()));
+         UUID uuid =  UUID.fromString(appointmentId.getId());
+
+        Appointment appointment = appointmentService.FindById(uuid).get();
+        appointment.setStatus(new AppointmentStatus(2L,APPOINTMENT_DECLINED));
+            publisher.publishEvent(new EmailApprovedAppointnemnt(appointment));
         }
 
     /**
@@ -101,9 +128,14 @@ public class AppointmentController {
      * @param authentication podaci o korisniku koji rezervise, ako je administrator termin se odmah odobrava
      * @throws ReservationExistsException ako vec postoji termin sa istim vremenom i datumom
      */
-        @PostMapping(APPOINTMENT_RESERVE)
-        public void Reserve(@RequestBody  @Valid  List<ReserveDTO> dto, Authentication authentication) throws ReservationExistsException {
-        appointmentService.ReserveAppointment(dto,authentication.getAuthorities().toArray()[0].toString());
+        @PostMapping(value = APPOINTMENT_RESERVE)
+        public ResponseEntity<?> Reserve(@RequestBody List<ReserveDTO> dto, Authentication authentication) {
+            try {
+                appointmentService.ReserveAppointment(dto,authentication.getAuthorities().toArray()[0].toString());
+                return new ResponseEntity<>("Appointment successfully created", HttpStatus.OK);
+            } catch (ReservationExistsException e) {
+                return new ResponseEntity<>(APPOINTMENT_RESERVED,HttpStatus.BAD_REQUEST);
+            }
 
         }
 
@@ -162,8 +194,14 @@ public class AppointmentController {
      * @throws ReservationExistsException ako je termin vec rezervisan
      */
     @PatchMapping(APPOINTMENT_UPDATE)
-        public void updateReservation(@RequestBody @Valid UpdateAppointmentDTO dto) throws ReservationExistsException {
-             appointmentService.updateReservation(dto);
+        public ResponseEntity<?> updateReservation(@RequestBody @Valid UpdateAppointmentDTO dto) throws ReservationExistsException {
+        try {
+            appointmentService.updateReservation(dto);
+            return new ResponseEntity<>("Appointment successfully edited", HttpStatus.OK);
+        } catch (ReservationExistsException e) {
+            return new ResponseEntity<>(APPOINTMENT_RESERVED,HttpStatus.BAD_REQUEST);
+        }
+
         }
 
 }

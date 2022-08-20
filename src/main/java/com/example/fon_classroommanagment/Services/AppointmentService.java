@@ -126,7 +126,7 @@ public class AppointmentService {
                     dto.getStart_timeInHours(),
                     dto.getEnd_timeInHours(),
                     dto.getType(),
-                    new AppointmentStatus(STATUS_PENDING, APPOINTMENT_PENDING)
+                    new AppointmentStatus(STATUS_APPROVED, APPOINTMENT_APPROVED)
             );
         } else {
             throw new ReservationExistsException(ExceptionMessages.APPOINTMENT_RESERVED);
@@ -147,7 +147,7 @@ public class AppointmentService {
 
 
 
-    private Optional<Appointment> FindById(UUID id){
+    public Optional<Appointment> FindById(UUID id){
      return    appointmentRepository.findById(id);
     }
 

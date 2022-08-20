@@ -41,6 +41,8 @@ public class Routes {
     public  static final String CLASSROOM_PAGING_PARTIAL_INFO ="/main-info/{page}";
     public  static final String CLASSROOM_PARTIAL_INFO ="/main-info";
 
+    public  static final String CLASSROOM_TABLE ="/table";
+
 
     //common
     public  static final String  COMMON_PREFIX="/common";
@@ -51,6 +53,8 @@ public class Routes {
     public  static final String  COMMON_ALL_APPOINTMENT_TYPES="/appointment/types";
     public static final String COMMON_EMPLOYEE_PERMISSIONS_INFO="/employee/permissions";
     public static final String COMMON_USER_ROLES="/user/roles";
+
+    public  static final String  COMMON_ALL_CLASSROOM_NAMES="/classroom/names";
 
 
     //user

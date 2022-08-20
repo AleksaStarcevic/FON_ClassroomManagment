@@ -4,6 +4,7 @@ import com.example.fon_classroommanagment.Exceptions.ClassroomExistsException;
 import com.example.fon_classroommanagment.Models.DTO.*;
 import com.example.fon_classroommanagment.Models.DTO.classroom.ClassroomCardDTO;
 import com.example.fon_classroommanagment.Models.DTO.classroom.ClassroomDetailsDTO;
+import com.example.fon_classroommanagment.Models.DTO.classroom.ClassroomTableDTO;
 import com.example.fon_classroommanagment.Models.DTO.classroom.FilterDTO;
 import com.example.fon_classroommanagment.Services.ClassroomService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -96,6 +97,11 @@ public class ClassroomController {
     @GetMapping(CLASSROOM_PAGING_PARTIAL_INFO)
     public ResponseEntity<List<ClassroomChipDTO>> getClassroomsAsChip( @PathVariable("page") @Positive(message = "Page mora biti pozitivan broj")  int page ){
         return ResponseEntity.ok(service.getAllClassroomsAsChips(page));
+    }
+
+    @GetMapping(CLASSROOM_TABLE)
+    public ResponseEntity<List<ClassroomTableDTO>> getClassroomTable(){
+        return ResponseEntity.ok(service.getClassroomTable());
     }
 
 

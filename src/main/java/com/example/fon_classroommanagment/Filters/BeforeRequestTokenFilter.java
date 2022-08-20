@@ -32,6 +32,7 @@ public class BeforeRequestTokenFilter extends OncePerRequestFilter {
             COMMON_PREFIX+COMMON_ALL_EMPLOYEE_TYPES,
             COMMON_PREFIX+COMMON_ALL_EDUCATION_TITLES,
             COMMON_PREFIX+COMMON_ALL_EMPLOYEE_DEPARTMENTS,
+            COMMON_PREFIX+COMMON_ALL_CLASSROOM_NAMES,
             LOGIN,
             REGISTER,
             LOGOUT);

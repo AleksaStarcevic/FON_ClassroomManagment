@@ -9,10 +9,7 @@ import com.example.fon_classroommanagment.Models.Classroom.Classroom;
 import com.example.fon_classroommanagment.Models.Classroom.ClassroomType;
 import com.example.fon_classroommanagment.Models.DTO.*;
 import com.example.fon_classroommanagment.Models.DTO.appointment.GetForDateAppointmentDTO;
-import com.example.fon_classroommanagment.Models.DTO.classroom.ClassroomCardDTO;
-import com.example.fon_classroommanagment.Models.DTO.classroom.ClassroomDetailsDTO;
-import com.example.fon_classroommanagment.Models.DTO.classroom.FilterDTO;
-import com.example.fon_classroommanagment.Models.DTO.classroom.RequestIsClassroomAvailableForDateDTO;
+import com.example.fon_classroommanagment.Models.DTO.classroom.*;
 import com.example.fon_classroommanagment.Models.User.UserRole;
 import com.example.fon_classroommanagment.Repository.AppointmentRepository;
 import com.example.fon_classroommanagment.Repository.ClassroomRepository;
@@ -141,5 +138,13 @@ return CreateClassroomChipDTOs(result);
 
     public List<UserRole> getAllUserRoles() {
         return userRoleRepository.findAll();
+    }
+
+    public List<ClassroomNamesDTO> getAllClassroomNames() {
+        return classroomRepository.findAllByIdAndName();
+    }
+
+    public List<ClassroomTableDTO> getClassroomTable() {
+        return classroomRepository.getClassroomTable();
     }
 }
