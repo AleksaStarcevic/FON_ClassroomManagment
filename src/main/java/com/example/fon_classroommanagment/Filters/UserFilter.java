@@ -13,6 +13,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -49,6 +50,10 @@ public class UserFilter extends UsernamePasswordAuthenticationFilter {
         String refreshToken= CreateRefreshToken(userProfileDetails);
         response.setHeader(VALIDATION_TOKEN_HEDER_NAME,validationToken);
         response.setHeader(REFRESH_TOKEN_HEDER_NAME,refreshToken);
+
+        Cookie cookie = new Cookie("refreshToken",refreshToken);
+        cookie.setHttpOnly(true);
+        response.addCookie(cookie);
     }
 
     public String CreateValidationToken(UserProfileDetails userProfileDetails) {
