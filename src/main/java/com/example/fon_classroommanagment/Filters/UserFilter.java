@@ -45,7 +45,6 @@ public class UserFilter extends UsernamePasswordAuthenticationFilter {
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult)  {
         UserProfileDetails userProfileDetails=(UserProfileDetails)  authResult.getPrincipal();
 
-
         String validationToken= CreateValidationToken(userProfileDetails);
         String refreshToken= CreateRefreshToken(userProfileDetails);
         response.setHeader(VALIDATION_TOKEN_HEDER_NAME,validationToken);

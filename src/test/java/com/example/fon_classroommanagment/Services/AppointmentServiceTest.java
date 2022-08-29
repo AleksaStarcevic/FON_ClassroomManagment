@@ -49,22 +49,24 @@ class AppointmentServiceTest {
     @Test
     void deleteAppointment() throws UserExistsExcetion {
         UUID id=UUID.randomUUID();
+        String role = "ADMIN";
         String appointmentId=id.toString();
         String email="test@gmail.com";
-        Employee toReturn=new Employee("test","test",new EmployeeDepartment(1L,"test"),new EducationTitle(1L,"test"),new EmployeeType(1L,"test"),"test@gmaiol.com",null);
+        Employee toReturn=new Employee("test","test",new EmployeeDepartment(1L,"test"),new EducationTitle(1L,"test"),new EmployeeType(1L,"test"),"test@gmail.com",null);
         when(employeeRepository.findByEmail(email)).thenReturn(toReturn);
-        service.DeleteAppointment(appointmentId,email);
+        service.DeleteAppointment(appointmentId,email,role);
         verify(appointmentRepository,times(1)).deleteByIdAndAndEmployee(UUID.fromString(appointmentId),toReturn);
     }
     @Test
     void deleteAppointment_UserExistsExcetion() throws UserExistsExcetion {
         UUID id=UUID.randomUUID();
+        String role = "ADMIN";
         String appointmentId=id.toString();
         String email="test@gmail.com";
         Employee toReturn=new Employee("test","test",new EmployeeDepartment(1L,"test"),new EducationTitle(1L,"test"),new EmployeeType(1L,"test"),"test@gmaiol.com",null);
 
         when(employeeRepository.findByEmail(email)).thenReturn(null);
-        assertThrows(UserExistsExcetion.class,()->service.DeleteAppointment(appointmentId,email));
+        assertThrows(UserExistsExcetion.class,()->service.DeleteAppointment(appointmentId,email,role));
     }
 
     @Test

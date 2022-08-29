@@ -33,8 +33,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import static com.example.fon_classroommanagment.Configuration.Constants.APPOINTMENT_APPROVED;
-import static com.example.fon_classroommanagment.Configuration.Constants.APPOINTMENT_DECLINED;
+import static com.example.fon_classroommanagment.Configuration.Constants.*;
 import static com.example.fon_classroommanagment.Configuration.ExceptionMessages.APPOINTMENT_RESERVED;
 import static com.example.fon_classroommanagment.Configuration.Routes.*;
 
@@ -63,10 +62,9 @@ public class AppointmentController {
      * @throws UserExistsExcetion ako korisnik ne postoji
      */
         @DeleteMapping(APPOINTMENT_DELETE)
-        public void DeleteAppointment(@RequestParam("id") @Valid UUID dto,Authentication authentication) throws UserExistsExcetion {
+        public void DeleteAppointment(@RequestParam("id") @Valid UUID dto,Authentication authentication,Authentication auth) throws UserExistsExcetion {
 
-       appointmentService.DeleteAppointment(dto.toString(),authentication.getName());
-
+            appointmentService.DeleteAppointment(dto.toString(),authentication.getName(),auth.getAuthorities().toArray()[0].toString());
 
         }
 

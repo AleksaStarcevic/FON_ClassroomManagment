@@ -42,12 +42,17 @@ public class AppointmentService {
         this.userRepository = userRepository;
     }
 
-    public void DeleteAppointment(String id, String email) throws UserExistsExcetion {
+    public void DeleteAppointment(String id, String email,String role) throws UserExistsExcetion {
        UUID idAppointment = UUID.fromString(id);
         Employee empl=employeeRepository.findByEmail(email);
 
         if(empl==null) throw new UserExistsExcetion(USER_EXISTS);
-        appointmentRepository.deleteByIdAndAndEmployee(idAppointment,empl);
+        if(role.equals(ADMIN_NAME_TYPE_ROLE)){
+            appointmentRepository.deleteById(idAppointment);
+        }else{
+            appointmentRepository.deleteByIdAndAndEmployee(idAppointment,empl);
+
+        }
     }
 
     public List<Appointment> getAll() {
