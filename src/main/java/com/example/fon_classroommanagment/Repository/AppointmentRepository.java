@@ -69,7 +69,7 @@ public interface AppointmentRepository extends JpaRepository<Appointment, UUID> 
 //     @Query(value = "select  count(a) from Appointment a where a.classroom.id=:id  order by  month (a)")
 //    List<Integer> reservationsByMonths(@Param("id") Long id);
 
-    @Query("select new com.example.fon_classroommanagment.Models.DTO.appointment.RequestedAppointmentsDTO(p.employee.id,p.employee.type.name,p.employee.image,p.employee.firstName,p.employee.lastName,count(p)) from Appointment  p  where  p.status.id=:status order by p.employee.id ")
+    @Query("select new com.example.fon_classroommanagment.Models.DTO.appointment.RequestedAppointmentsDTO(p.employee.id,p.employee.type.name,p.employee.image,p.employee.firstName,p.employee.lastName,count(p)) from Appointment  p  where  p.status.id=:status group by p.employee.id order by p.employee.id ")
     List<RequestedAppointmentsDTO> getRequestedAppointmentsForUsers(@Param("status") Long status);
 
     @Query("select c from AppointmentType  c")

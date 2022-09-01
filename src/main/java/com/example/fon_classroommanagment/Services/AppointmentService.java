@@ -47,12 +47,12 @@ public class AppointmentService {
         Employee empl=employeeRepository.findByEmail(email);
 
         if(empl==null) throw new UserExistsExcetion(USER_EXISTS);
-        if(role.equals(ADMIN_NAME_TYPE_ROLE)){
-            appointmentRepository.deleteById(idAppointment);
-        }else{
-            appointmentRepository.deleteByIdAndAndEmployee(idAppointment,empl);
 
-        }
+        appointmentRepository.deleteById(idAppointment);
+
+
+
+
     }
 
     public List<Appointment> getAll() {
