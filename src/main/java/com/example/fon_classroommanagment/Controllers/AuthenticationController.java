@@ -5,9 +5,11 @@ import com.example.fon_classroommanagment.Events.AccountRegistrationRequestEvent
 import com.example.fon_classroommanagment.Exceptions.TokenNotFaundException;
 import com.example.fon_classroommanagment.Exceptions.UserExistsExcetion;
 import com.example.fon_classroommanagment.Models.DTO.user.UserRegistrationDTO;
+import com.example.fon_classroommanagment.Models.Emplayee.Employee;
 import com.example.fon_classroommanagment.Models.User.Account;
 import com.example.fon_classroommanagment.Models.User.ValidationToken;
 import com.example.fon_classroommanagment.Services.AccountService;
+import com.example.fon_classroommanagment.Services.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.validation.annotation.Validated;
@@ -31,6 +33,10 @@ public class AuthenticationController {
     @Autowired
     private ApplicationEventPublisher publisher;
 
+    @Autowired
+    private EmployeeService employeeService;
+
+
 
     /**
      * zavisnost accountService u kojoj se nalazi logika vezana za korisnicki nalog
@@ -51,6 +57,10 @@ private AccountService accountService;
        System.out.println(account.getImage().length());
         ValidationToken token=  accountService.createValidationToken(account);
         account.setToken(token.getToken());
+
+        Employee emp = employeeService.findByEmail(registerDTO.getEmail());
+        account.setFirstName(emp.getFirstName());
+        account.setLastName(emp.getLastName());
 
         publisher.publishEvent(new AccountRegistrationRequestEvent(account));
 

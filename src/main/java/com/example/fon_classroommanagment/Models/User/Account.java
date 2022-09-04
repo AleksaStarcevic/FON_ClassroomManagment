@@ -38,4 +38,11 @@ public class Account {
         this.email = email;
         this.password = password;
     }
+
+    public Account(String email, String image,String token,String password){
+        this.email = email;
+        this.password = password;
+        this.image = image;
+        this.token = token;
+    }
 }

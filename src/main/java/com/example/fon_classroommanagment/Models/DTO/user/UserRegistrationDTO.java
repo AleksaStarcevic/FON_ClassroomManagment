@@ -22,17 +22,17 @@ public class UserRegistrationDTO {
         @Size(min = 4,message = "Password mora imate bar 4 slova")
         private  String password;
 
-        @NotNull(message = "firstName ne sme biti null")
-        @Size(max = 20,message = "Ime moze imati najvise 20 karaktera")
-        private String firstName;
-
-        @NotNull(message = "Prezime ne sme biti null")
-        @Size(max = 20,message = "Prezime moze imate najvise 20 karaktera")
-        private String lastName;
+//        @NotNull(message = "firstName ne sme biti null")
+//        @Size(max = 20,message = "Ime moze imati najvise 20 karaktera")
+//        private String firstName;
+//
+//        @NotNull(message = "Prezime ne sme biti null")
+//        @Size(max = 20,message = "Prezime moze imate najvise 20 karaktera")
+//        private String lastName;
 
         private String image;
 
         public Account createAccount() {
-                return  new Account(email,firstName,lastName,image,"",password);
+                return  new Account(email,image,"",password);
         }
 }
