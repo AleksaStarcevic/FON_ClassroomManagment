@@ -60,6 +60,8 @@ public class Routes {
     //user
     public  static final String  USER_PREFIX="/user";
     public  static final String USER_DETAILS="";
+    public  static final String ALL_USER_DETAILS="/employees";
+    public  static final String ADD_EMPLOYEE="/add-employee";
     public  static final String USER_APPOINTMENTS="/appointments";
     public  static final String USER_APPOINTMENTS_PENDING ="/appointments/pending";
     public  static final String USER_REQUESTED_APPOINTMENTS="/appointments-requested";

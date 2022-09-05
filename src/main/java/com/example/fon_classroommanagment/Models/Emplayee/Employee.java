@@ -88,6 +88,4 @@ public class Employee {
         this.image=image;
     }
 
-
-
 }

@@ -1,5 +1,6 @@
 package com.example.fon_classroommanagment.Repository;
 
+import com.example.fon_classroommanagment.Models.DTO.user.AllEmployeesDTO;
 import com.example.fon_classroommanagment.Models.DTO.user.EmployeeAdminCardDTO;
 import com.example.fon_classroommanagment.Models.Emplayee.EducationTitle;
 import com.example.fon_classroommanagment.Models.Emplayee.EmployeeDepartment;
@@ -46,4 +47,7 @@ public interface UserRepository  extends JpaRepository<UserProfile, UUID> {
     @Modifying
     @Query("update UserProfile u set u.role.id=:user_role where u.id=:id")
     void updateUserRole(UUID id, Long user_role);
+
+    @Query("select  new com.example.fon_classroommanagment.Models.DTO.user.AllEmployeesDTO(e.firstName,e.lastName,e.email,e.department.name,e.title.name,e.type.name) from Employee e")
+    List<AllEmployeesDTO> getAllEmployees();
 }

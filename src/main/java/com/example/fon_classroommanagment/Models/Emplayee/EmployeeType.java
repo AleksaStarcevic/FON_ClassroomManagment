@@ -14,6 +14,10 @@ public class EmployeeType extends TypeClass {
     public EmployeeType(Long id, String name) {
         super(id, name);
     }
+    public EmployeeType(Long id) {
+        setId(id);
+
+    }
 
 
 }

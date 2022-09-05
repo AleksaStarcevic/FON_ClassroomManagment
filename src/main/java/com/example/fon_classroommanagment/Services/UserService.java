@@ -4,6 +4,7 @@ import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.example.fon_classroommanagment.Configuration.ExceptionMessages;
 import com.example.fon_classroommanagment.Configuration.UserProfileDetails;
 import com.example.fon_classroommanagment.Exceptions.AppointmentsForUserException;
+import com.example.fon_classroommanagment.Exceptions.EmployeeExistException;
 import com.example.fon_classroommanagment.Exceptions.UserExistsExcetion;
 import com.example.fon_classroommanagment.Models.Appointment.Appointment;
 import com.example.fon_classroommanagment.Models.DTO.*;
@@ -16,8 +17,10 @@ import com.example.fon_classroommanagment.Models.Emplayee.EmployeeDepartment;
 import com.example.fon_classroommanagment.Models.Emplayee.EmployeeType;
 import com.example.fon_classroommanagment.Models.User.UserProfile;
 import com.example.fon_classroommanagment.Repository.AppointmentRepository;
+import com.example.fon_classroommanagment.Repository.EmployeeRepository;
 import com.example.fon_classroommanagment.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -29,13 +32,14 @@ import java.util.*;
 
 import static com.example.fon_classroommanagment.Configuration.Constants.ADMIN_NAME_TYPE_ROLE;
 import static com.example.fon_classroommanagment.Configuration.Constants.STATUS_PENDING;
+import static com.example.fon_classroommanagment.Configuration.ExceptionMessages.EMPLOYEE_EXIST;
 
 @Service
 public class UserService implements UserDetailsService {
 
    private  final UserRepository userRepository;
-
-
+@Autowired
+    private EmployeeRepository employeeRepository;
    private final AppointmentRepository appointmentRepository;
 
     private final EmployeeService employeeService;
@@ -45,6 +49,7 @@ public class UserService implements UserDetailsService {
         this.appointmentRepository = appointmentRepository;
         this.employeeService = employeeService;
         this.encoder = encoder;
+
     }
 
     private final BCryptPasswordEncoder encoder;
@@ -160,5 +165,14 @@ public class UserService implements UserDetailsService {
     }
 
 
+    public List<AllEmployeesDTO> getAllEmployees() {
+       return  userRepository.getAllEmployees();
+    }
 
+    public void addEmployee(AddEmployeeDTO dto) throws EmployeeExistException {
+        if(employeeRepository.findByEmail(dto.getEmail()) != null) throw new EmployeeExistException(EMPLOYEE_EXIST);
+
+        Employee employee = new Employee(dto.getFirstName(),dto.getLastName(),new EmployeeDepartment(dto.getDepartment()),new EducationTitle(dto.getTitle()),new EmployeeType(dto.getType()),dto.getEmail(),null);
+        employeeRepository.save(employee);
+    }
 }

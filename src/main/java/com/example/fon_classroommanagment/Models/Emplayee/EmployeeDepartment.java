@@ -18,5 +18,8 @@ public class EmployeeDepartment extends TypeClass {
         super(id, name);
     }
 
+    public EmployeeDepartment(Long idDept){
+        setId(idDept);
+    }
 
 }

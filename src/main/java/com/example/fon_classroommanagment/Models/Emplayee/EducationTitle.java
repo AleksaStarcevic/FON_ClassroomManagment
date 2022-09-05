@@ -26,4 +26,7 @@ public class EducationTitle extends TypeClass {
     public EducationTitle(Long id, String name) {
         super(id, name);
     }
+    public EducationTitle(Long id) {
+        setId(id);
+    }
 }

@@ -17,4 +17,5 @@ public class ExceptionMessages {
     public static  final String APPOINTMENT_RESERVED ="Appointment at given time is already reserved";
 
     public static  final String APPOINTMENT_EXIST = "Appointment doesn't exist";
+    public static  final String EMPLOYEE_EXIST = "Employee already exist";
 }
